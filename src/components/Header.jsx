@@ -1,6 +1,4 @@
-// src/components/Header.jsx
 import React from "react";
-import { Link } from "react-router-dom";
 
 const Header = () => {
   return (
@@ -8,16 +6,16 @@ const Header = () => {
       <nav>
         <ul className="flex justify-center space-x-8">
           <li>
-            <Link to="/" className="hover:text-gray-400">Home</Link>
+            <a href="#home" className="hover:text-gray-400">Home</a>
           </li>
           <li>
-            <Link to="/about" className="hover:text-gray-400">About</Link>
+            <a href="#about" className="hover:text-gray-400">About</a>
           </li>
           <li>
-            <Link to="/projects" className="hover:text-gray-400">Projects</Link>
+            <a href="#projects" className="hover:text-gray-400">Projects</a>
           </li>
           <li>
-            <Link to="/contact" className="hover:text-gray-400">Contact</Link>
+            <a href="#contact" className="hover:text-gray-400">Contact</a>
           </li>
         </ul>
       </nav>
