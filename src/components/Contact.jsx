@@ -1,7 +1,8 @@
 // src/components/Contact.jsx
 import React from "react";
 import { useForm, ValidationError } from '@formspree/react';
-
+import "aos/dist/aos.css"; // Import AOS styles
+import AOS from "aos"; // Import AOS JS
 
 const Contact = () => {
   const [state, handleSubmit] = useForm("xvggerej");
@@ -9,7 +10,7 @@ const Contact = () => {
       return <p>Thanks for joining!</p>;
   }
   return (
-    <section id="contact" className="py-12 px-4 bg-gray-100">
+    <section id="contact" className="py-12 px-4 bg-gray-100" data-aos="fade-out">
       <h2 className="text-3xl font-bold text-center text-gray-700">Contact Me</h2>
       <form onSubmit={handleSubmit} action="https://formspree.io/f/xvggerej" method="post" className="max-w-lg mx-auto mt-8">
         <input

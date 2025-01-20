@@ -30,7 +30,8 @@ const LandingPage = () => {
   }, []);
 
   return (
-    <section className="h-screen flex items-center justify-center bg-gray-800 text-white" data-aos="zoom-in">
+    <section className="h-screen flex items-center justify-center bg-gray-800 text-white">
+      <section className="name-section" data-aos="zoom-in">
       <div className="text-center">
         <h1 className="text-5xl font-bold">Hello, I'm Subash Singh Dhami</h1>
         <p className="text-lg mt-4">
@@ -43,6 +44,7 @@ const LandingPage = () => {
           Learn More
         </a>
       </div>
+      </section>
     </section>
   );
 };
