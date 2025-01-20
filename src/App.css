@@ -1,8 +1,17 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
+body, html, #root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.app-container {
+  width: 100%; /* Ensure full width */
+  min-height: 100vh; /* Ensure full height */
+  /* padding: 2rem; Optional: adjust padding as per design */
+  box-sizing: border-box; /* Make sure padding is included in the element's total width/height */
   text-align: center;
+  display: flex;
+  flex-direction: column;
 }
 
 .logo {
