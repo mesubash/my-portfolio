@@ -7,8 +7,7 @@ body, html, #root {
 .app-container {
   width: 100%; /* Ensure full width */
   min-height: 100vh; /* Ensure full height */
-  /* padding: 2rem; Optional: adjust padding as per design */
-  box-sizing: border-box; /* Make sure padding is included in the element's total width/height */
+  box-sizing: border-box; 
   text-align: center;
   display: flex;
   flex-direction: column;
