@@ -59,7 +59,7 @@ const About = () => {
       </p>
       <div className="mt-8 text-center">
         <img
-          src="/assets/profile.jpg"
+          src="src/assets/profile.jpeg"
           alt="Subash Singh Dhami"
           className="w-48 h-48 object-cover rounded-full mx-auto"
         />

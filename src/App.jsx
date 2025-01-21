@@ -1,12 +1,12 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Header from "./components/Header";
 import About from "./components/About";
 import Projects from "./components/Projects";
 import Contact from "./components/Contact";
 import Footer from "./components/Footer";
 import LandingPage from "./components/LandingPage";
 import './App.css';
+import Navbar from "./components/NavBar";
 
 const App = () => {
   // Scroll to top function
@@ -21,7 +21,7 @@ const App = () => {
     <Router>
       <div className="app-container font-sans bg-gray-50">
         {/* Header */}
-        <Header />
+        <Navbar />
 
         {/* Landing Page Section */}
         <section id="landingpage">
