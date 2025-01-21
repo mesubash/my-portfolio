@@ -1,7 +1,8 @@
 import React, { useEffect } from "react";
-import "aos/dist/aos.css"; // Import AOS styles
-import AOS from "aos"; // Import AOS JS
-import Typed from "typed.js"; // Import Typed.js
+import "aos/dist/aos.css";
+import AOS from "aos";
+import Typed from "typed.js";
+import profileImage from '../assets/profile.jpeg'; // Adjust path as needed
 
 const LandingPage = () => {
   useEffect(() => {
@@ -22,39 +23,80 @@ const LandingPage = () => {
   }, []);
 
   return (
-    <section
-      id="home"
-      className="relative h-screen flex items-center justify-center text-center text-white"
-      style={{
-        backgroundImage: "url('src/assets/profile.jpeg')",
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        backgroundRepeat: "no-repeat",
+    <div className="relative h-screen w-full">
+      {/* Background Image with Multiple Layers for Color Grading */}
+      <div 
+        className="absolute inset-0 z-0"
+        style={{
+          backgroundImage: `url(${profileImage})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+        }}
+      />
+      {/* Dark Gradient Overlay */}
+      <div 
+        className="absolute inset-0 z-10"
+        style={{
+          background: `
+            linear-gradient(
+              to bottom,
+              rgba(31, 41, 55, 0.7),
+              rgba(17, 24, 39, 0.8)
+            )
+          `
+        }}
+      />
+      {/* Color Grading Layer */}
+      <div 
+        className="absolute inset-0 z-20 mix-blend-multiply"
+        style={{
+          backgroundColor: "rgba(55, 65, 81, 0.3)",
+        }}
+      />
+      {/* Vignette Effect */}
+      <div 
+        className="absolute inset-0 z-30"
+        style={{
+          boxShadow: "inset 0 0 150px rgba(0, 0, 0, 0.7)"
+        }}
+      />
 
-      }}
-    >
-<div className="absolute inset-0 bg-black bg-opacity-50">
-  {/* Content */}
-  <div className="absolute left-[85%] top-[60%] transform -translate-x-3/4 -translate-y-1/2 text-white w-full max-w-2xl px-4">
-    <div data-aos="fade-right" data-aos-duration="1000" data-aos-delay="200">
-      <h1 className="text-5xl font-bold whitespace-normal break-words">Hello, I'm Subash Singh Dhami</h1>
-      <p className="text-lg mt-4">
-        A <span className="typed"></span>
-      </p>
-      <a
-        href="#about"
-        className="mt-8 inline-block px-6 py-3 bg-gray-600 text-white font-semibold rounded-full hover:bg-gray-500"
-      >
-        Learn More
-      </a>
+      {/* Content */}
+      <div className="absolute inset-0 z-40">
+        <div className="absolute left-[85%] top-[60%] transform -translate-x-3/4 -translate-y-1/2 text-white w-full max-w-2xl px-4">
+          <div 
+            data-aos="fade-right"
+            data-aos-duration="1200"
+            data-aos-delay="200"
+            data-aos-offset="300"
+            data-aos-easing="ease-out-cubic"
+          >
+            <h1 className="text-5xl font-bold whitespace-normal break-words">
+              Hello, I'm Subash Singh Dhami
+            </h1>
+            <p className="text-lg mt-4">
+              A <span className="typed"></span>
+            </p>
+            <div className="flex mt-6 justify-center gap-6">
+            <a
+              href="#about"
+              className="inline-block px-6 py-3 bg-gray-600 text-white font-semibold rounded-full hover:bg-gray-500"
+            >
+              Discover
+            </a>
+            <a
+              href="src/assets/Resume-subash.pdf"
+              download
+              className="inline-block mt-3.5 text-white font-semibold hover:underline"
+            >
+              Download CV
+            </a>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
-</div>
-
-
-
-
-    </section>
   );
 };
 

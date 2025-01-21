@@ -1,21 +1,46 @@
-import React from "react";
+// NavBar.jsx
+import React, { useState, useEffect } from "react";
 
 const NavBar = () => {
+  const [isTransparent, setIsTransparent] = useState(true);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      // Check if we're at the top of the page
+      if (window.scrollY < 50) {
+        setIsTransparent(true);
+      } else {
+        setIsTransparent(false);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    handleScroll(); // Check initial position
+
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   return (
-    <header className="sticky top-0 bg-gray-800 text-white p-4 shadow-lg z-10">
-      <nav>
+    <header 
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        isTransparent 
+          ? 'bg-transparent' 
+          : 'bg-gray-800 shadow-lg'
+      }`}
+    >
+      <nav className="px-4 py-4">
         <ul className="flex justify-center space-x-8">
           <li>
-            <a href="#home" className="hover:text-gray-400">Home</a>
+            <a href="#landingpage" className="text-white hover:text-gray-400 transition-colors">Home</a>
           </li>
           <li>
-            <a href="#about" className="hover:text-gray-400">About Me</a>
+            <a href="#about" className="text-white hover:text-gray-400 transition-colors">About Me</a>
           </li>
           <li>
-            <a href="#projects" className="hover:text-gray-400">Projects</a>
+            <a href="#projects" className="text-white hover:text-gray-400 transition-colors">Projects</a>
           </li>
           <li>
-            <a href="#contact" className="hover:text-gray-400">Contact</a>
+            <a href="#contact" className="text-white hover:text-gray-400 transition-colors">Contact</a>
           </li>
         </ul>
       </nav>
