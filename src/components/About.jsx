@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
-import Typed from "typed.js"; // Import Typed.js
+import Typed from "typed.js";
+import Skills from "./Skills"; // Import the Skills component
 
 const About = () => {
   useEffect(() => {
@@ -52,19 +53,36 @@ const About = () => {
   }, []);
 
   return (
-    <section id="about" className="py-12 px-4 min-h-screen bg-gray-800 text-white">
-      <h2 className="text-3xl font-bold text-center">About Me</h2>
-      <p className="mt-4 text-lg text-center">
-        <span className="typed-about"></span>
-      </p>
-      <div className="mt-8 text-center">
-        <img
-          src="src/assets/profile.jpeg"
-          alt="Subash Singh Dhami"
-          className="w-48 h-48 object-cover rounded-full mx-auto"
-        />
+    <section id="about" className="py-12 px-4 min-h-screen bg-gray-800 text-white relative">
+      <h2 className="text-3xl font-bold text-center mb-8">About Me</h2>
+      
+      <div className="w-100 mx-auto flex flex-col md:flex-row items-center bg-purple-100 shadow-lg rounded-lg p-6">
+      <div className="md:w-2/3 text-center md:text-left">
+          <p className="text-lg">
+            <span className="typed-about text-black"></span>
+          </p>
+          <div className="md:w-1/3 mb-6 md:mb-0">
+          <img
+            src="src/assets/profile.jpeg"
+            alt="Subash Singh Dhami"
+            className="w-48 h-48 object-cover rounded-full mx-auto"
+          />
+        </div>
+         
+        </div>
+       
+       
       </div>
-    
+      <div className="relative z-10">
+        <Skills /> {/* Include the Skills component */}
+      </div>
+      <style>
+        {`
+          .typed-about .typed-cursor {
+            color: inherit; /* Reset cursor color to inherit the default text color */
+          }
+        `}
+      </style>
     </section>
   );
 };
