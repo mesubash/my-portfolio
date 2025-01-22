@@ -9,7 +9,7 @@ const LandingPage = () => {
     AOS.init({ duration: 2000 });
 
     const typed = new Typed(".typed", {
-      strings: ["Developer", "Software Engineer", "Learner", "Student"],
+      strings: [ "Student", "Developer", "Software Engineer", "Learner" , "Void"],
       typeSpeed: 80,
       backSpeed: 60,
       backDelay: 1000,
@@ -75,27 +75,34 @@ const LandingPage = () => {
             <h1 className="text-5xl font-bold whitespace-normal break-words">
               Hello, I'm Subash Singh Dhami
             </h1>
-            <p className="text-lg mt-4">
-              A <span className="typed"></span>
+            <p className="text-3xl mt-4">
+              A <span className="typed typed-landingpage text-purple-500 ml-2"></span>
             </p>
             <div className="flex mt-6 justify-center gap-6">
-            <a
-              href="#about"
-              className="inline-block px-6 py-3 bg-gray-600 text-white font-semibold rounded-full hover:bg-gray-500"
-            >
-              Discover
-            </a>
-            <a
-              href="src/assets/Resume-subash.pdf"
-              download
-              className="inline-block mt-3.5 text-white font-semibold hover:underline"
-            >
-              Download CV
-            </a>
+              <a
+                href="#about"
+                className="inline-block px-6 py-3 bg-gray-600 text-white font-semibold rounded-full hover:bg-purple-600 hover:underline transition-all"
+              >
+                Discover
+              </a>
+              <a
+                href="src/assets/Resume-subash.pdf"
+                download
+                className="inline-block mt-3.5 text-white font-semibold hover:underline"
+              >
+                Download CV
+              </a>
             </div>
           </div>
         </div>
       </div>
+      <style>
+        {`
+          .typed-cursor {
+            color: #a855f7; /* Change cursor color to match text-purple-500 */
+          }
+        `}
+      </style>
     </div>
   );
 };

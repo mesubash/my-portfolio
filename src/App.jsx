@@ -64,8 +64,7 @@ const App = () => {
         {showScrollToTop && (
           <button
             onClick={scrollToTop}
-            className="fixed bottom-5 right-5 p-4 bg-gray-600 text-white rounded-full shadow-lg hover:bg-gray-700 transition-all z-40"
-          >
+            className="fixed bottom-5 right-5 p-4 bg-gray-600 text-white rounded-full shadow-lg hover:bg-purple-600 hover:scale-125 transition-transform duration-300 transition-all z-40">
             <FaArrowUp />
           </button>
         )}
