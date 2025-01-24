@@ -41,7 +41,7 @@ const NavBar = () => {
         <nav className="w-full px-6 py-4 flex justify-between items-center">
           <div className="flex items-center ml-10 hover:scale-150 transition-transform duration-300">
             <a href="https://www.subashsdhami.com.np/">
-              <img src="/src/assets/mylogo.png" alt="Logo" className="h-10" />
+              <img src="./assets/mylogo.png" alt="Logo" className="h-10" />
             </a>
           </div>
           <ul className="flex justify-end items-center space-x-12">

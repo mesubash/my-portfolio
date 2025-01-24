@@ -26,7 +26,7 @@ const Projects = () => {
             <ProjectCard
               title="NepEducation"
               description="A simple learning platform developed using PHP, HTML/CSS, JS."
-              image="src/assets/project/dummy.png"
+              image="./assets/project/dummy.png"
               github="https://github.com/mesubash/NepEducation"
             />
           </div>
@@ -34,7 +34,7 @@ const Projects = () => {
             <ProjectCard
               title="Simple TODO App"
               description="A simple todo app in JAVA(JavaFX) with CRUD operations."
-              image="src/assets/project/dummy.png"
+              image="./assets/project/dummy.png"
               github="https://github.com/mesubash/ToDo_Desktop_App"
             />
           </div>
@@ -42,7 +42,7 @@ const Projects = () => {
             <ProjectCard
               title="Private"
               description="Worked on many private projects of the multiple clients for android dev etc."
-              image="src/assets/project/dummy.png"
+              image="./assets/project/dummy.png"
               github=""
             />
           </div>

@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import "aos/dist/aos.css";
 import AOS from "aos";
 import Typed from "typed.js";
-import profileImage from '../assets/profile.jpeg'; // Adjust path as needed
 
 const LandingPage = () => {
   useEffect(() => {
@@ -28,7 +27,7 @@ const LandingPage = () => {
       <div 
         className="absolute inset-0 z-0"
         style={{
-          backgroundImage: `url(${profileImage})`,
+          backgroundImage: `url("/assets/profile.jpeg")`, // Use absolute path from public directory
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
@@ -86,7 +85,7 @@ const LandingPage = () => {
                 Discover
               </a>
               <a
-                href="src/assets/Resume-subash.pdf"
+                href="/assets/Resume-subash.pdf" // Use absolute path from public directory
                 download
                 className="inline-block mt-3.5 text-white font-semibold hover:underline"
               >
