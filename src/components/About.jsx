@@ -1,7 +1,10 @@
-import React, { useEffect } from "react";
-import Skills from "./Skills"; // Import the Skills component
+import React, { useEffect, useRef } from "react";
+import Skills from "./Skills";
 
 const About = () => {
+  const typedRef = useRef(null);
+  const sectionRef = useRef(null);
+
   useEffect(() => {
     const strings = [
       "I'm a passionate web developer with experience in building modern web applications.",
@@ -13,69 +16,100 @@ const About = () => {
       "Enjoy working on both front-end and back-end development.",
       "Strong problem-solving skills and attention to detail."
     ];
+    
+    let typing = false;
 
-    let currentStringIndex = 0;
-    let currentCharIndex = 0;
-    const typingSpeed = 50;
-    const newLineDelay = 1000;
-    const cursorChar = "|";
-
-    const typedContainer = document.querySelector(".typed-about");
-
-    const type = () => {
-      if (currentStringIndex < strings.length) {
-        const currentString = strings[currentStringIndex];
-        if (currentCharIndex < currentString.length) {
-          const currentLine = document.querySelector(`#line-${currentStringIndex}`);
-          currentLine.innerHTML = currentLine.innerHTML.slice(0, -1) + currentString[currentCharIndex] + cursorChar;
-          currentCharIndex++;
-          setTimeout(type, typingSpeed);
-        } else {
-          const currentLine = document.querySelector(`#line-${currentStringIndex}`);
-          currentLine.innerHTML = currentLine.innerHTML.slice(0, -1); // Remove cursor from finished line
-          currentStringIndex++;
-          currentCharIndex = 0;
-          if (currentStringIndex < strings.length) {
-            typedContainer.innerHTML += `<div id="line-${currentStringIndex}" class="flex justify-start"><span class='text-purple-500'>➤</span> ${cursorChar}</div>`;
-            setTimeout(type, newLineDelay);
-          } else {
-            const lastLine = document.querySelector(`#line-${currentStringIndex - 1}`);
-            lastLine.innerHTML += `<span class="typed-cursor-about">${cursorChar}</span>`; // Add cursor to the last line
-          }
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !typing) {
+          typing = true;
+          startTyping();
         }
+      },
+      { threshold: 0.5 }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    const startTyping = () => {
+      if (!typedRef.current) {
+        let currentStringIndex = 0;
+        let currentCharIndex = 0;
+        const typingSpeed = 50;
+        const newLineDelay = 1000;
+        const cursorChar = "|";
+
+        const typedContainer = document.querySelector(".typed-about");
+        typedContainer.innerHTML = `<div id="line-0" class="flex justify-start leading-normal"><span class='text-purple-500'>➤</span> ${cursorChar}</div>`;
+
+        const type = () => {
+          if (!typedRef.current) return;
+
+          if (currentStringIndex < strings.length) {
+            const currentString = strings[currentStringIndex];
+            if (currentCharIndex < currentString.length) {
+              const currentLine = document.querySelector(`#line-${currentStringIndex}`);
+              if (currentLine) {
+                currentLine.innerHTML = `<span class='text-purple-500'>➤</span> ${currentString.substring(0, currentCharIndex + 1)}${cursorChar}`;
+                currentCharIndex++;
+                setTimeout(type, typingSpeed);
+              }
+            } else {
+              const currentLine = document.querySelector(`#line-${currentStringIndex}`);
+              currentLine.innerHTML = `<span class='text-purple-500'>➤</span> ${strings[currentStringIndex]}`;
+              
+              currentStringIndex++;
+              currentCharIndex = 0;
+              if (currentStringIndex < strings.length) {
+                const newLine = document.createElement('div');
+                newLine.id = `line-${currentStringIndex}`;
+                newLine.className = 'flex justify-start leading-normal';
+                newLine.innerHTML = `<span class='text-purple-500'>➤</span> ${cursorChar}`;
+                typedContainer.appendChild(newLine);
+                setTimeout(type, newLineDelay);
+              } else {
+                const lastLine = document.querySelector(`#line-${currentStringIndex - 1}`);
+                lastLine.innerHTML = `<span class='text-purple-500'>➤</span> ${strings[currentStringIndex - 1]}<span class="typed-cursor-about">${cursorChar}</span>`;
+              }
+            }
+          }
+        };
+
+        typedRef.current = true;
+        type();
       }
     };
 
-    typedContainer.innerHTML = `<div id="line-0" class="flex justify-start"><span class='text-purple-500'>➤</span> ${cursorChar}</div>`;
-    type();
+    return () => {
+      observer.disconnect();
+      typedRef.current = null;
+    };
   }, []);
 
   return (
-    <section id="about" className="py-12 px-4 h-screen bg-gray-800 text-white relative">
+    <section ref={sectionRef} id="about" className="py-12 px-4 bg-gray-800 text-white relative">
       <h2 className="text-4xl font-bold text-center mb-8">About Me</h2>
       
-      <div className="w-2/3 mx-auto bg-gray-800 shadow-lg rounded-lg p-8 flex flex-col justify-start items-start h-3/4">
-        <div className="text-2xl text-left typed-about font-mono"></div>
+      <div className="w-2/3 mx-auto bg-gray-800 shadow-lg rounded-lg p-8 flex flex-col justify-start items-start mb-24">
+        <div className="text-2xl text-left typed-about font-mono space-y-1"></div>
       </div>
-      <div className="relative z-10 -mt-16">
-        <Skills /> {/* Include the Skills component */}
+      <div className="relative z-10 -mt-16 mb-16">
+        <Skills />
       </div>
       <style>
         {`
           .typed-cursor-about {
-            color: #ffffff; /* Change cursor color to match text-purple-500 */
-            display: inline-block; /* Ensure cursor is displayed as an inline element */
-            vertical-align: middle; /* Align cursor vertically in the middle */
-            animation: blink 1s step-end infinite; /* Blinking effect */
+            color: #ffffff;
+            display: inline-block;
+            vertical-align: middle;
+            animation: blink 1s step-end infinite;
           }
 
           @keyframes blink {
-            from, to {
-              opacity: 1;
-            }
-            50% {
-              opacity: 0;
-            }
+            from, to { opacity: 1; }
+            50% { opacity: 0; }
           }
         `}
       </style>
