@@ -11,7 +11,8 @@ const skills = [
   { name: "C/C++", level: 59 },
   { name: "Node.js", level: 40 },
   { name: "Postgres", level: 55 },
-  { name: "Android Development", level: 40 },
+  { name: "PHP", level: 56 },
+  { name: "Android Development", level: 40 }
 ];
 
 const Skills = () => {
