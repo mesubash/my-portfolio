@@ -1,85 +1,81 @@
 import React, { useEffect } from "react";
-import Typed from "typed.js";
 import Skills from "./Skills"; // Import the Skills component
 
 const About = () => {
   useEffect(() => {
-    let typed;
+    const strings = [
+      "I'm a passionate web developer with experience in building modern web applications.",
+      "I have worked with various tech stacks including Spring Boot, Android Studio, and React.",
+      "Currently pursuing a degree in Software Engineering.",
+      "Experienced in developing backend services using Spring Boot.",
+      "Familiar with mobile app development using Android Studio.",
+      "Passionate about learning new technologies and improving my skills.",
+      "Enjoy working on both front-end and back-end development.",
+      "Strong problem-solving skills and attention to detail."
+    ];
 
-    // Create an Intersection Observer to detect when the #about section is in view
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          // If the #about section is in view, start the typing effect
-          if (entry.isIntersecting) {
-            typed = new Typed(".typed-about", {
-              strings: [
-                "I'm a passionate web developer with experience in building modern web applications using React, JavaScript, HTML, and CSS. I love creating beautiful and functional websites."
-              ],
-              typeSpeed: 50, // Adjust typing speed (lower value = faster typing)
-              backSpeed: 30, // Adjust backspacing speed (lower value = faster backspace)
-              backDelay: 2000, // Delay before backspacing starts
-              startDelay: 500, // Delay before typing starts
-              loop: false, // Don't loop the typing effect
-              showCursor: true, // Show the blinking cursor
-              cursorChar: "|", // Customize cursor character to a single pipe (|)
-              onComplete: () => {
-                // Hide cursor once typing completes to avoid multiple cursors
-                document.querySelector(".typed-cursor").style.visibility = "hidden";
-              },
-            });
+    let currentStringIndex = 0;
+    let currentCharIndex = 0;
+    const typingSpeed = 50;
+    const newLineDelay = 1000;
+    const cursorChar = "|";
+
+    const typedContainer = document.querySelector(".typed-about");
+
+    const type = () => {
+      if (currentStringIndex < strings.length) {
+        const currentString = strings[currentStringIndex];
+        if (currentCharIndex < currentString.length) {
+          const currentLine = document.querySelector(`#line-${currentStringIndex}`);
+          currentLine.innerHTML = currentLine.innerHTML.slice(0, -1) + currentString[currentCharIndex] + cursorChar;
+          currentCharIndex++;
+          setTimeout(type, typingSpeed);
+        } else {
+          const currentLine = document.querySelector(`#line-${currentStringIndex}`);
+          currentLine.innerHTML = currentLine.innerHTML.slice(0, -1); // Remove cursor from finished line
+          currentStringIndex++;
+          currentCharIndex = 0;
+          if (currentStringIndex < strings.length) {
+            typedContainer.innerHTML += `<div id="line-${currentStringIndex}" class="flex justify-start"><span class='text-purple-500'>➤</span> ${cursorChar}</div>`;
+            setTimeout(type, newLineDelay);
           } else {
-            // Stop the typing effect when the section is out of view
-            if (typed) {
-              typed.destroy();
-            }
+            const lastLine = document.querySelector(`#line-${currentStringIndex - 1}`);
+            lastLine.innerHTML += `<span class="typed-cursor-about">${cursorChar}</span>`; // Add cursor to the last line
           }
-        });
-      },
-      { threshold: 0.5 } // Trigger when 50% of the #about section is visible
-    );
-
-    // Observe the #about section
-    const aboutSection = document.querySelector("#about");
-    observer.observe(aboutSection);
-
-    // Cleanup the observer when the component unmounts
-    return () => {
-      if (typed) {
-        typed.destroy();
+        }
       }
-      observer.disconnect();
     };
+
+    typedContainer.innerHTML = `<div id="line-0" class="flex justify-start"><span class='text-purple-500'>➤</span> ${cursorChar}</div>`;
+    type();
   }, []);
 
   return (
-    <section id="about" className="py-12 px-4 min-h-screen bg-gray-800 text-white relative">
-      <h2 className="text-3xl font-bold text-center mb-8">About Me</h2>
+    <section id="about" className="py-12 px-4 h-screen bg-gray-800 text-white relative">
+      <h2 className="text-4xl font-bold text-center mb-8">About Me</h2>
       
-      <div className="w-100 mx-auto flex flex-col md:flex-row items-center bg-purple-100 shadow-lg rounded-lg p-6">
-      <div className="md:w-2/3 text-center md:text-left">
-          <p className="text-lg">
-            <span className="typed-about text-black"></span>
-          </p>
-          <div className="md:w-1/3 mb-6 md:mb-0">
-          <img
-            src="src/assets/profile.jpeg"
-            alt="Subash Singh Dhami"
-            className="w-48 h-48 object-cover rounded-full mx-auto"
-          />
-        </div>
-         
-        </div>
-       
-       
+      <div className="w-2/3 mx-auto bg-gray-800 shadow-lg rounded-lg p-8 flex flex-col justify-start items-start h-3/4">
+        <div className="text-2xl text-left typed-about font-mono"></div>
       </div>
-      <div className="relative z-10">
+      <div className="relative z-10 -mt-16">
         <Skills /> {/* Include the Skills component */}
       </div>
       <style>
         {`
-          .typed-about .typed-cursor {
-            color: inherit; /* Reset cursor color to inherit the default text color */
+          .typed-cursor-about {
+            color: #ffffff; /* Change cursor color to match text-purple-500 */
+            display: inline-block; /* Ensure cursor is displayed as an inline element */
+            vertical-align: middle; /* Align cursor vertically in the middle */
+            animation: blink 1s step-end infinite; /* Blinking effect */
+          }
+
+          @keyframes blink {
+            from, to {
+              opacity: 1;
+            }
+            50% {
+              opacity: 0;
+            }
           }
         `}
       </style>

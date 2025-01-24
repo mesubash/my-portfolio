@@ -9,7 +9,7 @@ const LandingPage = () => {
     AOS.init({ duration: 2000 });
 
     const typed = new Typed(".typed", {
-      strings: [ "Student", "Developer", "Software Engineer", "Learner" , "Void"],
+      strings: ["Student", "Developer", "Software Engineer", "Learner", "Void"],
       typeSpeed: 80,
       backSpeed: 60,
       backDelay: 1000,
@@ -76,7 +76,7 @@ const LandingPage = () => {
               Hello, I'm Subash Singh Dhami
             </h1>
             <p className="text-3xl mt-4">
-              A <span className="typed typed-landingpage text-purple-500 ml-2"></span>
+              A <span className="typed text-purple-500 ml-2"></span>
             </p>
             <div className="flex mt-6 justify-center gap-6">
               <a
@@ -100,6 +100,7 @@ const LandingPage = () => {
         {`
           .typed-cursor {
             color: #a855f7; /* Change cursor color to match text-purple-500 */
+            display: inline-block; /* Ensure cursor is displayed as an inline element */
           }
         `}
       </style>
