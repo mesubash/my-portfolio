@@ -1,48 +1,112 @@
-// src/components/Contact.jsx
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useForm, ValidationError } from '@formspree/react';
-import "aos/dist/aos.css"; // Import AOS styles
-import AOS from "aos"; // Import AOS JS
+import Notification from "./Notification";
+import "aos/dist/aos.css";
+import AOS from "aos";
 
 const Contact = () => {
   const [state, handleSubmit] = useForm("xvggerej");
-  if (state.succeeded) {
-      return <p>Thanks for joining!</p>;
-  }
+  const [notification, setNotification] = useState({
+    isVisible: false,
+    message: '',
+    type: ''
+  });
+
+  useEffect(() => {
+    if (state.succeeded) {
+      setNotification({
+        isVisible: true,
+        message: 'Message sent successfully! Thank you for reaching out.',
+        type: 'success'
+      });
+      
+      // Reset form fields
+      const form = document.querySelector('form');
+      if (form) form.reset();
+      
+      // Hide notification after delay
+      setTimeout(() => {
+        setNotification(prev => ({ ...prev, isVisible: false }));
+      }, 3000);
+    }
+  }, [state.succeeded]);
+
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      await handleSubmit(e);
+    } catch (error) {
+      console.error("Form error:", error);
+      setNotification({
+        isVisible: true,
+        message: 'Error sending message. Please try again.',
+        type: 'error'
+      });
+      
+      setTimeout(() => {
+        setNotification(prev => ({ ...prev, isVisible: false }));
+      }, 3000);
+    }
+  };
+
   return (
-    <section id="contact" className="py-12 px-4 bg-gray-100" data-aos="fade-out">
-      <h2 className="text-3xl font-bold text-center text-gray-700">Contact Me</h2>
-      <form onSubmit={handleSubmit} action="https://formspree.io/f/xvggerej" method="post" className="max-w-lg mx-auto mt-8">
-        <input
-          type="text"
-          name="name"
-          placeholder="Your Name"
-          required
-          className="w-full px-4 py-2 mb-4 border rounded-md focus:outline-none focus:ring-2 focus:ring-gray-400"
+    <section id="contact" className="py-20 px-8 bg-gray-800 min-h-screen flex flex-col items-center justify-center relative">
+      {notification.isVisible && (
+        <Notification
+          message={notification.message}
+          type={notification.type}
+          isVisible={notification.isVisible}
         />
-        <input
-          type="email"
-          name="email"
-          placeholder="Your Email"
-          required
-          className="w-full px-4 py-2 mb-4 border rounded-md focus:outline-none focus:ring-2 focus:ring-gray-400"
-        />
-        <ValidationError field="email" prefix="Email" errors={state.errors} />
-        <textarea
-          placeholder="Your Message"
-          name="message"
-          required
-          className="w-full px-4 py-2 mb-4 border rounded-md focus:outline-none focus:ring-2 focus:ring-gray-400"
-        ></textarea>
-        <ValidationError 
-        prefix="Message" 
-        field="message"
-        errors={state.errors}
-      />
+      )}
+      
+      <h2 className="text-5xl font-bold text-center text-white mb-16" data-aos="fade-down">
+        Get In Touch
+      </h2>
+      
+      <form 
+        onSubmit={onSubmit} 
+        className="space-y-8 bg-gray-700 p-16 rounded-lg shadow-xl mx-auto w-full max-w-6xl"
+        data-aos="fade-up"
+        data-aos-duration="1000"
+      >
+        <div className="space-y-4" data-aos="fade-up" data-aos-delay="200">
+          <input
+            type="text"
+            name="name"
+            placeholder="Your Name"
+            required
+            className="w-full px-8 py-5 text-xl bg-gray-600 text-white placeholder-gray-400 border border-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-300 hover:bg-gray-500"
+          />
+        </div>
+        
+        <div className="space-y-4" data-aos="fade-up" data-aos-delay="400">
+          <input
+            type="email"
+            name="email"
+            placeholder="Your Email"
+            required
+            className="w-full px-8 py-5 text-xl bg-gray-600 text-white placeholder-gray-400 border border-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-300 hover:bg-gray-500"
+          />
+          <ValidationError field="email" prefix="Email" errors={state.errors} className="text-red-500 text-xl" />
+        </div>
+
+        <div className="space-y-4" data-aos="fade-up" data-aos-delay="600">
+          <textarea
+            placeholder="Your Message"
+            name="message"
+            required
+            rows="6"
+            className="w-full px-8 py-5 text-xl bg-gray-600 text-white placeholder-gray-400 border border-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-300 hover:bg-gray-500 resize-none"
+          ></textarea>
+          <ValidationError prefix="Message" field="message" errors={state.errors} className="text-red-500 text-xl" />
+        </div>
+
         <button
           type="submit"
-          disabled={state.succeeded}
-          className="w-full py-2 bg-gray-800 text-white rounded-md hover:bg-gray-600"
+          disabled={state.submitting}
+          className="w-full py-5 text-xl bg-gray-600 text-white rounded-lg font-medium hover:bg-purple-600 transform hover:scale-105 transition-all duration-300 ease-in-out"
+          data-aos="fade-up"
+          data-aos-delay="800"
         >
           Send Message
         </button>
@@ -50,7 +114,5 @@ const Contact = () => {
     </section>
   );
 };
-
-
 
 export default Contact;

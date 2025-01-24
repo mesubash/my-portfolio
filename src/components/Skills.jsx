@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
+import "aos/dist/aos.css";
+import AOS from "aos";
 
 const skills = [
   { name: "Spring Boot", level: 73 },
@@ -11,8 +13,8 @@ const skills = [
   { name: "C/C++", level: 59 },
   { name: "Node.js", level: 40 },
   { name: "Postgres", level: 55 },
-  { name: "PHP", level: 56 },
-  { name: "Android Development", level: 40 }
+  { name: "PHP", level: 54 },
+  { name: "Android Development", level: 50 }
 ];
 
 const Skills = () => {
@@ -22,6 +24,12 @@ const Skills = () => {
   const sectionRef = useRef(null);
 
   useEffect(() => {
+    AOS.init({
+      duration: 1000,
+      once: true,
+      offset: 100
+    });
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -73,7 +81,7 @@ const Skills = () => {
 
   return (
     <div ref={sectionRef} className="relative bg-gray-700 shadow-lg rounded-lg p-6 mx-auto max-w-6xl z-10 shadow-base-200">
-      <h3 className="text-2xl font-bold text-center text-white">Skills</h3>
+      <h3 className="text-2xl font-bold text-center text-white" data-aos="fade-down">Skills</h3>
       <div className="mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {skills.map((skill, index) => (
           <div 
@@ -81,6 +89,8 @@ const Skills = () => {
             className="flex flex-col items-center transform transition-all duration-300 hover:scale-125"
             onMouseEnter={() => handleHover(index)}
             onMouseLeave={() => setHoveredIndex(null)}
+            data-aos="fade-up"
+            data-aos-delay={index * 100}
           >
             <div className="w-24 h-24 mb-2">
               <CircularProgressbar
