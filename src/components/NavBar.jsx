@@ -64,7 +64,7 @@ const NavBar = () => {
             ))}
             <li>
               <a 
-                href="src/assets/Resume-subash.pdf" 
+                href="/assets/Resume-subash.pdf" 
                 download
                 className="flex items-center px-4 py-2 bg-gray-500 hover:bg-purple-600 text-white rounded-full transition-colors duration-300"
               >

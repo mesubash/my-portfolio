@@ -1,5 +1,5 @@
 import React from "react";
-import { FaTwitter, FaLinkedin, FaGithub, FaInstagram } from "react-icons/fa";
+import { FaEnvelope,FaTwitter, FaLinkedin, FaGithub, FaInstagram } from "react-icons/fa";
 
 const Footer = () => {
   return (
@@ -12,6 +12,10 @@ const Footer = () => {
       </nav>
       <nav>
         <div className="grid grid-flow-col gap-8">
+          <a href="mailto:subashdhamee@gmail.com" target="_blank" rel="noopener noreferrer" className="hover:text-purple-500 transform hover:scale-150 hover:rotate-12 transition-transform duration-300">
+            <FaEnvelope className="w-6 h-6 fill-current" />
+          </a>
+          
           <a href="https://x.com/subashdhamee" target="_blank" rel="noopener noreferrer" className="hover:text-purple-500 transform hover:scale-150 hover:rotate-12 transition-transform duration-300">
             <FaTwitter className="w-6 h-6 fill-current" />
           </a>
@@ -24,6 +28,7 @@ const Footer = () => {
           <a href="https://www.instagram.com/da.subashh/" target="_blank" rel="noopener noreferrer" className="hover:text-purple-500 transform hover:scale-150 hover:-rotate-12 transition-transform duration-300">
             <FaInstagram className="w-6 h-6 fill-current" />
           </a>
+
         </div>
       </nav>
       <aside>
