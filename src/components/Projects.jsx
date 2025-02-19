@@ -32,17 +32,33 @@ const Projects = () => {
           </div>
           <div data-aos="fade-up" data-aos-delay="200">
             <ProjectCard
+              title="SMS Spam Detection"
+              description="SMS spam detection using ML in python with Docker,FastAPI and Streamlit."
+              image="./assets/project/spam-detection.png"
+              github="https://github.com/mesubash/sms-spam-detection"
+            />
+          </div>
+          <div data-aos="fade-up" data-aos-delay="200">
+            <ProjectCard
               title="Simple TODO App"
               description="A simple todo app in JAVA(JavaFX) with CRUD operations."
               image="./assets/project/dummy.png"
               github="https://github.com/mesubash/ToDo_Desktop_App"
             />
           </div>
-          <div data-aos="fade-up" data-aos-delay="300">
+          <div data-aos="fade-up" data-aos-delay="200">
+            <ProjectCard
+              title="SIR simulation"
+              description="SIR Epidemic Spread Simulation using Java with JFreeChart."
+              image="./assets/project/sir.png"
+              github="https://github.com/mesubash/SIR_Simulation"
+            />
+          </div>
+          <div data-aos="fade-up" data-aos-delay="200">
             <ProjectCard
               title="Private"
-              description="Worked on many private projects of the multiple clients for android dev etc."
-              image="./assets/project/dummy.png"
+              description="Worked on many private projects of the multiple clients for android dev and many other projects."
+              image="./assets/project/private.png"
               github=""
             />
           </div>

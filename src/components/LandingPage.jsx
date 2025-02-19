@@ -68,7 +68,7 @@ const LandingPage = () => {
             data-aos="fade-right"
             data-aos-duration="1200"
             data-aos-delay="200"
-            data-aos-offset="300"
+            data-aos-offset="100"
             data-aos-easing="ease-out-cubic"
           >
             <h1 className="text-5xl font-bold whitespace-normal break-words">
