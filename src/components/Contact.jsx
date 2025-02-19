@@ -65,9 +65,10 @@ const Contact = () => {
       
       <form 
         onSubmit={onSubmit} 
-        className="space-y-8 bg-gray-700 p-16 rounded-lg shadow-xl mx-auto w-full max-w-6xl"
+        className="space-y-8 bg-gray-700 p-16 rounded-lg shadow-xl mx-auto w-full max-w-6xl hover:shadow-purple-600 hover:shadow-lg relative bg-cover bg-center rounded-lg hover:bg-gray-800 "
         data-aos="fade-up"
         data-aos-duration="1000"
+        
       >
         <div className="space-y-4" data-aos="fade-up" data-aos-delay="200">
           <input
@@ -75,7 +76,7 @@ const Contact = () => {
             name="name"
             placeholder="Your Name"
             required
-            className="w-full px-8 py-5 text-xl bg-gray-600 text-white placeholder-gray-400 border border-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-300 hover:bg-gray-500"
+            className="w-full px-8 py-5 text-xl bg-gray-600 text-white placeholder-gray-400 border border-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent focus:text-gray-800 transition-all duration-300 hover:shadow-purple-600 hover:shadow-lg relative bg-cover bg-center rounded-lg "
           />
         </div>
         
@@ -85,7 +86,7 @@ const Contact = () => {
             name="email"
             placeholder="Your Email"
             required
-            className="w-full px-8 py-5 text-xl bg-gray-600 text-white placeholder-gray-400 border border-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-300 hover:bg-gray-500"
+            className="w-full px-8 py-5 text-xl bg-gray-600 text-white placeholder-gray-400 border border-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent focus:text-gray-800 transition-all duration-300 hover:shadow-purple-600 hover:shadow-lg relative bg-cover bg-center rounded-lg"
           />
           <ValidationError field="email" prefix="Email" errors={state.errors} className="text-red-500 text-xl" />
         </div>
@@ -96,7 +97,7 @@ const Contact = () => {
             name="message"
             required
             rows="6"
-            className="w-full px-8 py-5 text-xl bg-gray-600 text-white placeholder-gray-400 border border-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-300 hover:bg-gray-500 resize-none"
+            className="w-full px-8 py-5 text-xl bg-gray-600 text-white placeholder-gray-400 border border-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent focus:text-gray-800 transition-all duration-300 hover:shadow-purple-600 hover:shadow-lg relative bg-cover bg-center rounded-lg resize-none"
           ></textarea>
           <ValidationError prefix="Message" field="message" errors={state.errors} className="text-red-500 text-xl" />
         </div>
