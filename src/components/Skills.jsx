@@ -10,6 +10,7 @@ const skills = [
   { name: "React", level: 65 },
   { name: "JavaScript", level: 60 },
   { name: "HTML & CSS", level: 70 },
+  { name: "Python", level: 49}, 
   { name: "C/C++", level: 59 },
   { name: "Node.js", level: 40 },
   { name: "Postgres", level: 55 },
@@ -60,50 +61,49 @@ const Skills = () => {
     }
   }, [isVisible]);
 
-  const handleHover = (index) => {
-    setHoveredIndex(index);
-    if (hoveredIndex === index) {
-      let currentLevel = 0;
-      const interval = setInterval(() => {
-        if (currentLevel >= skills[index].level) {
-          clearInterval(interval);
-          return;
-        }
-        currentLevel++;
-        setAnimatedLevels(prev => 
-          prev.map((level, idx) => 
-            idx === index ? currentLevel : level
-          )
-        );
-      }, 20);
-    }
-  };
-
   return (
-    <div ref={sectionRef} className="relative bg-gray-700 shadow-lg rounded-lg p-6 mx-auto max-w-6xl z-10 shadow-base-200">
-      <h3 className="text-2xl font-bold text-center text-white" data-aos="fade-down">Skills</h3>
-      <div className="mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+    <div ref={sectionRef} className="relative bg-gray-800 shadow-lg rounded-lg p-8 mx-auto max-w-6xl z-10 overflow-hidden">
+      {/* Floating bubbles background effect */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        {[...Array(12)].map((_, i) => (
+          <div 
+            key={i}
+            className="absolute w-10 h-10 bg-purple-500 opacity-20 rounded-full blur-2xl animate-float"
+            style={{
+              top: `${Math.random() * 100}%`,
+              left: `${Math.random() * 100}%`,
+              animationDuration: `${3 + Math.random() * 3}s`
+            }}
+          />
+        ))}
+      </div>
+
+      <h3 className="text-3xl font-bold text-center text-white mb-6" data-aos="fade-down">Skills</h3>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 relative">
         {skills.map((skill, index) => (
           <div 
             key={index} 
-            className="flex flex-col items-center transform transition-all duration-300 hover:scale-125"
-            onMouseEnter={() => handleHover(index)}
+            className="flex flex-col items-center transform transition-all duration-500 hover:scale-110 hover:rotate-6 relative"
+            onMouseEnter={() => setHoveredIndex(index)}
             onMouseLeave={() => setHoveredIndex(null)}
             data-aos="fade-up"
             data-aos-delay={index * 100}
           >
-            <div className="w-24 h-24 mb-2">
+            <div className="w-24 h-24 mb-2 relative">
               <CircularProgressbar
                 value={animatedLevels[index]}
                 text={`${animatedLevels[index]}%`}
                 styles={buildStyles({
                   textColor: "#fff",
-                  pathColor: "#a855f7",
-                  trailColor: "#d1d5db",
+                  pathColor: hoveredIndex === index ? "#f59e0b" : "#a855f7",
+                  trailColor: "#374151",
                   pathTransition: "ease-in-out",
                   rotation: hoveredIndex === index ? 0.25 : 0,
                 })}
               />
+              {hoveredIndex === index && (
+                <div className="absolute inset-0 animate-ping bg-purple-500 rounded-full opacity-20"></div>
+              )}
             </div>
             <span className="text-lg font-medium text-white">{skill.name}</span>
           </div>
