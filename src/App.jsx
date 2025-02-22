@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { FaArrowUp } from "react-icons/fa";
+import { Tooltip as ReactTooltip } from "react-tooltip";
 import About from "./components/About";
 import Projects from "./components/Projects";
 import Contact from "./components/Contact";
 import Footer from "./components/Footer";
 import LandingPage from "./components/LandingPage";
-import './App.css';
+import "./App.css";
 import Navbar from "./components/NavBar";
 
 const App = () => {
@@ -21,9 +22,9 @@ const App = () => {
       }
     };
 
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
     return () => {
-      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener("scroll", handleScroll);
     };
   }, []);
 
@@ -38,7 +39,7 @@ const App = () => {
     <Router>
       <div className="app-container font-sans bg-gray-800">
         <Navbar />
-        
+
         <main className="relative">
           {/* Landing Page Section */}
           <section id="landingpage" className="relative">
@@ -56,18 +57,33 @@ const App = () => {
           </section>
 
           {/* Contact Section */}
-          <section id="contact" className="min-h-screen flex items-center justify-center bg-gray-800 text-white py-16 pt-20 -mt-20">
+          <section
+            id="contact"
+            className="min-h-screen flex items-center justify-center bg-gray-800 text-white py-16 pt-20 -mt-20"
+          >
             <Contact />
           </section>
         </main>
 
+        {/* Go to Top Button with Tooltip */}
         {showScrollToTop && (
           <button
             onClick={scrollToTop}
-            className="fixed bottom-5 right-5 p-4 bg-gray-600 text-white rounded-full shadow-lg hover:bg-purple-600 hover:scale-125 transition-transform duration-300 transition-all z-40">
+            className="fixed bottom-5 right-5 p-4 bg-gray-600 text-white rounded-full shadow-lg hover:bg-purple-600 hover:scale-125 transition-transform duration-300 transition-all z-40"
+            data-tooltip-id="go-to-top-tooltip"
+            data-tooltip-content="Go to Top"
+          >
             <FaArrowUp />
           </button>
         )}
+
+        {/* Tooltip for Go to Top Button */}
+        <ReactTooltip
+          id="go-to-top-tooltip"
+          place="left"
+          effect="solid"
+          className="!bg-gray-800 !text-white !rounded-md !px-2 !py-1"
+        />
 
         <Footer />
       </div>
