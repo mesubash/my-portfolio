@@ -1,2 +1,2 @@
 User-agent: *
-Disallow: /assets/resume.pdf
+Disallow: /assets/Subash_Singh_Dhami_Resume.pdf
