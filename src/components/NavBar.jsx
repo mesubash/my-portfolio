@@ -72,7 +72,7 @@ const NavBar = () => {
           {/* CV Download */}
           <li>
             <a 
-              href="assets/Resume-subash.pdf" 
+              href="assets/resume.pdf" 
               download
               className="flex items-center px-4 py-2 bg-gray-500 hover:bg-purple-600 text-white rounded-full transition-colors duration-300"
             >

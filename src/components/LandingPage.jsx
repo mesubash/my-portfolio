@@ -85,7 +85,7 @@ const LandingPage = () => {
                 Discover
               </a>
               <a
-                href="/assets/Resume-subash.pdf" // Use absolute path from public directory
+                href="/assets/resume.pdf" 
                 download
                 className="inline-block mt-3.5 text-white font-semibold hover:underline"
               >
