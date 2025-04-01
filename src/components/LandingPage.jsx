@@ -27,7 +27,7 @@ const LandingPage = () => {
       <div 
         className="absolute inset-0 z-0"
         style={{
-          backgroundImage: `url("/assets/profile.jpeg")`, // Use absolute path from public directory
+          backgroundImage: `url("/assets/profile.png")`, 
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
@@ -85,7 +85,7 @@ const LandingPage = () => {
                 Discover
               </a>
               <a
-                href="/assets/resume.pdf" 
+                href="/assets/Subash_Singh_Dhami_Resume.pdf" 
                 download
                 className="inline-block mt-3.5 text-white font-semibold hover:underline"
               >
