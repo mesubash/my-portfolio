@@ -21,12 +21,21 @@ const Projects = () => {
         My Projects
       </h2>
       <div className="container mx-auto max-w-8xl">
-        <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-y-8 gap-x-4">
           <div data-aos="fade-up" data-aos-delay="100">
+          <ProjectCard
+              title="QuizMaster"
+              description="A quiz application developed with Spring Boot for the backend and Next.js for the frontend. The backend is complete, and I am currently working on the frontend, which includes implementing authentication and enhancing the user interface."
+              image="./assets/project/dummy.png"
+              github="https://github.com/mesubash/Quiz-App"
+            />
+          </div>
+          <div data-aos="fade-up" data-aos-delay="100">
+            
             <ProjectCard
               title="NepEducation"
               description="A simple learning platform developed using PHP, HTML/CSS, JS."
-              image="./assets/project/dummy.png"
+              image="./assets/project/private.png"
               github="https://github.com/mesubash/NepEducation"
             />
           </div>
@@ -42,7 +51,7 @@ const Projects = () => {
             <ProjectCard
               title="Simple TODO App"
               description="A simple todo app in JAVA(JavaFX) with CRUD operations."
-              image="./assets/project/dummy.png"
+              image="./assets/project/private.png"
               github="https://github.com/mesubash/ToDo_Desktop_App"
             />
           </div>
@@ -52,6 +61,14 @@ const Projects = () => {
               description="SIR Epidemic Spread Simulation using Java with JFreeChart."
               image="./assets/project/sir.png"
               github="https://github.com/mesubash/SIR_Simulation"
+            />
+          </div>
+          <div data-aos="fade-up" data-aos-delay="200">
+            <ProjectCard
+              title="Library Management System"
+              description="A Library Management System developed using Spring Boot and React. It includes features for managing books, users, and transactions. It is currently in progress."
+              image="./assets/project/private.png"
+              github=""
             />
           </div>
           <div data-aos="fade-up" data-aos-delay="200">
