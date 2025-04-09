@@ -26,7 +26,7 @@ const Projects = () => {
           <ProjectCard
               title="QuizMaster"
               description="A quiz application developed with Spring Boot for the backend and Next.js for the frontend. The backend is complete, and I am currently working on the frontend, which includes implementing authentication and enhancing the user interface."
-              image="./assets/project/dummy.png"
+              image="./assets/project/brain.png"
               github="https://github.com/mesubash/Quiz-App"
             />
           </div>
