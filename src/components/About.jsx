@@ -89,7 +89,7 @@ const About = () => {
   }, []);
 
   return (
-    <section ref={sectionRef} id="about" className="py-12 px-4 bg-gray-800 text-white relative">
+    <section ref={sectionRef} id="about" className="py-25 px-4 bg-gray-800 text-white relative">
       <h2 className="text-4xl font-bold text-center mb-8">About Me</h2>
       
       <div className="w-2/3 mx-auto bg-gray-800 shadow-lg rounded-lg p-8 flex flex-col justify-start items-start mb-24">
