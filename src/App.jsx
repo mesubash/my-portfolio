@@ -33,7 +33,7 @@ const App = () => {
     const startTime = Date.now();
 
     const img = new Image();
-    img.src = "/assets/profile.png"; // Path to your landing page image
+    img.src = "/assets/profile.webp"; 
     img.onload = () => {
       const elapsedTime = Date.now() - startTime;
       const remainingTime = Math.max(0, MINIMUM_LOADING_TIME - elapsedTime);

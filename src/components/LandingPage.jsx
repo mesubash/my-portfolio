@@ -27,7 +27,7 @@ const LandingPage = () => {
       <div 
         className="absolute inset-0 z-0"
         style={{
-          backgroundImage: `url("/assets/profile.png")`, 
+          backgroundImage: `url("/assets/profile.webp")`, 
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
