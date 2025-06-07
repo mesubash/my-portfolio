@@ -63,14 +63,14 @@ const Projects = () => {
               github="https://github.com/mesubash/SIR_Simulation"
             />
           </div>
-          <div data-aos="fade-up" data-aos-delay="200">
+          {/* <div data-aos="fade-up" data-aos-delay="200">
             <ProjectCard
               title="Library Management System"
               description="A Library Management System developed using Spring Boot and React. It includes features for managing books, users, and transactions. It is currently in progress."
               image="./assets/project/private.png"
               github=""
             />
-          </div>
+          </div> */}
           <div data-aos="fade-up" data-aos-delay="200">
             <ProjectCard
               title="Private"

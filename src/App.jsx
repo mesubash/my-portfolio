@@ -9,9 +9,11 @@ import Footer from "./components/Footer";
 import LandingPage from "./components/LandingPage";
 import "./App.css";
 import Navbar from "./components/NavBar";
+import Preloader from "./components/Preloader";
 
 const App = () => {
   const [showScrollToTop, setShowScrollToTop] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -21,12 +23,30 @@ const App = () => {
         setShowScrollToTop(false);
       }
     };
-
     window.addEventListener("scroll", handleScroll);
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
+  useEffect(() => {
+    const MINIMUM_LOADING_TIME = 3000; // Minimum time for the preloader (3 seconds)
+    const startTime = Date.now();
+
+    const img = new Image();
+    img.src = "/assets/profile.png"; // Path to your landing page image
+    img.onload = () => {
+      const elapsedTime = Date.now() - startTime;
+      const remainingTime = Math.max(0, MINIMUM_LOADING_TIME - elapsedTime);
+
+      setTimeout(() => setIsLoading(false), remainingTime);
+    };
+
+    // Fallback in case the image fails to load
+    const timeout = setTimeout(() => setIsLoading(false), MINIMUM_LOADING_TIME + 2000); // Extra 2 seconds fallback
+
+    return () => clearTimeout(timeout);
+  }, []);
+
 
   const scrollToTop = () => {
     window.scrollTo({
@@ -37,6 +57,10 @@ const App = () => {
 
   return (
     <Router>
+      {/* Preloader Component */}
+      {isLoading ? (
+        <Preloader />
+      ):(
       <div className="app-container font-sans bg-gray-800">
         <Navbar />
 
@@ -87,6 +111,7 @@ const App = () => {
 
         <Footer />
       </div>
+      )}
     </Router>
   );
 };
