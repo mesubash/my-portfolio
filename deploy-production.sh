@@ -54,6 +54,8 @@ read -p "🚀 Deploy to GitHub Pages? (y/N): " deploy_confirm
 
 if [[ $deploy_confirm =~ ^[Yy]$ ]]; then
     echo "🌐 Deploying to GitHub Pages..."
+    
+    # Deploy only the dist directory contents
     npx gh-pages -d dist
     
     if [ $? -eq 0 ]; then
