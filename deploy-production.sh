@@ -11,7 +11,9 @@ if [ ! -f .env ]; then
 fi
 
 # Load environment variables
-export $(cat .env | grep -v '^#' | sed 's/^/export /' | xargs)
+set -a
+source .env
+set +a
 
 # Display loaded environment (without showing the actual key values)
 echo "✅ Environment variables loaded:"
