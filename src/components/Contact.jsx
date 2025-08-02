@@ -17,6 +17,11 @@ const Contact = () => {
   const [emailValidationStatus, setEmailValidationStatus] = useState(null); // 'valid', 'invalid', 'disposable'
   const [validationMessage, setValidationMessage] = useState(''); // User-friendly validation message
   const [lastApiCall, setLastApiCall] = useState(0); // Track last API call time for rate limiting
+  
+  // Name validation states
+  const [nameError, setNameError] = useState('');
+  const [name, setName] = useState('');
+  const [nameValidationStatus, setNameValidationStatus] = useState(null); // 'valid', 'invalid'
 
   useEffect(() => {
     AOS.init({
@@ -87,10 +92,127 @@ const Contact = () => {
   // Check if email is disposable
   const isDisposableEmail = (email) => {
     const domain = email.split('@')[1]?.toLowerCase();
-    console.log('Checking domain:', domain);
     const isDisposable = disposableEmailDomains.includes(domain);
-    console.log('Is disposable:', isDisposable);
     return isDisposable;
+  };
+
+  // Name validation function
+  const validateName = (name) => {
+    const trimmedName = name.trim();
+    
+    // Check minimum length
+    if (trimmedName.length < 2) {
+      return { isValid: false, error: 'Name must be at least 2 characters long' };
+    }
+    
+    // Check maximum length
+    if (trimmedName.length > 50) {
+      return { isValid: false, error: 'Name must be less than 50 characters' };
+    }
+    
+    // Check for valid characters (letters, spaces, hyphens, apostrophes, periods)
+    const nameRegex = /^[a-zA-Z\s\-'.]+$/;
+    if (!nameRegex.test(trimmedName)) {
+      return { isValid: false, error: 'Name can only contain letters, spaces, hyphens, apostrophes, and periods' };
+    }
+    
+    // Check for at least one letter
+    const hasLetter = /[a-zA-Z]/.test(trimmedName);
+    if (!hasLetter) {
+      return { isValid: false, error: 'Name must contain at least one letter' };
+    }
+    
+    // Check for excessive special characters
+    const specialCharCount = (trimmedName.match(/[\-'.]/g) || []).length;
+    if (specialCharCount > trimmedName.length * 0.3) {
+      return { isValid: false, error: 'Name contains too many special characters' };
+    }
+    
+    // Check for consecutive spaces or special characters
+    if (/[\s\-'.]{3,}/.test(trimmedName)) {
+      return { isValid: false, error: 'Name cannot have more than 2 consecutive spaces or special characters' };
+    }
+    
+    // Check for leading/trailing special characters
+    if (/^[\s\-'.]|[\s\-'.]$/.test(trimmedName)) {
+      return { isValid: false, error: 'Name cannot start or end with spaces or special characters' };
+    }
+    
+    // Basic profanity check (you can expand this list)
+    const profanityWords = ['fuck', 'shit', 'damn', 'bitch', 'ass', 'hell'];
+    const lowerName = trimmedName.toLowerCase();
+    for (const word of profanityWords) {
+      if (lowerName.includes(word)) {
+        return { isValid: false, error: 'Please use appropriate language in your name' };
+      }
+    }
+    
+    // Check for obvious fake names
+    const fakePatterns = [
+      /^test\s*$/i,
+      /^fake\s*$/i,
+      /^name\s*$/i,
+      /^[a-z]\s*$/i,
+      /^(abc|xyz|123)\s*$/i,
+      /^[a-z]{1,2}\s+[a-z]{1,2}$/i, // single/double letters
+      /^(.)\1{4,}/, // repeated characters (aaaaa, bbbbb)
+      /^(qwerty|asdf|zxcv)/i,
+      /^john\s+doe$/i,
+      /^jane\s+doe$/i
+    ];
+    
+    for (const pattern of fakePatterns) {
+      if (pattern.test(trimmedName)) {
+        return { isValid: false, error: 'Please enter your real name' };
+      }
+    }
+    
+    // Check for reasonable word count (2-4 names - require full name)
+    const words = trimmedName.split(/\s+/).filter(word => word.length > 0);
+    if (words.length === 0) {
+      return { isValid: false, error: 'Please enter your name' };
+    }
+    if (words.length === 1) {
+      return { isValid: false, error: 'Please enter your full name (first and last name)' };
+    }
+    if (words.length > 4) {
+      return { isValid: false, error: 'Please enter a shorter version of your name (maximum 4 words)' };
+    }
+    
+    // Check each word length
+    for (const word of words) {
+      if (word.length < 1) {
+        return { isValid: false, error: 'Each part of your name must be at least 1 character' };
+      }
+      if (word.length > 20) {
+        return { isValid: false, error: 'Each part of your name must be less than 20 characters' };
+      }
+    }
+    
+    return { isValid: true, error: null };
+  };
+
+  // Handle name input change with real-time validation
+  const handleNameChange = (e) => {
+    const nameValue = e.target.value;
+    
+    setName(nameValue);
+    setNameError('');
+    setNameValidationStatus(null);
+    
+    if (!nameValue.trim()) {
+      return;
+    }
+
+    // Validate name
+    const validation = validateName(nameValue);
+    
+    if (!validation.isValid) {
+      setNameError(validation.error);
+      setNameValidationStatus('invalid');
+    } else {
+      setNameValidationStatus('valid');
+    }
   };
 
   // Advanced email validation using AbstractAPI with rate limiting
@@ -103,7 +225,6 @@ const Contact = () => {
       
       if (timeSinceLastCall < minimumDelay) {
         const waitTime = minimumDelay - timeSinceLastCall;
-        console.log(`Rate limiting: waiting ${waitTime}ms before API call`);
         setValidationMessage(`Waiting ${Math.ceil(waitTime / 1000)} seconds (API rate limit)...`);
         await new Promise(resolve => setTimeout(resolve, waitTime));
       }
@@ -113,12 +234,9 @@ const Contact = () => {
                     import.meta.env.REACT_APP_ABSTRACT_API_KEY;
       
       // Debug: Check if API key is loaded
-      console.log('API Key available:', !!apiKey);
-      console.log('Validating email:', email);
       setValidationMessage('Checking email existence...');
       
       if (!apiKey) {
-        console.warn('No API key found, falling back to basic validation');
         setValidationMessage('API key not found, using basic validation');
         return {
           isValid: false, // Change this to false to be more strict
@@ -143,7 +261,6 @@ const Contact = () => {
       }
       
       const data = await response.json();
-      console.log('API Response:', data);
       setValidationMessage('Processing validation results...');
       
       return {
@@ -166,8 +283,6 @@ const Contact = () => {
   // Handle email input change with real-time validation
   const handleEmailChange = async (e) => {
     const emailValue = e.target.value;
-    console.log('=== EMAIL CHANGE EVENT ===');
-    console.log('Email value:', emailValue);
     
     setEmail(emailValue);
     setEmailError('');
@@ -175,13 +290,11 @@ const Contact = () => {
     setValidationMessage('');
     
     if (!emailValue) {
-      console.log('Empty email, returning early');
       return;
     }
 
     // Basic format validation
     if (!validateEmailFormat(emailValue)) {
-      console.log('Invalid email format detected');
       setEmailError('Please enter a valid email format');
       setEmailValidationStatus('invalid');
       return;
@@ -189,41 +302,34 @@ const Contact = () => {
 
     // Check for disposable email
     if (isDisposableEmail(emailValue)) {
-      console.log('Disposable email detected');
       setEmailError('Please use a permanent email address (temporary emails not allowed)');
       setEmailValidationStatus('disposable');
       return;
     }
 
-    console.log('Email passed basic checks, scheduling API validation...');
     setValidationMessage('Preparing to validate email...');
     
     // Increased debounce time to reduce API calls and respect rate limits
     setTimeout(async () => {
       // Only validate if this is still the current email value
       if (emailValue === e.target.value) {
-        console.log('Starting API validation for:', emailValue);
         setIsValidatingEmail(true);
         setValidationMessage('Starting email validation...');
         
         try {
           const validation = await validateEmailExistence(emailValue);
-          console.log('API validation result:', validation);
           
           // Double-check the email hasn't changed during validation
           if (emailValue === document.querySelector('input[name="email"]').value) {
             if (!validation.isValid) {
-              console.log('API says email is invalid');
               setEmailError('This email address does not appear to exist');
               setEmailValidationStatus('invalid');
               setValidationMessage('');
             } else if (validation.isDisposable) {
-              console.log('API says email is disposable');
               setEmailError('Please use a permanent email address (temporary emails not allowed)');
               setEmailValidationStatus('disposable');
               setValidationMessage('');
             } else {
-              console.log('API says email is valid');
               setEmailValidationStatus('valid');
               setValidationMessage('Email verified successfully!');
             }
@@ -232,12 +338,10 @@ const Contact = () => {
           console.warn('Email validation failed:', error);
           // Don't show error to user if validation service fails
           if (emailValue === document.querySelector('input[name="email"]').value) {
-            console.log('Falling back to valid status due to API error');
             setEmailValidationStatus('valid');
             setValidationMessage('Using basic validation (service unavailable)');
           }
         } finally {
-          console.log('Validation complete, setting isValidatingEmail to false');
           setIsValidatingEmail(false);
           // Clear validation message after a short delay
           setTimeout(() => {
@@ -245,7 +349,6 @@ const Contact = () => {
           }, 3000);
         }
       } else {
-        console.log('Email value changed during timeout, skipping validation');
       }
     }, 2000); // Increased to 2 seconds to reduce API calls
   };
@@ -264,6 +367,9 @@ const Contact = () => {
       setEmail('');
       setEmailError('');
       setValidationMessage('');
+      setName('');
+      setNameError('');
+      setNameValidationStatus(null);
       
       // Hide notification after delay
       setTimeout(() => {
@@ -275,9 +381,25 @@ const Contact = () => {
   const onSubmit = async (e) => {
     e.preventDefault();
     
-    // Get the email value from the form
+    // Get form values
     const formData = new FormData(e.target);
     const emailValue = formData.get('email');
+    const nameValue = formData.get('name');
+    
+    // Name validation
+    const nameValidation = validateName(nameValue);
+    if (!nameValidation.isValid) {
+      setNotification({
+        isVisible: true,
+        message: nameValidation.error,
+        type: 'error'
+      });
+      
+      setTimeout(() => {
+        setNotification(prev => ({ ...prev, isVisible: false }));
+      }, 3000);
+      return;
+    }
     
     // Basic format validation
     if (!validateEmailFormat(emailValue)) {
@@ -534,13 +656,54 @@ const Contact = () => {
                 <div className="space-y-4">
                   <div>
                     <label className="block text-gray-400 text-sm font-medium mb-2">Your Name</label>
-                    <input
-                      type="text"
-                      name="name"
-                      placeholder="Enter your full name"
-                      required
-                      className="w-full px-4 py-3 bg-gray-700/50 border border-gray-600/50 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-300"
-                    />
+                    <div className="relative">
+                      <input
+                        type="text"
+                        name="name"
+                        value={name}
+                        onChange={handleNameChange}
+                        placeholder="Enter your full name"
+                        required
+                        className={`w-full px-4 py-3 pr-12 bg-gray-700/50 border rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 transition-all duration-300 ${
+                          nameError 
+                            ? 'border-red-500 focus:ring-red-500' 
+                            : nameValidationStatus === 'valid'
+                            ? 'border-green-500 focus:ring-green-500'
+                            : 'border-gray-600/50 focus:ring-purple-500 focus:border-transparent'
+                        }`}
+                      />
+                      
+                      {/* Name validation indicator */}
+                      <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
+                        {nameValidationStatus === 'valid' ? (
+                          <svg className="h-5 w-5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                          </svg>
+                        ) : nameValidationStatus === 'invalid' ? (
+                          <svg className="h-5 w-5 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                          </svg>
+                        ) : null}
+                      </div>
+                    </div>
+                    
+                    {nameError && (
+                      <p className="text-red-400 text-sm mt-2 flex items-center">
+                        <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        {nameError}
+                      </p>
+                    )}
+                    
+                    {nameValidationStatus === 'valid' && !nameError && (
+                      <p className="text-green-400 text-sm mt-2 flex items-center">
+                        <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        Name looks good!
+                      </p>
+                    )}
                   </div>
                   
                   <div>
@@ -638,7 +801,7 @@ const Contact = () => {
 
                 <button
                   type="submit"
-                  disabled={state.submitting || emailError || isValidatingEmail || (email && emailValidationStatus !== 'valid')}
+                  disabled={state.submitting || emailError || nameError || isValidatingEmail || (email && emailValidationStatus !== 'valid') || (name && nameValidationStatus !== 'valid')}
                   className="w-full group relative inline-flex items-center justify-center px-8 py-4 text-lg font-medium text-white bg-gradient-to-r from-purple-600 to-pink-600 rounded-full hover:from-purple-700 hover:to-pink-700 transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-purple-500/25 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
                 >
                   <span className="relative z-10">
@@ -658,12 +821,12 @@ const Contact = () => {
                         </svg>
                         Validating Email...
                       </>
-                    ) : emailError || (email && emailValidationStatus !== 'valid') ? (
+                    ) : emailError || nameError || (email && emailValidationStatus !== 'valid') || (name && nameValidationStatus !== 'valid') ? (
                       <>
                         <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
-                        Please Fix Email
+                        Please Fix Errors
                       </>
                     ) : (
                       <>

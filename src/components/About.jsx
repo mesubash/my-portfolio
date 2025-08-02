@@ -3,126 +3,122 @@ import React from "react";
 const About = () => {
   return (
     <section id="about" className="py-12 sm:py-16 md:py-20 px-4 sm:px-6 lg:px-8 bg-gray-800 text-white relative">
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-6xl mx-auto">
         <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-center mb-8 sm:mb-12 md:mb-16 text-white">About Me</h2>
         
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-start">
-          {/* Left Column - Main Content */}
-          <div className="space-y-6 md:space-y-8">
+          {/* Left Column - Core Info */}
+          <div className="space-y-6">
             <div className="bg-gradient-to-br from-gray-700 to-gray-800 p-6 md:p-8 rounded-xl border border-gray-600 hover:border-purple-500 transition-all duration-300">
-              <h3 className="text-xl md:text-2xl font-bold text-purple-400 mb-4 md:mb-6 flex items-center">
-                <span className="w-2 h-6 md:h-8 bg-purple-500 mr-3 md:mr-4 rounded"></span>
-                Who I Am
+              <h3 className="text-xl md:text-2xl font-bold text-purple-400 mb-4 flex items-center">
+                <span className="w-2 h-8 bg-purple-500 mr-4 rounded"></span>
+                Software Engineer
               </h3>
-              <p className="text-gray-300 text-base md:text-lg leading-relaxed">
-                I'm a dedicated Software Engineering student with a strong passion for building impactful, real-world systems. 
-                As a full-stack developer, I've worked extensively with modern technologies to develop scalable and production-ready applications.
+              <p className="text-gray-300 text-lg leading-relaxed mb-4">
+                Full-stack developer building scalable systems with <span className="text-purple-400 font-semibold">Java Spring Boot</span>, 
+                <span className="text-emerald-400 font-semibold"> Flutter</span>, and <span className="text-blue-400 font-semibold">React</span>.
+              </p>
+              <p className="text-gray-400 text-base">
+                Currently leading <span className="text-purple-400 font-semibold">Yugo</span> - a smart public transport platform serving thousands of users in Nepal.
               </p>
             </div>
 
             <div className="bg-gradient-to-br from-gray-700 to-gray-800 p-6 md:p-8 rounded-xl border border-gray-600 hover:border-purple-500 transition-all duration-300">
-              <h3 className="text-xl md:text-2xl font-bold text-purple-400 mb-4 md:mb-6 flex items-center">
-                <span className="w-2 h-6 md:h-8 bg-purple-500 mr-3 md:mr-4 rounded"></span>
-                Recent Work
+              <h3 className="text-xl md:text-2xl font-bold text-purple-400 mb-4 flex items-center">
+                <span className="w-2 h-8 bg-purple-500 mr-4 rounded"></span>
+                What I Build
               </h3>
-              <p className="text-gray-300 text-base md:text-lg leading-relaxed">
-                Most recently, I led the development of <span className="text-purple-400 font-semibold">Yugo</span>, a smart fare collection platform for public transportation in Nepal. 
-                This involved working across backend architecture, mobile app development, and admin dashboard creation, including QR-based tap-in/out systems, wallet integration, and real-time fare calculation.
-              </p>
+              <ul className="space-y-3 text-gray-300">
+                <li className="flex items-center">
+                  <span className="w-2 h-2 bg-green-400 rounded-full mr-3"></span>
+                  RESTful APIs & Microservices
+                </li>
+                <li className="flex items-center">
+                  <span className="w-2 h-2 bg-green-400 rounded-full mr-3"></span>
+                  Cross-platform Mobile Apps
+                </li>
+                <li className="flex items-center">
+                  <span className="w-2 h-2 bg-green-400 rounded-full mr-3"></span>
+                  ML-powered Solutions
+                </li>
+                <li className="flex items-center">
+                  <span className="w-2 h-2 bg-green-400 rounded-full mr-3"></span>
+                  Production-ready Systems
+                </li>
+              </ul>
             </div>
 
-            <div className="bg-gradient-to-br from-gray-700 to-gray-800 p-6 md:p-8 rounded-xl border border-gray-600 hover:border-purple-500 transition-all duration-300">
-              <h3 className="text-xl md:text-2xl font-bold text-purple-400 mb-4 md:mb-6 flex items-center">
-                <span className="w-2 h-6 md:h-8 bg-purple-500 mr-3 md:mr-4 rounded"></span>
-                What Drives Me
-              </h3>
-              <p className="text-gray-300 text-base md:text-lg leading-relaxed">
-                I'm passionate about contributing to impactful projects, learning cutting-edge technologies, and collaborating in fast-paced environments. 
-                Currently open to learning opportunities, internships, and collaborations in backend, mobile, or full-stack development.
-              </p>
+            <div className="bg-gradient-to-br from-purple-800 to-purple-900 p-6 rounded-xl border border-purple-500 border-opacity-30">
+              <div className="text-center">
+                <p className="text-purple-200 text-lg font-medium mb-2">Talk is cheap. Show me the code.</p>
+                <p className="text-purple-300 text-sm">- Linus Torvalds</p>
+              </div>
             </div>
           </div>
 
-          {/* Right Column - Skills */}
-          <div className="space-y-6 md:space-y-8">
+          {/* Right Column - Tech Stack */}
+          <div className="space-y-6">
             <div className="bg-gradient-to-br from-gray-700 to-gray-800 p-6 md:p-8 rounded-xl border border-gray-600">
-              <h3 className="text-xl md:text-2xl font-bold text-purple-400 mb-6 md:mb-8 flex items-center">
-                <span className="w-2 h-6 md:h-8 bg-purple-500 mr-3 md:mr-4 rounded"></span>
-                Technical Skills
+              <h3 className="text-xl md:text-2xl font-bold text-purple-400 mb-6 flex items-center">
+                <span className="w-2 h-8 bg-purple-500 mr-4 rounded"></span>
+                Tech Stack
               </h3>
               
-              <div className="space-y-4 md:space-y-6">
-                <div className="group">
-                  <h4 className="text-base md:text-lg font-semibold text-white mb-2 md:mb-3 group-hover:text-purple-400 transition-colors">Core Backend Development</h4>
-                  <div className="flex flex-wrap gap-1.5 md:gap-2">
-                    {['Java (Spring Boot)', 'RESTful APIs', 'Nodejs', 'Relational Databases (PostgreSQL, MySQL)', 'Redis', 'JWT & OAuth2 Security', 'Microservices Architecture'].map((tech) => (
-                      <span key={tech} className="px-2 md:px-3 py-1 bg-purple-600 bg-opacity-20 text-purple-300 rounded-full text-xs md:text-sm border border-purple-500 border-opacity-30 hover:border-opacity-100 transition-all">
+              <div className="space-y-6">
+                {/* Backend */}
+                <div>
+                  <h4 className="text-lg font-semibold text-purple-400 mb-3">Backend</h4>
+                  <div className="flex flex-wrap gap-2">
+                    {['Java Spring Boot', 'Node.js', 'PostgreSQL', 'Redis', 'Docker'].map((tech) => (
+                      <span key={tech} className="px-3 py-1 bg-purple-600 bg-opacity-20 text-purple-300 rounded-full text-sm border border-purple-500 border-opacity-30 hover:border-opacity-100 transition-all">
                         {tech}
                       </span>
                     ))}
                   </div>
                 </div>
 
-                <div className="group">
-                  <h4 className="text-base md:text-lg font-semibold text-white mb-2 md:mb-3 group-hover:text-purple-400 transition-colors">Mobile & Cross-platform Development</h4>
-                  <div className="flex flex-wrap gap-1.5 md:gap-2">
-                    {['Flutter', 'Android Development (Java)'].map((tech) => (
-                      <span key={tech} className="px-2 md:px-3 py-1 bg-emerald-600 bg-opacity-20 text-emerald-300 rounded-full text-xs md:text-sm border border-emerald-500 border-opacity-30 hover:border-opacity-100 transition-all">
+                {/* Mobile */}
+                <div>
+                  <h4 className="text-lg font-semibold text-emerald-400 mb-3">Mobile</h4>
+                  <div className="flex flex-wrap gap-2">
+                    {['Flutter', 'Android (Java)', 'Cross-platform'].map((tech) => (
+                      <span key={tech} className="px-3 py-1 bg-emerald-600 bg-opacity-20 text-emerald-300 rounded-full text-sm border border-emerald-500 border-opacity-30 hover:border-opacity-100 transition-all">
                         {tech}
                       </span>
                     ))}
                   </div>
                 </div>
 
-                <div className="group">
-                  <h4 className="text-base md:text-lg font-semibold text-white mb-2 md:mb-3 group-hover:text-purple-400 transition-colors">Frontend Development</h4>
-                  <div className="flex flex-wrap gap-1.5 md:gap-2">
-                    {['Next.js', 'React.js', 'Tailwind CSS'].map((tech) => (
-                      <span key={tech} className="px-2 md:px-3 py-1 bg-blue-600 bg-opacity-20 text-blue-300 rounded-full text-xs md:text-sm border border-blue-500 border-opacity-30 hover:border-opacity-100 transition-all">
+                {/* Frontend */}
+                <div>
+                  <h4 className="text-lg font-semibold text-blue-400 mb-3">Frontend</h4>
+                  <div className="flex flex-wrap gap-2">
+                    {['React', 'Next.js', 'Tailwind CSS'].map((tech) => (
+                      <span key={tech} className="px-3 py-1 bg-blue-600 bg-opacity-20 text-blue-300 rounded-full text-sm border border-blue-500 border-opacity-30 hover:border-opacity-100 transition-all">
                         {tech}
                       </span>
                     ))}
                   </div>
                 </div>
 
-                <div className="group">
-                  <h4 className="text-base md:text-lg font-semibold text-white mb-2 md:mb-3 group-hover:text-purple-400 transition-colors">Machine Learning & Data Science</h4>
-                  <div className="flex flex-wrap gap-1.5 md:gap-2">
-                    {['Python', 'Scikit-learn', 'Data Preprocessing', 'Spam Message Detection', 'Air Quality Prediction', 'Model Training & Evaluation'].map((tech) => (
-                      <span key={tech} className="px-2 md:px-3 py-1 bg-indigo-600 bg-opacity-20 text-indigo-300 rounded-full text-xs md:text-sm border border-indigo-500 border-opacity-30 hover:border-opacity-100 transition-all">
+                {/* ML & Data */}
+                <div>
+                  <h4 className="text-lg font-semibold text-indigo-400 mb-3">ML & Data</h4>
+                  <div className="flex flex-wrap gap-2">
+                    {['Python', 'Scikit-learn', 'Data Analysis'].map((tech) => (
+                      <span key={tech} className="px-3 py-1 bg-indigo-600 bg-opacity-20 text-indigo-300 rounded-full text-sm border border-indigo-500 border-opacity-30 hover:border-opacity-100 transition-all">
                         {tech}
                       </span>
                     ))}
                   </div>
                 </div>
 
-                <div className="group">
-                  <h4 className="text-base md:text-lg font-semibold text-white mb-2 md:mb-3 group-hover:text-purple-400 transition-colors">DevOps & Infrastructure</h4>
-                  <div className="flex flex-wrap gap-1.5 md:gap-2">
-                    {['Git & GitHub', 'Containerization (Docker)', 'GitHub Actions (CI/CD)', 'AWS (Cloud Services)', 'Vault (Secrets Management)', 'Nginx (Reverse Proxy, URL Redirection)'].map((tech) => (
-                      <span key={tech} className="px-2 md:px-3 py-1 bg-green-600 bg-opacity-20 text-green-300 rounded-full text-xs md:text-sm border border-green-500 border-opacity-30 hover:border-opacity-100 transition-all">
-                        {tech}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="group">
-                  <h4 className="text-base md:text-lg font-semibold text-white mb-2 md:mb-3 group-hover:text-purple-400 transition-colors">System Design & Architecture</h4>
-                  <div className="flex flex-wrap gap-1.5 md:gap-2">
-                    {['Domain-Driven Design (DDD)', 'Event Logging & Audit Trails', 'API Communication via Feign Clients'].map((tech) => (
-                      <span key={tech} className="px-2 md:px-3 py-1 bg-cyan-600 bg-opacity-20 text-cyan-300 rounded-full text-xs md:text-sm border border-cyan-500 border-opacity-30 hover:border-opacity-100 transition-all">
-                        {tech}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="group">
-                  <h4 className="text-base md:text-lg font-semibold text-white mb-2 md:mb-3 group-hover:text-purple-400 transition-colors">Professional & Collaboration</h4>
-                  <div className="flex flex-wrap gap-1.5 md:gap-2">
-                    {['Agile Development (Team-based workflows)', 'Technical Documentation', 'Project Ownership & End-to-End Delivery'].map((tech) => (
-                      <span key={tech} className="px-2 md:px-3 py-1 bg-pink-600 bg-opacity-20 text-pink-300 rounded-full text-xs md:text-sm border border-pink-500 border-opacity-30 hover:border-opacity-100 transition-all">
+                {/* DevOps */}
+                <div>
+                  <h4 className="text-lg font-semibold text-green-400 mb-3">DevOps</h4>
+                  <div className="flex flex-wrap gap-2">
+                    {['AWS', 'CI/CD', 'Nginx', 'Git'].map((tech) => (
+                      <span key={tech} className="px-3 py-1 bg-green-600 bg-opacity-20 text-green-300 rounded-full text-sm border border-green-500 border-opacity-30 hover:border-opacity-100 transition-all">
                         {tech}
                       </span>
                     ))}
@@ -131,10 +127,15 @@ const About = () => {
               </div>
             </div>
 
-            <div className="bg-gradient-to-br from-purple-800 to-purple-900 p-4 md:p-6 rounded-xl border border-purple-500 border-opacity-30">
-              <div className="text-center">
-                <p className="text-purple-200 text-base md:text-lg font-medium mb-1 md:mb-2">Full-Stack Experience</p>
-                <p className="text-purple-300 text-sm">From RESTful APIs to Mobile Apps</p>
+            {/* Quick Stats */}
+            <div className="grid grid-cols-2 gap-4">
+              <div className="bg-gradient-to-br from-gray-700 to-gray-800 p-4 rounded-xl border border-gray-600 text-center">
+                <div className="text-2xl font-bold text-purple-400">3+</div>
+                <div className="text-sm text-gray-400">Years Coding</div>
+              </div>
+              <div className="bg-gradient-to-br from-gray-700 to-gray-800 p-4 rounded-xl border border-gray-600 text-center">
+                <div className="text-2xl font-bold text-emerald-400">10+</div>
+                <div className="text-sm text-gray-400">Projects Built</div>
               </div>
             </div>
           </div>
