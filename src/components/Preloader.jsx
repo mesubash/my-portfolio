@@ -16,14 +16,9 @@ const Preloader = () => {
           <div className="loader-core"></div>
         </div>
         
-        {/* Loading text with animated dots */}
+        {/* Simple loading text without dots */}
         <div className="loading-text-container">
           <p className="loading-text">Loading</p>
-          <div className="loading-dots">
-            <span className="dot">●</span>
-            <span className="dot">●</span>
-            <span className="dot">●</span>
-          </div>
         </div>
       </div>
     </div>
