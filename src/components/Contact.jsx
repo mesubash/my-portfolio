@@ -11,6 +11,26 @@ const Contact = () => {
     message: '',
     type: ''
   });
+  const [emailError, setEmailError] = useState('');
+  const [email, setEmail] = useState('');
+
+  // Email validation function
+  const validateEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  // Handle email input change
+  const handleEmailChange = (e) => {
+    const emailValue = e.target.value;
+    setEmail(emailValue);
+    
+    if (emailValue && !validateEmail(emailValue)) {
+      setEmailError('Please enter a valid email address');
+    } else {
+      setEmailError('');
+    }
+  };
 
   useEffect(() => {
     if (state.succeeded) {
@@ -33,6 +53,24 @@ const Contact = () => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
+    
+    // Validate email before submission
+    const formData = new FormData(e.target);
+    const emailValue = formData.get('email');
+    
+    if (!validateEmail(emailValue)) {
+      setNotification({
+        isVisible: true,
+        message: 'Please enter a valid email address',
+        type: 'error'
+      });
+      
+      setTimeout(() => {
+        setNotification(prev => ({ ...prev, isVisible: false }));
+      }, 3000);
+      return;
+    }
+    
     try {
       await handleSubmit(e);
     } catch (error) {
@@ -84,10 +122,19 @@ const Contact = () => {
           <input
             type="email"
             name="email"
+            value={email}
+            onChange={handleEmailChange}
             placeholder="Your Email"
             required
-            className="w-full px-8 py-5 text-xl bg-gray-600 text-white placeholder-gray-400 border border-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent focus:text-gray-800 transition-all duration-300 hover:shadow-purple-600 hover:shadow-lg relative bg-cover bg-center rounded-lg"
+            className={`w-full px-8 py-5 text-xl bg-gray-600 text-white placeholder-gray-400 border rounded-lg focus:outline-none focus:ring-2 transition-all duration-300 hover:shadow-purple-600 hover:shadow-lg relative bg-cover bg-center ${
+              emailError 
+                ? 'border-red-500 focus:ring-red-500' 
+                : 'border-gray-500 focus:ring-purple-500 focus:border-transparent focus:text-gray-800'
+            }`}
           />
+          {emailError && (
+            <p className="text-red-400 text-sm mt-2">{emailError}</p>
+          )}
           <ValidationError field="email" prefix="Email" errors={state.errors} className="text-red-500 text-xl" />
         </div>
 
