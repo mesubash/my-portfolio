@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { Mail, Twitter, Linkedin, Github, Instagram, Terminal, Code2 } from "lucide-react";
 import { Tooltip as ReactTooltip } from "react-tooltip";
+import TerminalComponent from "./Terminal";
 
 const Footer = () => {
   const [copied, setCopied] = useState(false);
+  const [isTerminalOpen, setIsTerminalOpen] = useState(false);
 
   const copyEmail = async () => {
     try {
@@ -123,9 +125,19 @@ const Footer = () => {
         {/* Bottom Section */}
         <div className="pt-8 border-t border-gray-800">
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-            <p className="text-gray-500 font-mono text-xs">
-              © {new Date().getFullYear()} • crafted with ❤️ and ☕
-            </p>
+            <div className="flex items-center space-x-4">
+              <p className="text-gray-500 font-mono text-xs">
+                © {new Date().getFullYear()} • crafted with ❤️ and ☕
+              </p>
+              <button
+                onClick={() => setIsTerminalOpen(true)}
+                className="flex items-center px-2 py-1 bg-gray-800 hover:bg-green-600 border border-gray-700 hover:border-green-500 text-gray-400 hover:text-white rounded transition-all duration-300 font-mono text-xs"
+                title="Open Terminal"
+              >
+                <Terminal className="w-3 h-3 mr-1" />
+                cli
+              </button>
+            </div>
             <p className="text-gray-500 font-mono text-xs">
               // powered by react + vite
             </p>
@@ -143,6 +155,12 @@ const Footer = () => {
           className="!bg-gray-800 !text-green-400 !border !border-gray-700 !rounded-md !px-3 !py-2 !font-mono !text-xs"
         />
       ))}
+
+      {/* Interactive Terminal */}
+      <TerminalComponent 
+        isOpen={isTerminalOpen} 
+        onClose={() => setIsTerminalOpen(false)} 
+      />
     </footer>
   );
 };

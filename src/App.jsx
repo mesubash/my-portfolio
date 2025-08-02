@@ -30,22 +30,13 @@ const App = () => {
     };
   }, []);
   useEffect(() => {
-    const MINIMUM_LOADING_TIME = 3000; // Minimum time for the preloader (3 seconds)
-    const startTime = Date.now();
+    const LOADING_TIME = 2000; // Show preloader for exactly 2 seconds
+    
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, LOADING_TIME);
 
-    const img = new Image();
-    img.src = "/assets/profile.webp"; 
-    img.onload = () => {
-      const elapsedTime = Date.now() - startTime;
-      const remainingTime = Math.max(0, MINIMUM_LOADING_TIME - elapsedTime);
-
-      setTimeout(() => setIsLoading(false), remainingTime);
-    };
-
-    // Fallback in case the image fails to load
-    const timeout = setTimeout(() => setIsLoading(false), MINIMUM_LOADING_TIME + 2000); // Extra 2 seconds fallback
-
-    return () => clearTimeout(timeout);
+    return () => clearTimeout(timer);
   }, []);
 
 

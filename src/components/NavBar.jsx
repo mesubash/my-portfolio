@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Home, User, Code2, Mail, FileDown, Briefcase, Menu, X, Terminal } from "lucide-react";
+import TerminalComponent from "./Terminal";
 
 const NavBar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState('landingpage');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isTerminalOpen, setIsTerminalOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -80,8 +82,20 @@ const NavBar = () => {
             </li>
           ))}
 
+          {/* Terminal Button */}
+          <li className="ml-2">
+            <button 
+              onClick={() => setIsTerminalOpen(true)}
+              className="flex items-center px-4 py-2 bg-gray-800/50 hover:bg-green-600 text-gray-300 hover:text-white rounded-lg transition-all duration-300 font-mono text-sm border border-gray-600 hover:border-green-500"
+              title="Open Interactive Terminal"
+            >
+              <Terminal className="w-4 h-4 mr-2" />
+              terminal
+            </button>
+          </li>
+
           {/* Minimalist CV Download */}
-          <li className="ml-4">
+          <li className="ml-2">
             <a 
               href="assets/Subash_Singh_Dhami_Resume.pdf" 
               download
@@ -126,6 +140,20 @@ const NavBar = () => {
             </li>
           ))}
           
+          {/* Mobile Terminal Button */}
+          <li>
+            <button 
+              onClick={() => {
+                setIsTerminalOpen(true);
+                closeMobileMenu();
+              }}
+              className="flex items-center w-full px-4 py-3 bg-gray-800/50 hover:bg-green-600 text-gray-300 hover:text-white rounded-lg transition-all duration-300 font-mono text-sm border border-gray-600"
+            >
+              <Terminal className="w-4 h-4 mr-3" />
+              <span>terminal</span>
+            </button>
+          </li>
+
           {/* Mobile CV Download */}
           <li className="pt-2 border-t border-gray-700/30">
             <a 
@@ -140,6 +168,12 @@ const NavBar = () => {
           </li>
         </ul>
       </div>
+
+      {/* Interactive Terminal */}
+      <TerminalComponent 
+        isOpen={isTerminalOpen} 
+        onClose={() => setIsTerminalOpen(false)} 
+      />
     </header>
   );
 };
