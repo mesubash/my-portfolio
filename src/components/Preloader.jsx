@@ -5,7 +5,7 @@ const Preloader = () => {
   return (
     <div className="preloader">
       <div className="loader-container">
-        {/* Minimal geometric loader */}
+        {/* Single elegant geometric loader */}
         <div className="geometric-loader">
           <div className="loader-ring">
             <div className="ring-segment"></div>
@@ -16,19 +16,14 @@ const Preloader = () => {
           <div className="loader-core"></div>
         </div>
         
-        {/* Progress bar */}
-        <div className="progress-container">
-          <div className="progress-bar">
-            <div className="progress-fill"></div>
-          </div>
+        {/* Loading text with animated dots */}
+        <div className="loading-text-container">
           <p className="loading-text">Loading</p>
-        </div>
-        
-        {/* Minimal dots indicator */}
-        <div className="dots-indicator">
-          <div className="dot"></div>
-          <div className="dot"></div>
-          <div className="dot"></div>
+          <div className="loading-dots">
+            <span className="dot">.</span>
+            <span className="dot">.</span>
+            <span className="dot">.</span>
+          </div>
         </div>
       </div>
     </div>

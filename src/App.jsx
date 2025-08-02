@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { FaArrowUp } from "react-icons/fa";
+import { ArrowUp, Terminal } from "lucide-react";
 import { Tooltip as ReactTooltip } from "react-tooltip";
 import About from "./components/About";
 import Projects from "./components/Projects";
@@ -95,24 +95,24 @@ const App = () => {
           </section>
         </main>
 
-        {/* Go to Top Button with Tooltip */}
+        {/* Enhanced Developer-Style Go to Top Button */}
         {showScrollToTop && (
           <button
             onClick={scrollToTop}
-            className="fixed bottom-5 right-5 p-4 bg-gray-600 text-white rounded-full shadow-lg hover:bg-purple-600 hover:scale-125 transition-all duration-300 z-40"
+            className="fixed bottom-6 right-6 group flex items-center justify-center w-12 h-12 bg-gray-800/90 hover:bg-purple-600 border border-gray-600 hover:border-purple-400 text-gray-300 hover:text-white rounded-lg backdrop-blur-sm shadow-lg hover:shadow-purple-500/25 transition-all duration-300 z-40"
             data-tooltip-id="go-to-top-tooltip"
-            data-tooltip-content="Go to Top"
+            data-tooltip-content="$ cd ~"
           >
-            <FaArrowUp />
+            <ArrowUp className="w-5 h-5 group-hover:scale-110 transition-transform duration-300" />
           </button>
         )}
 
-        {/* Tooltip for Go to Top Button */}
+        {/* Enhanced Tooltip */}
         <ReactTooltip
           id="go-to-top-tooltip"
           place="left"
           effect="solid"
-          className="!bg-gray-800 !text-white !rounded-md !px-2 !py-1"
+          className="!bg-gray-900 !text-green-400 !border !border-gray-700 !rounded-md !px-3 !py-2 !font-mono !text-sm"
         />
 
         <Footer />

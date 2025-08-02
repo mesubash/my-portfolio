@@ -1,126 +1,148 @@
 import React, { useState } from "react";
-import { FaEnvelope, FaTwitter, FaLinkedin, FaGithub, FaInstagram } from "react-icons/fa";
+import { Mail, Twitter, Linkedin, Github, Instagram, Terminal, Code2 } from "lucide-react";
 import { Tooltip as ReactTooltip } from "react-tooltip";
 
 const Footer = () => {
-  const [copied, setCopied] = useState(false); // State to track if email is copied
+  const [copied, setCopied] = useState(false);
 
-  // Function to copy email to clipboard
   const copyEmail = async () => {
     try {
       await navigator.clipboard.writeText("subashdhamee@gmail.com");
-      setCopied(true); // Update state to show "Copied!"
-      setTimeout(() => setCopied(false), 2000); // Reset after 2 seconds
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
     } catch (err) {
       console.error("Failed to copy email: ", err);
     }
   };
 
+  const socialLinks = [
+    { 
+      href: "mailto:subashdhamee@gmail.com", 
+      Icon: Mail, 
+      label: "email", 
+      tooltip: copied ? "copied!" : "subashdhamee@gmail.com",
+      onClick: copyEmail,
+      special: true
+    },
+    { 
+      href: "https://github.com/mesubash", 
+      Icon: Github, 
+      label: "github", 
+      tooltip: "/mesubash" 
+    },
+    { 
+      href: "https://www.linkedin.com/in/subashsdhami/", 
+      Icon: Linkedin, 
+      label: "linkedin", 
+      tooltip: "/in/subashsdhami" 
+    },
+    { 
+      href: "https://x.com/subashdhamee", 
+      Icon: Twitter, 
+      label: "twitter", 
+      tooltip: "@subashdhamee" 
+    },
+    { 
+      href: "https://www.instagram.com/da.subashh/", 
+      Icon: Instagram, 
+      label: "instagram", 
+      tooltip: "@da.subashh" 
+    },
+  ];
+
+  const quickLinks = [
+    { href: "#landingpage", text: "home" },
+    { href: "#about", text: "about" },
+    { href: "#projects", text: "projects" },
+    { href: "#hire-me", text: "hire" },
+    { href: "#contact", text: "contact" },
+  ];
+
   return (
-    <footer className="footer footer-center bg-base-200 text-base-content rounded p-10">
-      <nav className="grid grid-flow-col gap-4">
-        <a href="#landingpage" className="link link-hover">Home</a>
-        <a href="#about" className="link link-hover">About Me</a>
-        <a href="#projects" className="link link-hover">Projects</a>
-        <a href="#contact" className="link link-hover">Contact Me</a>
-      </nav>
-      <nav>
-        <div className="grid grid-flow-col gap-8">
-          {/* Email Link with Copiable Tooltip */}
-          <div
-            data-tooltip-id="email-tooltip"
-            data-tooltip-content={copied ? "Copied!" : "subashdhamee@gmail.com"}
-          >
-            <a
-              href="mailto:subashdhamee@gmail.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-purple-500 transform hover:scale-150 hover:rotate-12 transition-transform duration-300"
-            >
-              <FaEnvelope className="w-6 h-6 fill-current" />
-            </a>
+    <footer className="bg-gray-900 border-t border-gray-800">
+      <div className="max-w-6xl mx-auto px-6 py-12">
+        {/* Main Footer Content */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+          {/* Brand Section */}
+          <div className="space-y-4">
+            <div className="flex items-center space-x-2">
+              <Terminal className="w-5 h-5 text-purple-400" />
+              <span className="text-white font-mono text-lg font-medium">dev.portfolio</span>
+            </div>
+            <p className="text-gray-400 text-sm font-mono leading-relaxed">
+              // Building digital experiences<br />
+              // One line of code at a time
+            </p>
           </div>
 
-          {/* Other Social Links with Normal Hover */}
-          <a
-            href="https://x.com/subashdhamee"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hover:text-purple-500 transform hover:scale-150 hover:rotate-12 transition-transform duration-300"
-            data-tooltip-id="twitter-tooltip"
-            data-tooltip-content="Twitter"
-          >
-            <FaTwitter className="w-6 h-6 fill-current" />
-          </a>
+          {/* Quick Navigation */}
+          <div className="space-y-4">
+            <h3 className="text-white font-mono text-sm font-medium flex items-center">
+              <Code2 className="w-4 h-4 mr-2 text-purple-400" />
+              navigation
+            </h3>
+            <nav className="grid grid-cols-2 gap-2">
+              {quickLinks.map(({ href, text }) => (
+                <a
+                  key={text}
+                  href={href}
+                  className="text-gray-400 hover:text-purple-400 font-mono text-sm transition-colors duration-300 hover:translate-x-1 transform"
+                >
+                  ./{text}
+                </a>
+              ))}
+            </nav>
+          </div>
 
-          <a
-            href="https://www.linkedin.com/in/subashsdhami/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hover:text-purple-500 transform hover:scale-150 hover:-rotate-12 transition-transform duration-400"
-            data-tooltip-id="linkedin-tooltip"
-            data-tooltip-content="LinkedIn"
-          >
-            <FaLinkedin className="w-6 h-6 fill-current" />
-          </a>
-
-          <a
-            href="https://github.com/mesubash"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hover:text-purple-500 transform hover:scale-150 hover:rotate-12 transition-transform duration-300"
-            data-tooltip-id="github-tooltip"
-            data-tooltip-content="GitHub"
-          >
-            <FaGithub className="w-6 h-6 fill-current" />
-          </a>
-
-          <a
-            href="https://www.instagram.com/da.subashh/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hover:text-purple-500 transform hover:scale-150 hover:-rotate-12 transition-transform duration-300"
-            data-tooltip-id="instagram-tooltip"
-            data-tooltip-content="Instagram"
-          >
-            <FaInstagram className="w-6 h-6 fill-current" />
-          </a>
+          {/* Social Links */}
+          <div className="space-y-4">
+            <h3 className="text-white font-mono text-sm font-medium flex items-center">
+              <Terminal className="w-4 h-4 mr-2 text-purple-400" />
+              connect
+            </h3>
+            <div className="flex flex-wrap gap-3">
+              {socialLinks.map(({ href, Icon, label, tooltip, onClick, special }) => (
+                <div key={label}>
+                  <a
+                    href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={special ? onClick : undefined}
+                    className="flex items-center justify-center w-10 h-10 bg-gray-800 hover:bg-purple-600 border border-gray-700 hover:border-purple-400 text-gray-400 hover:text-white rounded-lg transition-all duration-300 group"
+                    data-tooltip-id={`${label}-tooltip`}
+                    data-tooltip-content={tooltip}
+                  >
+                    <Icon className="w-4 h-4 group-hover:scale-110 transition-transform duration-300" />
+                  </a>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
-      </nav>
 
-      {/* Tooltips */}
-      <ReactTooltip
-        id="email-tooltip"
-        place="top"
-        effect="solid"
-        delayShow={200} // Delay before showing the tooltip
-        delayHide={200} // Delay before hiding the tooltip
-        clickable // Allow tooltip to stay open when clicked
-        className="cursor-pointer" // Make tooltip clickable
-        globalEventOff="click" // Close tooltip on click outside
-        afterShow={() => {
-          // Add click event listener to the tooltip content
-          const tooltipContent = document.querySelector("#email-tooltip");
-          if (tooltipContent) {
-            tooltipContent.addEventListener("click", copyEmail);
-          }
-        }}
-        afterHide={() => {
-          // Remove click event listener from the tooltip content
-          const tooltipContent = document.querySelector("#email-tooltip");
-          if (tooltipContent) {
-            tooltipContent.removeEventListener("click", copyEmail);
-          }
-        }}
-      />
-      <ReactTooltip id="twitter-tooltip" place="top" effect="solid" />
-      <ReactTooltip id="linkedin-tooltip" place="top" effect="solid" />
-      <ReactTooltip id="github-tooltip" place="top" effect="solid" />
-      <ReactTooltip id="instagram-tooltip" place="top" effect="solid" />
+        {/* Bottom Section */}
+        <div className="pt-8 border-t border-gray-800">
+          <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
+            <p className="text-gray-500 font-mono text-xs">
+              © {new Date().getFullYear()} • crafted with ❤️ and ☕
+            </p>
+            <p className="text-gray-500 font-mono text-xs">
+              // powered by react + vite
+            </p>
+          </div>
+        </div>
+      </div>
 
-      <aside>
-        <p>Copyright © {new Date().getFullYear()} - All right reserved.</p>
-      </aside>
+      {/* Enhanced Tooltips */}
+      {socialLinks.map(({ label, tooltip }) => (
+        <ReactTooltip
+          key={label}
+          id={`${label}-tooltip`}
+          place="top"
+          effect="solid"
+          className="!bg-gray-800 !text-green-400 !border !border-gray-700 !rounded-md !px-3 !py-2 !font-mono !text-xs"
+        />
+      ))}
     </footer>
   );
 };
