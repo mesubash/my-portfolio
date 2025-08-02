@@ -10,6 +10,7 @@ import LandingPage from "./components/LandingPage";
 import "./App.css";
 import Navbar from "./components/NavBar";
 import Preloader from "./components/Preloader";
+import HireMe from "./components/HireMe";
 
 const App = () => {
   const [showScrollToTop, setShowScrollToTop] = useState(false);
@@ -78,6 +79,11 @@ const App = () => {
           {/* Projects Section */}
           <section id="projects" className="bg-gray-800 pt-20 -mt-18">
             <Projects />
+          </section>
+
+          {/* Hire Me Section */}
+          <section id="hire-me" className="bg-gray-800">
+            <HireMe />
           </section>
 
           {/* Contact Section */}
