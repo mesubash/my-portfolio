@@ -82,20 +82,18 @@ const LandingPage = () => {
             
             <a
               href="/assets/Subash_Singh_Dhami_Resume.pdf" 
-              target="_blank"
-              rel="noopener noreferrer"
+              download
               className="inline-flex items-center justify-center px-8 py-4 text-lg font-medium text-gray-300 hover:text-white border-2 border-gray-600 hover:border-gray-400 rounded-full transition-all duration-300 hover:scale-105"
             >
-              View CV
+              Download CV
             </a>
           </div>
 
-        </div>
-
-        {/* Scroll Indicator - Fixed positioning */}
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
-          <div className="w-6 h-10 border-2 border-gray-600 rounded-full flex justify-center items-start pt-2">
-            <div className="w-1 h-3 bg-purple-400 rounded-full animate-pulse"></div>
+          {/* Scroll Indicator */}
+          <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+            <div className="w-6 h-10 border-2 border-gray-600 rounded-full flex justify-center">
+              <div className="w-1 h-3 bg-purple-400 rounded-full mt-2 animate-pulse"></div>
+            </div>
           </div>
         </div>
       </div>

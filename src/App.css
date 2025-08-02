@@ -8,6 +8,18 @@ body, html, #root {
   width: 100%; /* Ensure full width */
   min-height: 100vh; /* Ensure full height */
   box-sizing: border-box; 
+  display: flex;
+  flex-direction: column;
+}oot {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.app-container {
+  width: 100%; /* Ensure full width */
+  min-height: 100vh; /* Ensure full height */
+  box-sizing: border-box; 
   text-align: center;
   display: flex;
   flex-direction: column;

@@ -67,9 +67,7 @@ const App = () => {
 
         <main className="relative">
           {/* Landing Page Section */}
-          <section id="landingpage" className="relative">
-            <LandingPage />
-          </section>
+          <LandingPage />
 
           {/* About Section */}
           <section id="about" className="bg-gray-800 pt-20 -mt-18">
