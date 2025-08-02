@@ -16,6 +16,14 @@ const App = () => {
   const [showScrollToTop, setShowScrollToTop] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
+  // Clear hash on initial load if preloader is showing
+  useEffect(() => {
+    if (isLoading && window.location.hash) {
+      const currentUrl = window.location.href.split('#')[0];
+      window.history.replaceState(null, null, currentUrl);
+    }
+  }, []);
+
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 0) {
@@ -34,6 +42,12 @@ const App = () => {
     
     const timer = setTimeout(() => {
       setIsLoading(false);
+      // Clear any hash from URL after loading completes
+      if (window.location.hash) {
+        // Use history.replaceState to clear hash without affecting browser history
+        const currentUrl = window.location.href.split('#')[0];
+        window.history.replaceState(null, null, currentUrl);
+      }
     }, LOADING_TIME);
 
     return () => clearTimeout(timer);
