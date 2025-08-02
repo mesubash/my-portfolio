@@ -5,12 +5,31 @@ const Preloader = () => {
   return (
     <div className="preloader">
       <div className="loader-container">
-        <div className="loader">
-          {[...Array(8)].map((_, i) => (
-            <div key={i} className="loader-dot" style={{ '--i': i }}></div>
-          ))}
+        {/* Minimal geometric loader */}
+        <div className="geometric-loader">
+          <div className="loader-ring">
+            <div className="ring-segment"></div>
+            <div className="ring-segment"></div>
+            <div className="ring-segment"></div>
+            <div className="ring-segment"></div>
+          </div>
+          <div className="loader-core"></div>
         </div>
-        <p className="loader-text">Building Experience</p>
+        
+        {/* Progress bar */}
+        <div className="progress-container">
+          <div className="progress-bar">
+            <div className="progress-fill"></div>
+          </div>
+          <p className="loading-text">Loading</p>
+        </div>
+        
+        {/* Minimal dots indicator */}
+        <div className="dots-indicator">
+          <div className="dot"></div>
+          <div className="dot"></div>
+          <div className="dot"></div>
+        </div>
       </div>
     </div>
   );
