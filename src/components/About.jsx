@@ -1,118 +1,106 @@
-import React, { useEffect, useRef } from "react";
+import React from "react";
 import Skills from "./Skills";
 
 const About = () => {
-  const typedRef = useRef(null);
-  const sectionRef = useRef(null);
-
-  useEffect(() => {
-    const strings = [
-      "I'm a passionate web developer with experience in building modern web applications.",
-      "I have worked with various tech stacks including Spring Boot, Android Studio, and React.",
-      "Currently pursuing a degree in Software Engineering.",
-      "Experienced in developing backend services using Spring Boot.",
-      "Familiar with mobile app development using Android Studio.",
-      "Passionate about learning new technologies and improving my skills.",
-      "Enjoy working on both front-end and back-end development.",
-      "Strong problem-solving skills and attention to detail."
-    ];
-    
-    let typing = false;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting && !typing) {
-          typing = true;
-          startTyping();
-        }
-      },
-      { threshold: 0.5 }
-    );
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
-    const startTyping = () => {
-      if (!typedRef.current) {
-        let currentStringIndex = 0;
-        let currentCharIndex = 0;
-        const typingSpeed = 50;
-        const newLineDelay = 1000;
-        const cursorChar = "|";
-
-        const typedContainer = document.querySelector(".typed-about");
-        typedContainer.innerHTML = `<div id="line-0" class="flex justify-start leading-normal"><span class='text-purple-500'>➤</span> ${cursorChar}</div>`;
-
-        const type = () => {
-          if (!typedRef.current) return;
-
-          if (currentStringIndex < strings.length) {
-            const currentString = strings[currentStringIndex];
-            if (currentCharIndex < currentString.length) {
-              const currentLine = document.querySelector(`#line-${currentStringIndex}`);
-              if (currentLine) {
-                currentLine.innerHTML = `<span class='text-purple-500'>➤</span> ${currentString.substring(0, currentCharIndex + 1)}${cursorChar}`;
-                currentCharIndex++;
-                setTimeout(type, typingSpeed);
-              }
-            } else {
-              const currentLine = document.querySelector(`#line-${currentStringIndex}`);
-              currentLine.innerHTML = `<span class='text-purple-500'>➤</span> ${strings[currentStringIndex]}`;
-              
-              currentStringIndex++;
-              currentCharIndex = 0;
-              if (currentStringIndex < strings.length) {
-                const newLine = document.createElement('div');
-                newLine.id = `line-${currentStringIndex}`;
-                newLine.className = 'flex justify-start leading-normal';
-                newLine.innerHTML = `<span class='text-purple-500'>➤</span> ${cursorChar}`;
-                typedContainer.appendChild(newLine);
-                setTimeout(type, newLineDelay);
-              } else {
-                const lastLine = document.querySelector(`#line-${currentStringIndex - 1}`);
-                lastLine.innerHTML = `<span class='text-purple-500'>➤</span> ${strings[currentStringIndex - 1]}<span class="typed-cursor-about">${cursorChar}</span>`;
-              }
-            }
-          }
-        };
-
-        typedRef.current = true;
-        type();
-      }
-    };
-
-    return () => {
-      observer.disconnect();
-      typedRef.current = null;
-    };
-  }, []);
-
   return (
-    <section ref={sectionRef} id="about" className="py-25 px-4 bg-gray-800 text-white relative">
-      <h2 className="text-4xl font-bold text-center mb-8">About Me</h2>
-      
-      <div className="w-2/3 mx-auto bg-gray-800 shadow-lg rounded-lg p-8 flex flex-col justify-start items-start mb-24">
-        <div className="text-2xl text-left typed-about font-mono space-y-1"></div>
+    <section id="about" className="py-20 px-4 bg-gray-800 text-white relative">
+      <div className="max-w-6xl mx-auto">
+        <h2 className="text-5xl font-bold text-center mb-16 text-white">About Me</h2>
+        
+        <div className="grid lg:grid-cols-2 gap-12 items-start">
+          {/* Left Column - Main Content */}
+          <div className="space-y-8">
+            <div className="bg-gradient-to-br from-gray-700 to-gray-800 p-8 rounded-xl border border-gray-600 hover:border-purple-500 transition-all duration-300">
+              <h3 className="text-2xl font-bold text-purple-400 mb-6 flex items-center">
+                <span className="w-2 h-8 bg-purple-500 mr-4 rounded"></span>
+                Who I Am
+              </h3>
+              <p className="text-gray-300 text-lg leading-relaxed">
+                I'm a dedicated Software Engineering student with a strong passion for building impactful, real-world systems. 
+                As a full-stack developer, I've worked extensively with modern technologies to develop scalable and production-ready applications.
+              </p>
+            </div>
+
+            <div className="bg-gradient-to-br from-gray-700 to-gray-800 p-8 rounded-xl border border-gray-600 hover:border-purple-500 transition-all duration-300">
+              <h3 className="text-2xl font-bold text-purple-400 mb-6 flex items-center">
+                <span className="w-2 h-8 bg-purple-500 mr-4 rounded"></span>
+                Recent Work
+              </h3>
+              <p className="text-gray-300 text-lg leading-relaxed">
+                Most recently, I led the development of <span className="text-purple-400 font-semibold">Yugo</span>, a smart fare collection platform for public transportation in Nepal. 
+                This involved working across backend architecture, mobile app development, and admin dashboard creation, including QR-based tap-in/out systems, wallet integration, and real-time fare calculation.
+              </p>
+            </div>
+
+            <div className="bg-gradient-to-br from-gray-700 to-gray-800 p-8 rounded-xl border border-gray-600 hover:border-purple-500 transition-all duration-300">
+              <h3 className="text-2xl font-bold text-purple-400 mb-6 flex items-center">
+                <span className="w-2 h-8 bg-purple-500 mr-4 rounded"></span>
+                What Drives Me
+              </h3>
+              <p className="text-gray-300 text-lg leading-relaxed">
+                I'm passionate about contributing to impactful projects, learning cutting-edge technologies, and collaborating in fast-paced environments. 
+                Currently open to learning opportunities, internships, and collaborations in backend, mobile, or full-stack development.
+              </p>
+            </div>
+          </div>
+
+          {/* Right Column - Tech Stack */}
+          <div className="space-y-8">
+            <div className="bg-gradient-to-br from-gray-700 to-gray-800 p-8 rounded-xl border border-gray-600">
+              <h3 className="text-2xl font-bold text-purple-400 mb-8 flex items-center">
+                <span className="w-2 h-8 bg-purple-500 mr-4 rounded"></span>
+                Tech Stack
+              </h3>
+              
+              <div className="space-y-6">
+                <div className="group">
+                  <h4 className="text-lg font-semibold text-white mb-3 group-hover:text-purple-400 transition-colors">Backend Development</h4>
+                  <div className="flex flex-wrap gap-2">
+                    {['Spring Boot', 'Java', 'PostgreSQL', 'Redis', 'RESTful APIs'].map((tech) => (
+                      <span key={tech} className="px-3 py-1 bg-purple-600 bg-opacity-20 text-purple-300 rounded-full text-sm border border-purple-500 border-opacity-30 hover:border-opacity-100 transition-all">
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="group">
+                  <h4 className="text-lg font-semibold text-white mb-3 group-hover:text-purple-400 transition-colors">Frontend & Mobile</h4>
+                  <div className="flex flex-wrap gap-2">
+                    {['React.js', 'Tailwind CSS', 'Flutter', 'JavaScript', 'Responsive Design'].map((tech) => (
+                      <span key={tech} className="px-3 py-1 bg-blue-600 bg-opacity-20 text-blue-300 rounded-full text-sm border border-blue-500 border-opacity-30 hover:border-opacity-100 transition-all">
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="group">
+                  <h4 className="text-lg font-semibold text-white mb-3 group-hover:text-purple-400 transition-colors">DevOps & Tools</h4>
+                  <div className="flex flex-wrap gap-2">
+                    {['Docker', 'Git', 'NGINX', 'Microservices', 'Database Design'].map((tech) => (
+                      <span key={tech} className="px-3 py-1 bg-green-600 bg-opacity-20 text-green-300 rounded-full text-sm border border-green-500 border-opacity-30 hover:border-opacity-100 transition-all">
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-gradient-to-br from-purple-800 to-purple-900 p-6 rounded-xl border border-purple-500 border-opacity-30">
+              <div className="text-center">
+                <p className="text-purple-200 text-lg font-medium mb-2">Full-Stack Experience</p>
+                <p className="text-purple-300 text-sm">From RESTful APIs to Mobile Apps</p>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-      <div className="relative z-10 -mt-16 mb-16">
+      
+      <div className="mt-20">
         <Skills />
       </div>
-      <style>
-        {`
-          .typed-cursor-about {
-            color: #ffffff;
-            display: inline-block;
-            vertical-align: middle;
-            animation: blink 1s step-end infinite;
-          }
-
-          @keyframes blink {
-            from, to { opacity: 1; }
-            50% { opacity: 0; }
-          }
-        `}
-      </style>
     </section>
   );
 };
