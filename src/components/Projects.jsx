@@ -13,74 +13,111 @@ const Projects = () => {
   }, []);
 
   return (
-    <section id="projects" className="min-h-screen py-12 bg-gray-800 px-4">
-      <h2 
-        className="text-3xl font-bold text-center text-base-content"
-        data-aos="fade-down"
-      >
-        My Projects
-      </h2>
-      <div className="container mx-auto max-w-8xl">
-        <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-y-8 gap-x-4">
+    <section id="projects" className="min-h-screen py-20 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 relative">
+      {/* Background Pattern */}
+      <div 
+        className="absolute inset-0 opacity-5"
+        style={{
+          backgroundImage: `radial-gradient(circle at 2px 2px, rgba(139, 92, 246, 0.3) 1px, transparent 0)`,
+          backgroundSize: '40px 40px'
+        }}
+      />
+      
+      <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Section Header */}
+        <div className="text-center mb-16" data-aos="fade-down">
+          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-4">
+            My <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400">Projects</span>
+          </h2>
+          <div className="w-24 h-1 bg-gradient-to-r from-purple-500 to-pink-500 mx-auto rounded-full mb-6"></div>
+          <p className="text-xl text-gray-400 max-w-2xl mx-auto leading-relaxed">
+            A collection of projects showcasing my expertise in full-stack development, 
+            machine learning, and modern web technologies.
+          </p>
+        </div>
+
+        {/* Projects Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 max-w-7xl mx-auto">
           <div data-aos="fade-up" data-aos-delay="100">
             <ProjectCard
               title="Yugo: Smart Mobility Platform"
               description="A production-ready QR-based fare collection system for public transport, developed using Flutter, Spring Boot, and PostgreSQL. Features include digital wallet integration (Khalti), token-based tap-in/out, admin dashboard, and microservices architecture. Built in collaboration with a 4-member team."
               image="./assets/project/yugo_logo.png"
+              tags={["Flutter", "Spring Boot", "PostgreSQL", "Microservices"]}
               github="" 
+              featured={true}
             />
           </div>
 
-          <div data-aos="fade-up" data-aos-delay="100">
-          <ProjectCard
+          <div data-aos="fade-up" data-aos-delay="200">
+            <ProjectCard
               title="QuizMaster"
               description="A quiz application developed with Spring Boot for the backend and Next.js for the frontend. The backend is complete, and I am currently working on the frontend, which includes implementing authentication and enhancing the user interface."
               image="./assets/project/brain.png"
+              tags={["Spring Boot", "Next.js", "Authentication"]}
               github="https://github.com/mesubash/Quiz-App"
             />
           </div>
-          <div data-aos="fade-up" data-aos-delay="100">
-            
-            <ProjectCard
-              title="NepEducation"
-              description="A simple learning platform developed using PHP, HTML/CSS, JS."
-              image="./assets/project/private.png"
-              github="https://github.com/mesubash/NepEducation"
-            />
-          </div>
-          <div data-aos="fade-up" data-aos-delay="200">
+
+          <div data-aos="fade-up" data-aos-delay="300">
             <ProjectCard
               title="SMS Spam Detection"
-              description="SMS spam detection using ML in python with Docker,FastAPI and Streamlit."
+              description="SMS spam detection using ML in python with Docker, FastAPI and Streamlit."
               image="./assets/project/spam-detection.png"
+              tags={["Python", "Machine Learning", "Docker", "FastAPI"]}
               github="https://github.com/mesubash/sms-spam-detection"
+              featured={true}
             />
           </div>
-                    <div data-aos="fade-up" data-aos-delay="200">
+
+          <div data-aos="fade-up" data-aos-delay="400">
             <ProjectCard
               title="Library Management System"
               description="A Library Management System developed using Spring Boot and React. It includes features for managing books, users, and transactions. It is currently in progress."
               image="./assets/project/private.png"
+              tags={["Spring Boot", "React", "CRUD"]}
               github="https://github.com/mesubash/library-management-system"
             />
           </div>
-          <div data-aos="fade-up" data-aos-delay="200">
+
+          <div data-aos="fade-up" data-aos-delay="500">
+            <ProjectCard
+              title="NepEducation"
+              description="A simple learning platform developed using PHP, HTML/CSS, JS."
+              image="./assets/project/private.png"
+              tags={["PHP", "HTML/CSS", "JavaScript"]}
+              github="https://github.com/mesubash/NepEducation"
+            />
+          </div>
+
+          <div data-aos="fade-up" data-aos-delay="600">
             <ProjectCard
               title="Simple TODO App"
               description="A simple todo app in JAVA(JavaFX) with CRUD operations."
               image="./assets/project/private.png"
+              tags={["Java", "JavaFX", "Desktop App"]}
               github="https://github.com/mesubash/ToDo_Desktop_App"
             />
           </div>
+        </div>
 
-
-          <div data-aos="fade-up" data-aos-delay="200">
-            <ProjectCard
-              title="More Projects"
-              description="I have worked on many small and private projects, including Android development, web applications, and more. Feel free to check out my GitHub for more details."
-              image="./assets/project/private.png"
-              github="https://github.com/mesubash"
-            />
+        {/* More Projects CTA */}
+        <div className="text-center mt-16" data-aos="fade-up" data-aos-delay="700">
+          <div className="bg-gradient-to-r from-gray-800/50 to-gray-700/50 backdrop-blur-sm border border-gray-600/30 rounded-2xl p-8 max-w-2xl mx-auto">
+            <h3 className="text-2xl font-bold text-white mb-4">Explore More Projects</h3>
+            <p className="text-gray-400 mb-6">
+              I have worked on many small and private projects, including Android development, 
+              web applications, and more. Check out my GitHub for the complete collection.
+            </p>
+            <a
+              href="https://github.com/mesubash"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center px-8 py-4 text-lg font-medium text-white bg-gradient-to-r from-purple-600 to-pink-600 rounded-full hover:from-purple-700 hover:to-pink-700 transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-purple-500/25"
+            >
+              <span className="mr-2">🚀</span>
+              View All Projects
+            </a>
           </div>
         </div>
       </div>
