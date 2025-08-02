@@ -67,7 +67,9 @@ const App = () => {
 
         <main className="relative">
           {/* Landing Page Section */}
-          <LandingPage />
+          <section id="landingpage">
+            <LandingPage />
+          </section>
 
           {/* About Section */}
           <section id="about" className="bg-gray-800 pt-20 -mt-18">
@@ -97,7 +99,7 @@ const App = () => {
         {showScrollToTop && (
           <button
             onClick={scrollToTop}
-            className="fixed bottom-5 right-5 p-4 bg-gray-600 text-white rounded-full shadow-lg hover:bg-purple-600 hover:scale-125 transition-transform duration-300 transition-all z-40"
+            className="fixed bottom-5 right-5 p-4 bg-gray-600 text-white rounded-full shadow-lg hover:bg-purple-600 hover:scale-125 transition-all duration-300 z-40"
             data-tooltip-id="go-to-top-tooltip"
             data-tooltip-content="Go to Top"
           >
