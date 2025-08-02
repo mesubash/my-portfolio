@@ -32,6 +32,15 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
+# Copy CNAME file to dist directory for GitHub Pages
+if [ -f CNAME ]; then
+    echo "📄 Copying CNAME file to dist directory..."
+    cp CNAME dist/
+    echo "✅ CNAME file copied successfully"
+else
+    echo "⚠️  Warning: CNAME file not found"
+fi
+
 echo "✅ Build successful!"
 
 # Display build info
