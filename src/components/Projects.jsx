@@ -45,6 +45,7 @@ const Projects = () => {
               image="./assets/project/yugo_logo.png"
               tags={["Flutter", "Spring Boot", "PostgreSQL", "Microservices"]}
               github="" 
+              liveUrl="https://yugo.subashsdhami.com.np/"
               featured={true}
             />
           </div>
@@ -56,6 +57,8 @@ const Projects = () => {
               image="./assets/project/brain.png"
               tags={["Spring Boot", "Next.js", "Authentication"]}
               github="https://github.com/mesubash/Quiz-App"
+              liveUrl="https://quizapp.subashsdhami.com.np/"
+              featured={true}
             />
           </div>
 
@@ -66,6 +69,7 @@ const Projects = () => {
               image="./assets/project/spam-detection.png"
               tags={["Python", "Machine Learning", "Docker", "FastAPI"]}
               github="https://github.com/mesubash/sms-spam-detection"
+              liveUrl=""
               featured={true}
             />
           </div>
@@ -77,6 +81,7 @@ const Projects = () => {
               image="./assets/project/private.png"
               tags={["Spring Boot", "React", "CRUD"]}
               github="https://github.com/mesubash/library-management-system"
+              liveUrl="https://lms.subashsdhami.com.np/"
             />
           </div>
 
@@ -87,6 +92,7 @@ const Projects = () => {
               image="./assets/project/private.png"
               tags={["PHP", "HTML/CSS", "JavaScript"]}
               github="https://github.com/mesubash/NepEducation"
+              liveUrl=""
             />
           </div>
 
@@ -97,6 +103,7 @@ const Projects = () => {
               image="./assets/project/private.png"
               tags={["Java", "JavaFX", "Desktop App"]}
               github="https://github.com/mesubash/ToDo_Desktop_App"
+              liveUrl=""
             />
           </div>
         </div>

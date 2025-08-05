@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const ProjectCard = ({ title, description, image, github, tags = [], featured = false }) => {
+const ProjectCard = ({ title, description, image, github, liveUrl, tags = [], featured = false }) => {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
@@ -74,10 +74,18 @@ const ProjectCard = ({ title, description, image, github, tags = [], featured = 
 
         {/* Footer */}
         <div className="flex items-center justify-between pt-4 border-t border-gray-700/50">
-          <div className="flex items-center space-x-2">
-            <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-            <span className="text-xs text-gray-500">Live Project</span>
-          </div>
+          {liveUrl && (
+            <a
+              href={liveUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center space-x-2 cursor-pointer group/live hover:text-purple-400 transition-colors duration-300"
+            >
+              <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse group-hover/live:bg-purple-400 transition-colors duration-300"></div>
+              <span className="text-xs text-gray-500 group-hover/live:text-purple-400 transition-colors duration-300">Live Project</span>
+            </a>
+          )}
+          <div className="flex-1"></div>
           
           {github && (
             <a
