@@ -1,0 +1,2 @@
+User-agent: *
+Disallow: /assets/Subash_Singh_Dhami_Resume.pdf
