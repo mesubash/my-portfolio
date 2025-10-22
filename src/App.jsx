@@ -39,7 +39,7 @@ const App = () => {
     };
   }, []);
   useEffect(() => {
-    const LOADING_TIME = 2000; // Show preloader for exactly 2 seconds
+    const LOADING_TIME = 3000; // Show preloader for exactly 3 seconds
     
     const timer = setTimeout(() => {
       setIsLoading(false);

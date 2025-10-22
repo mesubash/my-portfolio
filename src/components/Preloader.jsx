@@ -120,6 +120,7 @@ const Preloader = ({ active = true, onHidden } ) => {
             {/* optional mp4 fallback if you convert */}
             <source src="/assets/loader/12345.mp4" type="video/mp4" />
           </video>
+          {/* dots were moved back next to the loading text for visibility on white */}
         </div>
 
         <div className="loading-text-container">

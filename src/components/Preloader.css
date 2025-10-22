@@ -243,15 +243,17 @@
   justify-content: space-between;
 }
 
+
 .dot {
   display: inline-block;
-  width: 0.48rem;
-  height: 0.48rem;
-  background: #8b5cf6; /* purple primary */
+  width: 0.6rem;
+  height: 0.6rem;
+  background: #0b1220; /* dark navy for strong contrast on white */
   border-radius: 50%;
-  opacity: 0.95;
+  opacity: 1;
   transform: translateY(0);
-  box-shadow: 0 6px 18px rgba(139,92,246,0.35), 0 2px 8px rgba(99,102,241,0.12);
+  box-shadow: 0 6px 18px rgba(11,18,32,0.18), 0 2px 6px rgba(11,18,32,0.08);
+  border: 2px solid rgba(255,255,255,0.14); /* thin light border to separate from white */
 }
 
 .dot-1 { animation: dotWave 1.1s infinite cubic-bezier(.2,.9,.2,1); animation-delay: 0s; }
@@ -259,10 +261,10 @@
 .dot-3 { animation: dotWave 1.1s infinite cubic-bezier(.2,.9,.2,1); animation-delay: 0.16s; }
 
 @keyframes dotWave {
-  0% { opacity: 0.25; transform: translateY(0); }
+  0% { opacity: 0.6; transform: translateY(0); }
   30% { opacity: 1; transform: translateY(-6px); }
-  60% { opacity: 0.6; transform: translateY(0); }
-  100% { opacity: 0.25; transform: translateY(0); }
+  60% { opacity: 0.8; transform: translateY(0); }
+  100% { opacity: 0.6; transform: translateY(0); }
 }
 
 /* Lottie wrapper sizing */
@@ -294,6 +296,28 @@
   background: transparent;
   filter: none; /* video sits on white field, drop-shadow not necessary */
 }
+
+/* Dots placed over the circular field for high contrast */
+/* loading-dots shown after the Loading text (white on the circular field) */
+.loading-dots {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-left: 0.6rem;
+}
+
+.loading-dots .dot {
+  width: 0.58rem;
+  height: 0.58rem;
+  background: #ffffff; /* white dots */
+  border-radius: 50%;
+  border: 2px solid rgba(11,18,32,0.12);
+  box-shadow: 0 6px 18px rgba(11,18,32,0.12), 0 2px 6px rgba(139,92,246,0.08) inset;
+}
+
+.loading-dots .dot-1 { animation: dotWave 1.1s infinite cubic-bezier(.2,.9,.2,1); animation-delay: 0s; }
+.loading-dots .dot-2 { animation: dotWave 1.1s infinite cubic-bezier(.2,.9,.2,1); animation-delay: 0.08s; }
+.loading-dots .dot-3 { animation: dotWave 1.1s infinite cubic-bezier(.2,.9,.2,1); animation-delay: 0.16s; }
 
 /* Fade-out helper: when the page loads remove the preloader with a smooth fade */
 .preloader {
