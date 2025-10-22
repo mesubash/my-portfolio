@@ -230,8 +230,33 @@ const Contact = () => {
         await new Promise(resolve => setTimeout(resolve, waitTime));
       }
       
-      // Use hardcoded AbstractAPI key
-      const apiKey = 'ebbb8ee161c340f3b782e7f81d61dd25';
+      // Get API key from environment variables
+      const apiKey = import.meta.env.VITE_ABSTRACT_API_KEY;
+      
+      if (!apiKey) {
+        console.error('AbstractAPI key not found in environment variables');
+        setValidationMessage('Email validation service not configured - using basic validation');
+        
+        // Enhanced basic validation when API key is missing
+        const domain = email.split('@')[1]?.toLowerCase();
+        const suspiciousDomains = ['sdbhs.sd', 'test.test', 'fake.fake', 'invalid.invalid', 'example.org'];
+        
+        if (suspiciousDomains.includes(domain) || !domain || domain.length < 4 || !domain.includes('.')) {
+          return {
+            isValid: false,
+            isDisposable: false,
+            quality: 0,
+            reason: 'Suspicious domain detected - basic validation failed'
+          };
+        }
+        
+        return {
+          isValid: true,
+          isDisposable: false,
+          quality: 0.3,
+          reason: 'Basic validation passed (API key missing)'
+        };
+      }
       
       // Update last API call time
       setLastApiCall(Date.now());

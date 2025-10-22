@@ -10,6 +10,7 @@ import LandingPage from "./components/LandingPage";
 import "./App.css";
 import Navbar from "./components/NavBar";
 import Preloader from "./components/Preloader";
+import AOS from "aos";
 import HireMe from "./components/HireMe";
 
 const App = () => {
@@ -66,7 +67,7 @@ const App = () => {
       {/* Preloader Component */}
       {isLoading ? (
         <Preloader />
-      ):(
+      ) : (
       <div className="app-container font-sans bg-gray-800">
         <Navbar />
 
@@ -121,8 +122,8 @@ const App = () => {
         />
 
         <Footer />
-      </div>
-      )}
+  </div>
+  )}
     </Router>
   );
 };
