@@ -27,6 +27,28 @@ const Preloader = ({ active = true, onHidden } ) => {
     const vid = videoRef.current;
     if (!vid) return;
 
+    // Feature-detect support for WebM; if not supported, switch to an MP4 fallback.
+    try {
+      const canPlayWebm = typeof vid.canPlayType === 'function' && (
+        vid.canPlayType('video/webm; codecs="vp8, vorbis"') || vid.canPlayType('video/webm')
+      );
+
+      if (!canPlayWebm) {
+        // Replace sources with MP4 fallback (user should place mp4 at this path)
+        // Clear existing children and add mp4 source
+        while (vid.firstChild) vid.removeChild(vid.firstChild);
+        const srcMp4 = document.createElement('source');
+        srcMp4.src = '/assets/loader/12345.mp4';
+        srcMp4.type = 'video/mp4';
+        vid.appendChild(srcMp4);
+        // Ensure the video element picks up the new source
+        vid.load();
+      }
+    } catch (e) {
+      // If detection fails, proceed — the browser will try the provided sources.
+    }
+
+    // Play/pause handling (respect reduced motion)
     if (prefersReduced) {
       try { vid.pause(); } catch (e) {}
     } else {
@@ -36,6 +58,28 @@ const Preloader = ({ active = true, onHidden } ) => {
         playPromise.catch(() => { /* ignore autoplay errors */ });
       }
     }
+
+    // If video errors (some mobile browsers refuse certain codecs), try MP4 as a final fallback
+    const onError = () => {
+      // if MP4 already present, nothing to do
+      const hasMp4 = Array.from(vid.querySelectorAll('source')).some(s => s.type === 'video/mp4' || /\.mp4$/.test(s.src));
+      if (!hasMp4) {
+        while (vid.firstChild) vid.removeChild(vid.firstChild);
+        const srcMp4 = document.createElement('source');
+        srcMp4.src = '/assets/loader/12345.mp4';
+        srcMp4.type = 'video/mp4';
+        vid.appendChild(srcMp4);
+        vid.load();
+        const p = vid.play();
+        if (p && typeof p.then === 'function') p.catch(() => {});
+      }
+    };
+
+    vid.addEventListener('error', onError);
+
+    return () => {
+      vid.removeEventListener('error', onError);
+    };
   }, [prefersReduced]);
 
   // central hide function that respects minimum visible time and de-duplicates
