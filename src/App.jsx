@@ -10,6 +10,7 @@ import LandingPage from "./components/LandingPage";
 import "./App.css";
 import Navbar from "./components/NavBar";
 import Preloader from "./components/Preloader";
+import WelcomeToast from "./components/WelcomeToast";
 import AOS from "aos";
 import HireMe from "./components/HireMe";
 
@@ -120,6 +121,9 @@ const App = () => {
           effect="solid"
           className="!bg-gray-900 !text-green-400 !border !border-gray-700 !rounded-md !px-3 !py-2 !font-mono !text-sm"
         />
+
+        {/* Welcome toast (randomized per session) */}
+        <WelcomeToast />
 
         <Footer />
   </div>
