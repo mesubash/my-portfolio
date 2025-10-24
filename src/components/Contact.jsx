@@ -640,10 +640,10 @@ const Contact = () => {
           </p>
         </div>
 
-        <div className="max-w-4xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-5 gap-16 items-start">
             {/* Contact Info */}
-            <div className="space-y-8" data-aos="fade-right" data-aos-delay="200">
+            <div className="space-y-8 lg:col-span-2" data-aos="fade-right" data-aos-delay="200">
               <div className="bg-gray-800/50 backdrop-blur-sm border border-gray-700/50 rounded-2xl p-8">
                 <h3 className="text-2xl font-bold text-white mb-6">Let's Connect</h3>
                 
@@ -719,7 +719,7 @@ const Contact = () => {
             </div>
 
             {/* Contact Form */}
-            <div data-aos="fade-left" data-aos-delay="300">
+            <div data-aos="fade-left" data-aos-delay="300" className="lg:col-span-3">
               <form 
                 onSubmit={onSubmit} 
                 className="bg-gray-800/50 backdrop-blur-sm border border-gray-700/50 rounded-2xl p-8 space-y-6"
