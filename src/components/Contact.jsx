@@ -875,7 +875,7 @@ const Contact = () => {
                 <button
                   type="submit"
                   disabled={state.submitting || emailError || nameError || isValidatingEmail || (email && emailValidationStatus !== 'valid') || (name && nameValidationStatus !== 'valid')}
-                  className="w-full group relative inline-flex items-center justify-center px-8 py-4 text-lg font-medium text-white bg-gradient-to-r from-purple-600 to-pink-600 rounded-full hover:from-purple-700 hover:to-pink-700 transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-purple-500/25 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+                  className="w-full group relative inline-flex items-center justify-center px-8 py-4 text-lg font-medium text-white bg-gradient-to-r from-purple-600 to-pink-600 rounded-full hover:from-purple-700 hover:to-pink-700 transition-all duration-300 hover:scale-110 hover:shadow-2xl hover:shadow-purple-500/50 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 transform hover:-translate-y-1 overflow-hidden"
                 >
                   <span className="relative z-10">
                     {state.submitting ? (
@@ -910,6 +910,11 @@ const Contact = () => {
                       </>
                     )}
                   </span>
+                  {/* Animated shimmer effect */}
+                  <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <div className="absolute inset-0 rounded-full bg-gradient-to-r from-transparent via-white/20 to-transparent animate-shimmer"></div>
+                  </div>
+                  {/* Glow effect */}
                   <div className="absolute inset-0 rounded-full bg-gradient-to-r from-purple-600 to-pink-600 opacity-0 group-hover:opacity-100 blur-xl transition-opacity duration-300"></div>
                 </button>
               </form>

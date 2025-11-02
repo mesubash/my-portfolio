@@ -40,7 +40,7 @@ const App = () => {
     };
   }, []);
   useEffect(() => {
-    const LOADING_TIME = 4000; // Show preloader for exactlye  3 seconds
+    const LOADING_TIME = 4000; // Show preloader for exactly  3 seconds
     
     const timer = setTimeout(() => {
       setIsLoading(false);
@@ -106,11 +106,12 @@ const App = () => {
         {showScrollToTop && (
           <button
             onClick={scrollToTop}
-            className="fixed bottom-6 right-6 group flex items-center justify-center w-12 h-12 bg-gray-800/90 hover:bg-purple-600 border border-gray-600 hover:border-purple-400 text-gray-300 hover:text-white rounded-lg backdrop-blur-sm shadow-lg hover:shadow-purple-500/25 transition-all duration-300 z-40"
+            className="fixed bottom-6 right-6 group flex items-center justify-center w-12 h-12 bg-gray-800/90 hover:bg-purple-600 border border-gray-600 hover:border-purple-400 text-gray-300 hover:text-white rounded-lg backdrop-blur-sm shadow-lg hover:shadow-purple-500/50 transition-all duration-300 z-40 hover:scale-110 transform animate-bounce-subtle"
             data-tooltip-id="go-to-top-tooltip"
             data-tooltip-content="$ cd ~"
           >
-            <ArrowUp className="w-5 h-5 group-hover:scale-110 transition-transform duration-300" />
+            <ArrowUp className="w-5 h-5 group-hover:scale-110 group-hover:-translate-y-1 transition-all duration-300" />
+            <span className="absolute -top-1 -right-1 w-3 h-3 bg-purple-500 rounded-full animate-pulse"></span>
           </button>
         )}
 

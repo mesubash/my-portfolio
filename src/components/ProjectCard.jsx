@@ -5,10 +5,17 @@ const ProjectCard = ({ title, description, image, github, liveUrl, tags = [], fe
 
   return (
     <div 
-      className={`group relative bg-gray-800/50 backdrop-blur-sm border border-gray-700/50 rounded-2xl overflow-hidden transition-all duration-500 hover:scale-105 hover:border-purple-500/50 hover:shadow-2xl hover:shadow-purple-500/25 ${featured ? 'ring-2 ring-purple-500/20' : ''}`}
+      className={`group relative bg-gray-800/50 backdrop-blur-sm border border-gray-700/50 rounded-2xl overflow-hidden transition-all duration-500 hover:scale-105 hover:border-purple-500/50 hover:shadow-2xl hover:shadow-purple-500/25 hover:-translate-y-2 ${featured ? 'ring-2 ring-purple-500/20 animate-pulse-border' : ''}`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
+      {/* Animated gradient border overlay */}
+      <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
+        <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-purple-600 via-pink-600 to-purple-600 opacity-50 blur-sm animate-gradient-x"></div>
+      </div>
+      
+      {/* Inner content wrapper */}
+      <div className="relative bg-gray-800/90 rounded-2xl m-[2px]">
       {/* Featured Badge */}
       {featured && (
         <div className="absolute top-4 right-4 z-20">
@@ -102,10 +109,25 @@ const ProjectCard = ({ title, description, image, github, liveUrl, tags = [], fe
         </div>
       </div>
 
-      {/* Hover Glow Effect */}
-      <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
-        <div className="absolute inset-0 bg-gradient-to-r from-purple-600/10 to-pink-600/10 rounded-2xl blur-xl"></div>
       </div>
+      
+      <style jsx>{`
+        @keyframes gradient-x {
+          0%, 100% { background-position: 0% 50%; }
+          50% { background-position: 100% 50%; }
+        }
+        .animate-gradient-x {
+          background-size: 200% 200%;
+          animation: gradient-x 3s ease infinite;
+        }
+        @keyframes pulse-border {
+          0%, 100% { box-shadow: 0 0 0 0 rgba(168, 85, 247, 0.4); }
+          50% { box-shadow: 0 0 0 8px rgba(168, 85, 247, 0); }
+        }
+        .animate-pulse-border {
+          animation: pulse-border 2s ease infinite;
+        }
+      `}</style>
     </div>
   );
 };

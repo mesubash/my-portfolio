@@ -70,13 +70,13 @@ const NavBar = () => {
             <li key={id}>
               <a 
                 href={href}
-                className={`flex items-center px-4 py-2 rounded-lg font-mono text-sm transition-all duration-300 ${
+                className={`group flex items-center px-4 py-2 rounded-lg font-mono text-sm transition-all duration-300 transform ${
                   activeSection === id 
                     ? 'bg-purple-500/20 text-purple-300 shadow-lg shadow-purple-500/20' 
-                    : 'text-gray-300 hover:bg-gray-700/50 hover:text-white'
+                    : 'text-gray-300 hover:bg-gray-700/50 hover:text-white hover:-translate-y-0.5 hover:shadow-md'
                 }`}
               >
-                <Icon className="w-4 h-4 mr-2" />
+                <Icon className="w-4 h-4 mr-2 group-hover:scale-110 transition-transform duration-300" />
                 {text}
               </a>
             </li>
@@ -86,10 +86,10 @@ const NavBar = () => {
           <li className="ml-2">
             <button 
               onClick={() => setIsTerminalOpen(true)}
-              className="flex items-center px-4 py-2 bg-gray-800/50 hover:bg-green-600 text-gray-300 hover:text-white rounded-lg transition-all duration-300 font-mono text-sm border border-gray-600 hover:border-green-500"
+              className="group flex items-center px-4 py-2 bg-gray-800/50 hover:bg-green-600 text-gray-300 hover:text-white rounded-lg transition-all duration-300 font-mono text-sm border border-gray-600 hover:border-green-500 hover:scale-105 hover:shadow-lg hover:shadow-green-500/30 transform hover:-translate-y-0.5"
               title="Open Interactive Terminal"
             >
-              <Terminal className="w-4 h-4 mr-2" />
+              <Terminal className="w-4 h-4 mr-2 group-hover:scale-110 transition-transform duration-300" />
               terminal
             </button>
           </li>
@@ -99,9 +99,9 @@ const NavBar = () => {
             <a 
               href="assets/Subash_Singh_Dhami_Resume.pdf" 
               download
-              className="flex items-center px-4 py-2 bg-gray-700/50 hover:bg-purple-600 text-white rounded-lg transition-all duration-300 font-mono text-sm border border-gray-600 hover:border-purple-500"
+              className="group flex items-center px-4 py-2 bg-gray-700/50 hover:bg-purple-600 text-white rounded-lg transition-all duration-300 font-mono text-sm border border-gray-600 hover:border-purple-500 hover:scale-105 hover:shadow-lg hover:shadow-purple-500/30 transform hover:-translate-y-0.5"
             >
-              <FileDown className="w-4 h-4 mr-2" />
+              <FileDown className="w-4 h-4 mr-2 group-hover:scale-110 group-hover:translate-y-0.5 transition-all duration-300" />
               resume.pdf
             </a>
           </li>

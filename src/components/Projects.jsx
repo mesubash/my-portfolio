@@ -7,13 +7,26 @@ const Projects = () => {
   useEffect(() => {
     AOS.init({
       duration: 1000,
-      once: true,
+      once: false,
       offset: 100
     });
+
+    // Parallax effect for header
+    const handleScroll = () => {
+      const header = document.querySelector('#projects-header');
+      if (header) {
+        const scrolled = window.scrollY;
+        const rate = scrolled * 0.3;
+        header.style.transform = `translateY(${rate}px)`;
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   return (
-    <section id="projects" className="min-h-screen py-20 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 relative">
+    <section id="projects" className="min-h-screen py-20 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 relative overflow-hidden">
       {/* Background Pattern */}
       <div 
         className="absolute inset-0 opacity-5"
@@ -24,12 +37,12 @@ const Projects = () => {
       />
       
       <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section Header */}
-        <div className="text-center mb-16" data-aos="fade-down">
+        {/* Section Header with Parallax */}
+        <div id="projects-header" className="text-center mb-16 transition-transform duration-100" data-aos="fade-down">
           <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-4">
-            My <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400">Projects</span>
+            My <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-400 to-purple-400 animate-gradient-x">Projects</span>
           </h2>
-          <div className="w-24 h-1 bg-gradient-to-r from-purple-500 to-pink-500 mx-auto rounded-full mb-6"></div>
+          <div className="w-24 h-1 bg-gradient-to-r from-purple-500 to-pink-500 mx-auto rounded-full mb-6 shadow-lg shadow-purple-500/50"></div>
           <p className="text-xl text-gray-400 max-w-2xl mx-auto leading-relaxed">
             A collection of projects showcasing my expertise in full-stack development, 
             machine learning, and modern web technologies.
@@ -110,9 +123,11 @@ const Projects = () => {
 
         {/* More Projects CTA */}
         <div className="text-center mt-16" data-aos="fade-up" data-aos-delay="700">
-          <div className="bg-gradient-to-r from-gray-800/50 to-gray-700/50 backdrop-blur-sm border border-gray-600/30 rounded-2xl p-8 max-w-2xl mx-auto">
-            <h3 className="text-2xl font-bold text-white mb-4">Explore More Projects</h3>
-            <p className="text-gray-400 mb-6">
+          <div className="group bg-gradient-to-r from-gray-800/50 to-gray-700/50 backdrop-blur-sm border border-gray-600/30 rounded-2xl p-8 max-w-2xl mx-auto hover:border-purple-500/50 hover:shadow-2xl hover:shadow-purple-500/20 transition-all duration-500 hover:scale-105 transform">
+            <h3 className="text-2xl font-bold text-white mb-4 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-purple-400 group-hover:to-pink-400 transition-all duration-300">
+              Explore More Projects
+            </h3>
+            <p className="text-gray-400 mb-6 group-hover:text-gray-300 transition-colors duration-300">
               I have worked on many small and private projects, including Android development, 
               web applications, and more. Check out my GitHub for the complete collection.
             </p>
@@ -120,10 +135,16 @@ const Projects = () => {
               href="https://github.com/mesubash"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center px-8 py-4 text-lg font-medium text-white bg-gradient-to-r from-purple-600 to-pink-600 rounded-full hover:from-purple-700 hover:to-pink-700 transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-purple-500/25"
+              className="inline-flex items-center justify-center px-8 py-4 text-lg font-medium text-white bg-gradient-to-r from-purple-600 to-pink-600 rounded-full hover:from-purple-700 hover:to-pink-700 transition-all duration-300 hover:scale-110 hover:shadow-2xl hover:shadow-purple-500/50 transform relative overflow-hidden group/btn"
             >
-              <span className="mr-2">🚀</span>
-              View All Projects
+              <span className="absolute inset-0 bg-gradient-to-r from-purple-600 to-pink-600 opacity-0 group-hover/btn:opacity-100 blur-xl transition-opacity duration-300"></span>
+              <span className="relative flex items-center gap-2">
+                <span className="text-2xl animate-bounce">🚀</span>
+                View All Projects
+                <svg className="w-5 h-5 group-hover/btn:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                </svg>
+              </span>
             </a>
           </div>
         </div>

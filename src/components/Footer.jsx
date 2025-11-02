@@ -88,9 +88,9 @@ const Footer = () => {
                 <a
                   key={text}
                   href={href}
-                  className="text-gray-400 hover:text-purple-400 font-mono text-sm transition-colors duration-300 hover:translate-x-1 transform"
+                  className="group text-gray-400 hover:text-purple-400 font-mono text-sm transition-all duration-300 hover:translate-x-2 transform inline-block"
                 >
-                  ./{text}
+                  <span className="group-hover:font-semibold">./{text}</span>
                 </a>
               ))}
             </nav>
@@ -110,11 +110,11 @@ const Footer = () => {
                     target="_blank"
                     rel="noopener noreferrer"
                     onClick={special ? onClick : undefined}
-                    className="flex items-center justify-center w-10 h-10 bg-gray-800 hover:bg-purple-600 border border-gray-700 hover:border-purple-400 text-gray-400 hover:text-white rounded-lg transition-all duration-300 group"
+                    className="flex items-center justify-center w-10 h-10 bg-gray-800 hover:bg-purple-600 border border-gray-700 hover:border-purple-400 text-gray-400 hover:text-white rounded-lg transition-all duration-300 group hover:scale-110 hover:shadow-lg hover:shadow-purple-500/30 transform hover:-translate-y-1"
                     data-tooltip-id={`${label}-tooltip`}
                     data-tooltip-content={tooltip}
                   >
-                    <Icon className="w-4 h-4 group-hover:scale-110 transition-transform duration-300" />
+                    <Icon className="w-4 h-4 group-hover:scale-125 group-hover:rotate-12 transition-all duration-300" />
                   </a>
                 </div>
               ))}
@@ -131,10 +131,10 @@ const Footer = () => {
               </p>
               <button
                 onClick={() => setIsTerminalOpen(true)}
-                className="flex items-center px-2 py-1 bg-gray-800 hover:bg-green-600 border border-gray-700 hover:border-green-500 text-gray-400 hover:text-white rounded transition-all duration-300 font-mono text-xs"
+                className="group flex items-center px-2 py-1 bg-gray-800 hover:bg-green-600 border border-gray-700 hover:border-green-500 text-gray-400 hover:text-white rounded transition-all duration-300 font-mono text-xs hover:scale-105 hover:shadow-md hover:shadow-green-500/30 transform"
                 title="Open Terminal"
               >
-                <Terminal className="w-3 h-3 mr-1" />
+                <Terminal className="w-3 h-3 mr-1 group-hover:scale-110 transition-transform duration-300" />
                 cli
               </button>
             </div>
