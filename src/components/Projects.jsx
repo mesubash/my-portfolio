@@ -74,6 +74,18 @@ const Projects = () => {
               featured={true}
             />
           </div>
+          <div data-aos="fade-up" data-aos-delay="200">
+            <ProjectCard
+              title="Khojdu"
+              description="Nepal's premier rental property platform designed to solve the housing search challenges in Kathmandu Valley and beyond with Spring Boot for the backend and Next.js for the frontend. The backend is complete, and I am currently working on the frontend, which includes implementing authentication and enhancing the user interface."
+              image="./assets/project/khojdu.png"
+              tags={["Spring Boot", "Next.js", "PostgreSQL", "Redis"]}
+              github="https://github.com/mesubash/Khojdu"
+              liveUrl="https://khojdu.subashsdhami.com.np/"
+              featured={true}
+            />
+          </div>
+
 
           <div data-aos="fade-up" data-aos-delay="300">
             <ProjectCard
@@ -111,8 +123,8 @@ const Projects = () => {
 
           <div data-aos="fade-up" data-aos-delay="600">
             <ProjectCard
-              title="Simple TODO App"
-              description="A simple todo app in JAVA(JavaFX) with CRUD operations."
+              title="TODO Desktop App"
+              description="A desktop todo app in JAVA(JavaFX) with CRUD operations."
               image="./assets/project/private.png"
               tags={["Java", "JavaFX", "Desktop App"]}
               github="https://github.com/mesubash/ToDo_Desktop_App"
