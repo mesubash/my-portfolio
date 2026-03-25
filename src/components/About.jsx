@@ -1,183 +1,170 @@
-import React, { useEffect } from "react";
-import AOS from "aos";
-import "aos/dist/aos.css";
+import { useRef } from "react";
+import { motion, useInView } from "framer-motion";
+import TiltCard from "./TiltCard";
+import GitHubHeatmap from "./GitHubHeatmap";
+
+const FadeIn = ({ children, delay = 0, className = "" }) => {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-60px" });
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 30, filter: "blur(6px)" }}
+      animate={isInView ? { opacity: 1, y: 0, filter: "blur(0px)" } : {}}
+      transition={{ duration: 0.6, delay, ease: [0.25, 0.1, 0.25, 1] }}
+      className={className}
+    >
+      {children}
+    </motion.div>
+  );
+};
 
 const About = () => {
-  useEffect(() => {
-    AOS.init({
-      duration: 800,
-      once: false,
-      offset: 100
-    });
-  }, []);
+  const techStack = [
+    { category: "Backend", items: ["Java Spring Boot", "Node.js", "PostgreSQL", "Redis", "Docker"], labelClass: "text-violet-400", tagClass: "bg-violet-500/10 border-violet-500/20 text-violet-300" },
+    { category: "Mobile", items: ["Flutter", "Android (Java)", "Cross-platform"], labelClass: "text-emerald-400", tagClass: "bg-emerald-500/10 border-emerald-500/20 text-emerald-300" },
+    { category: "Frontend", items: ["React", "Next.js", "Tailwind CSS"], labelClass: "text-blue-400", tagClass: "bg-blue-500/10 border-blue-500/20 text-blue-300" },
+    { category: "ML & Data", items: ["Python", "Scikit-learn", "Data Analysis"], labelClass: "text-amber-400", tagClass: "bg-amber-500/10 border-amber-500/20 text-amber-300" },
+    { category: "DevOps", items: ["AWS", "CI/CD", "Nginx", "Git"], labelClass: "text-cyan-400", tagClass: "bg-cyan-500/10 border-cyan-500/20 text-cyan-300" },
+  ];
+
+  const whatIBuild = ["RESTful APIs & Microservices", "Cross-platform Mobile Apps", "ML-powered Solutions", "Production-ready Systems"];
+
   return (
-    <section id="about" className="py-12 sm:py-16 md:py-20 px-4 sm:px-6 lg:px-8 bg-gray-800 text-white relative">
-      <div className="max-w-6xl mx-auto">
-        <h2 
-          className="text-3xl sm:text-4xl md:text-5xl font-bold text-center mb-8 sm:mb-12 md:mb-16 text-white"
-          data-aos="fade-down"
-          data-aos-duration="800"
-        >
-          About Me
-        </h2>
-        
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-start">
-          {/* Left Column - Core Info */}
-          <div className="space-y-6">
-            <div 
-              className="bg-gradient-to-br from-gray-700 to-gray-800 p-6 md:p-8 rounded-xl border border-gray-600 hover:border-purple-500 transition-all duration-300 hover:shadow-xl hover:shadow-purple-500/20 hover:-translate-y-1 transform"
-              data-aos="fade-right"
-              data-aos-duration="800"
-            >
-              <h3 className="text-xl md:text-2xl font-bold text-purple-400 mb-4 flex items-center">
-                <span className="w-2 h-8 bg-purple-500 mr-4 rounded"></span>
-                Software Engineer
-              </h3>
-              <p className="text-gray-300 text-lg leading-relaxed mb-4">
-                Full-stack developer building scalable systems with <span className="text-purple-400 font-semibold">Java Spring Boot</span>, 
-                <span className="text-emerald-400 font-semibold"> Flutter</span>, and <span className="text-blue-400 font-semibold">React</span>.
-              </p>
-              <p className="text-gray-400 text-base">
-                Currently leading <span className="text-purple-400 font-semibold">Yugo</span> - a smart public transport platform serving thousands of users in Nepal.
-              </p>
-            </div>
+    <section className="section-padding bg-dark-950 relative overflow-hidden">
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-0 left-1/4 w-96 h-96 bg-violet-600/5 rounded-full blur-[120px]" />
+        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-pink-600/5 rounded-full blur-[120px]" />
+      </div>
 
-            <div 
-              className="bg-gradient-to-br from-gray-700 to-gray-800 p-6 md:p-8 rounded-xl border border-gray-600 hover:border-purple-500 transition-all duration-300 hover:shadow-xl hover:shadow-purple-500/20 hover:-translate-y-1 transform"
-              data-aos="fade-right"
-              data-aos-duration="800"
-              data-aos-delay="100"
-            >
-              <h3 className="text-xl md:text-2xl font-bold text-purple-400 mb-4 flex items-center">
-                <span className="w-2 h-8 bg-purple-500 mr-4 rounded"></span>
-                What I Build
-              </h3>
-              <ul className="space-y-3 text-gray-300">
-                {[
-                  'RESTful APIs & Microservices',
-                  'Cross-platform Mobile Apps',
-                  'ML-powered Solutions',
-                  'Production-ready Systems'
-                ].map((item, index) => (
-                  <li 
-                    key={item}
-                    className="flex items-center group hover:translate-x-2 transition-transform duration-300"
-                    data-aos="fade-right"
-                    data-aos-duration="600"
-                    data-aos-delay={100 + index * 50}
-                  >
-                    <span className="w-2 h-2 bg-green-400 rounded-full mr-3 group-hover:scale-150 group-hover:shadow-lg group-hover:shadow-green-400/50 transition-all duration-300"></span>
-                    <span className="group-hover:text-white group-hover:font-medium transition-all duration-300">{item}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
+      <div className="max-w-6xl mx-auto relative z-10">
+        <FadeIn>
+          <div className="text-center mb-16 sm:mb-20">
+            <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-4 tracking-tight">
+              About <span className="gradient-text">Me</span>
+            </h2>
+            <div className="w-16 h-[2px] bg-gradient-to-r from-violet-500 to-pink-500 mx-auto rounded-full" />
+          </div>
+        </FadeIn>
 
-            <div 
-              className="bg-gradient-to-br from-purple-800 to-purple-900 p-6 rounded-xl border border-purple-500 border-opacity-30 hover:border-opacity-60 transition-all duration-300 hover:shadow-xl hover:shadow-purple-500/30 hover:scale-105 transform"
-              data-aos="fade-right"
-              data-aos-duration="800"
-              data-aos-delay="200"
-            >
-              <div className="text-center">
-                <p className="text-purple-200 text-lg font-medium mb-2">Talk is cheap. Show me the code.</p>
-                <p className="text-purple-300 text-sm">- Linus Torvalds</p>
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6">
+          {/* Bio Card with tilt */}
+          <FadeIn delay={0.1} className="lg:col-span-7">
+            <TiltCard tiltStrength={5}>
+              <div className="glass-card-hover p-6 sm:p-8 h-full">
+                <div className="flex items-center gap-3 mb-5">
+                  <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-violet-500/20 to-purple-500/20 flex items-center justify-center border border-violet-500/20">
+                    <span className="text-violet-400 text-lg font-mono">&#123;&#125;</span>
+                  </div>
+                  <h3 className="text-xl sm:text-2xl font-bold text-white">Software Engineer</h3>
+                </div>
+                <p className="text-gray-400 text-base sm:text-lg leading-relaxed mb-4">
+                  Full-stack developer building scalable systems with{" "}
+                  <span className="text-violet-400 font-medium">Java Spring Boot</span>,
+                  <span className="text-emerald-400 font-medium"> Flutter</span>, and{" "}
+                  <span className="text-blue-400 font-medium">React</span>.
+                </p>
+                <p className="text-gray-500 text-base leading-relaxed">
+                  Currently leading <span className="text-violet-400 font-medium">Yugo</span> &mdash; a smart
+                  public transport platform serving thousands of users in Nepal.
+                </p>
               </div>
+            </TiltCard>
+          </FadeIn>
+
+          {/* Stats with tilt */}
+          <FadeIn delay={0.2} className="lg:col-span-5">
+            <div className="grid grid-cols-2 gap-4 sm:gap-6 h-full">
+              {[
+                { val: "3+", label: "Years Coding", cls: "gradient-text" },
+                { val: "10+", label: "Projects Built", cls: "text-emerald-400" },
+              ].map((s) => (
+                <TiltCard key={s.label} tiltStrength={8}>
+                  <div className="glass-card-hover p-5 sm:p-6 flex flex-col items-center justify-center text-center h-full">
+                    <span className={`text-3xl sm:text-4xl font-bold ${s.cls} mb-1`}>{s.val}</span>
+                    <span className="text-gray-500 text-sm">{s.label}</span>
+                  </div>
+                </TiltCard>
+              ))}
+              <TiltCard tiltStrength={8} className="col-span-2">
+                <div className="glass-card-hover p-5 sm:p-6 flex flex-col items-center justify-center text-center h-full">
+                  <span className="text-3xl sm:text-4xl font-bold text-cyan-400 mb-1">5+</span>
+                  <span className="text-gray-500 text-sm">Tech Stacks Mastered</span>
+                </div>
+              </TiltCard>
             </div>
+          </FadeIn>
+
+          {/* What I Build with tilt */}
+          <FadeIn delay={0.25} className="lg:col-span-5">
+            <TiltCard tiltStrength={5}>
+              <div className="glass-card-hover p-6 sm:p-8 h-full">
+                <h3 className="text-lg sm:text-xl font-bold text-white mb-5 flex items-center gap-3">
+                  <div className="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center border border-emerald-500/20">
+                    <span className="text-emerald-400 text-sm">&#9654;</span>
+                  </div>
+                  What I Build
+                </h3>
+                <ul className="space-y-3">
+                  {whatIBuild.map((item) => (
+                    <motion.li key={item} className="flex items-center group" whileHover={{ x: 6 }} transition={{ duration: 0.2 }}>
+                      <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full mr-3 group-hover:scale-[2] group-hover:shadow-lg group-hover:shadow-emerald-400/50 transition-all duration-300" />
+                      <span className="text-gray-400 text-sm sm:text-base group-hover:text-gray-200 transition-colors duration-300">{item}</span>
+                    </motion.li>
+                  ))}
+                </ul>
+              </div>
+            </TiltCard>
+          </FadeIn>
+
+          {/* Quote with tilt */}
+          <FadeIn delay={0.3} className="lg:col-span-7">
+            <TiltCard tiltStrength={4}>
+              <div className="relative overflow-hidden rounded-2xl p-6 sm:p-8 bg-gradient-to-br from-violet-500/[0.08] to-purple-500/[0.04] border border-violet-500/10 h-full flex items-center">
+                <div className="absolute inset-0 opacity-[0.04]" style={{ backgroundImage: "radial-gradient(circle at 1px 1px, rgba(139,92,246,0.4) 1px, transparent 0)", backgroundSize: "20px 20px" }} />
+                <div className="relative">
+                  <svg className="w-8 h-8 text-violet-500/30 mb-3" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10H14.017zM0 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10H0z" />
+                  </svg>
+                  <p className="text-gray-300 text-lg sm:text-xl font-medium leading-relaxed mb-3">Talk is cheap. Show me the code.</p>
+                  <p className="text-violet-400/70 text-sm font-mono">&mdash; Linus Torvalds</p>
+                </div>
+              </div>
+            </TiltCard>
+          </FadeIn>
+
+          {/* GitHub Heatmap */}
+          <div className="lg:col-span-12">
+            <GitHubHeatmap />
           </div>
 
-          {/* Right Column - Tech Stack */}
-          <div className="space-y-6">
-            <div 
-              className="bg-gradient-to-br from-gray-700 to-gray-800 p-6 md:p-8 rounded-xl border border-gray-600 hover:border-purple-500 transition-all duration-300 hover:shadow-xl hover:shadow-purple-500/20"
-              data-aos="fade-left"
-              data-aos-duration="800"
-            >
-              <h3 className="text-xl md:text-2xl font-bold text-purple-400 mb-6 flex items-center">
-                <span className="w-2 h-8 bg-purple-500 mr-4 rounded"></span>
-                Tech Stack
-              </h3>
-              
-              <div className="space-y-6">
-                {/* Backend */}
-                <div>
-                  <h4 className="text-lg font-semibold text-purple-400 mb-3">Backend</h4>
-                  <div className="flex flex-wrap gap-2">
-                    {['Java Spring Boot', 'Node.js', 'PostgreSQL', 'Redis', 'Docker'].map((tech) => (
-                      <span key={tech} className="px-3 py-1 bg-purple-600 bg-opacity-20 text-purple-300 rounded-full text-sm border border-purple-500 border-opacity-30 hover:border-opacity-100 hover:bg-opacity-30 hover:shadow-lg hover:shadow-purple-500/30 hover:scale-110 transform transition-all duration-300 cursor-default">
-                        {tech}
-                      </span>
-                    ))}
+          {/* Tech Stack */}
+          <FadeIn delay={0.4} className="lg:col-span-12">
+            <TiltCard tiltStrength={3}>
+              <div className="glass-card-hover p-6 sm:p-8">
+                <h3 className="text-lg sm:text-xl font-bold text-white mb-6 flex items-center gap-3">
+                  <div className="w-8 h-8 rounded-lg bg-violet-500/10 flex items-center justify-center border border-violet-500/20">
+                    <span className="text-violet-400 text-sm font-mono">&lt;/&gt;</span>
                   </div>
-                </div>
-
-                {/* Mobile */}
-                <div>
-                  <h4 className="text-lg font-semibold text-emerald-400 mb-3">Mobile</h4>
-                  <div className="flex flex-wrap gap-2">
-                    {['Flutter', 'Android (Java)', 'Cross-platform'].map((tech) => (
-                      <span key={tech} className="px-3 py-1 bg-emerald-600 bg-opacity-20 text-emerald-300 rounded-full text-sm border border-emerald-500 border-opacity-30 hover:border-opacity-100 hover:bg-opacity-30 hover:shadow-lg hover:shadow-emerald-500/30 hover:scale-110 transform transition-all duration-300 cursor-default">
-                        {tech}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Frontend */}
-                <div>
-                  <h4 className="text-lg font-semibold text-blue-400 mb-3">Frontend</h4>
-                  <div className="flex flex-wrap gap-2">
-                    {['React', 'Next.js', 'Tailwind CSS'].map((tech) => (
-                      <span key={tech} className="px-3 py-1 bg-blue-600 bg-opacity-20 text-blue-300 rounded-full text-sm border border-blue-500 border-opacity-30 hover:border-opacity-100 hover:bg-opacity-30 hover:shadow-lg hover:shadow-blue-500/30 hover:scale-110 transform transition-all duration-300 cursor-default">
-                        {tech}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-
-                {/* ML & Data */}
-                <div>
-                  <h4 className="text-lg font-semibold text-indigo-400 mb-3">ML & Data</h4>
-                  <div className="flex flex-wrap gap-2">
-                    {['Python', 'Scikit-learn', 'Data Analysis'].map((tech) => (
-                      <span key={tech} className="px-3 py-1 bg-indigo-600 bg-opacity-20 text-indigo-300 rounded-full text-sm border border-indigo-500 border-opacity-30 hover:border-opacity-100 hover:bg-opacity-30 hover:shadow-lg hover:shadow-indigo-500/30 hover:scale-110 transform transition-all duration-300 cursor-default">
-                        {tech}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-
-                {/* DevOps */}
-                <div>
-                  <h4 className="text-lg font-semibold text-green-400 mb-3">DevOps</h4>
-                  <div className="flex flex-wrap gap-2">
-                    {['AWS', 'CI/CD', 'Nginx', 'Git'].map((tech) => (
-                      <span key={tech} className="px-3 py-1 bg-green-600 bg-opacity-20 text-green-300 rounded-full text-sm border border-green-500 border-opacity-30 hover:border-opacity-100 hover:bg-opacity-30 hover:shadow-lg hover:shadow-green-500/30 hover:scale-110 transform transition-all duration-300 cursor-default">
-                        {tech}
-                      </span>
-                    ))}
-                  </div>
+                  Tech Stack
+                </h3>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
+                  {techStack.map((stack) => (
+                    <div key={stack.category}>
+                      <h4 className={`text-sm font-semibold mb-3 ${stack.labelClass} font-mono`}>{stack.category}</h4>
+                      <div className="flex flex-wrap gap-2">
+                        {stack.items.map((tech) => (
+                          <motion.span key={tech} className={`px-3 py-1.5 ${stack.tagClass} rounded-lg text-xs font-medium border transition-all duration-300 cursor-default`} whileHover={{ scale: 1.1, y: -2 }}>
+                            {tech}
+                          </motion.span>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </div>
-            </div>
-
-            {/* Quick Stats */}
-            <div 
-              className="grid grid-cols-2 gap-4"
-              data-aos="fade-left"
-              data-aos-duration="800"
-              data-aos-delay="100"
-            >
-              <div className="bg-gradient-to-br from-gray-700 to-gray-800 p-4 rounded-xl border border-gray-600 text-center hover:border-purple-500 hover:shadow-lg hover:shadow-purple-500/20 hover:scale-105 transform transition-all duration-300">
-                <div className="text-2xl font-bold text-purple-400">3+</div>
-                <div className="text-sm text-gray-400">Years Coding</div>
-              </div>
-              <div className="bg-gradient-to-br from-gray-700 to-gray-800 p-4 rounded-xl border border-gray-600 text-center hover:border-emerald-500 hover:shadow-lg hover:shadow-emerald-500/20 hover:scale-105 transform transition-all duration-300">
-                <div className="text-2xl font-bold text-emerald-400">10+</div>
-                <div className="text-sm text-gray-400">Projects Built</div>
-              </div>
-            </div>
-          </div>
+            </TiltCard>
+          </FadeIn>
         </div>
       </div>
     </section>

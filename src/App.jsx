@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { ArrowUp, Terminal } from "lucide-react";
-import { Tooltip as ReactTooltip } from "react-tooltip";
+import { useState, useEffect, useCallback } from "react";
+import { BrowserRouter as Router } from "react-router-dom";
+import { ArrowUp } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import About from "./components/About";
 import Projects from "./components/Projects";
 import Contact from "./components/Contact";
@@ -11,124 +11,92 @@ import "./App.css";
 import Navbar from "./components/NavBar";
 import Preloader from "./components/Preloader";
 import WelcomeToast from "./components/WelcomeToast";
-import AOS from "aos";
 import HireMe from "./components/HireMe";
+import MouseFollower from "./components/MouseFollower";
 
 const App = () => {
   const [showScrollToTop, setShowScrollToTop] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
-  // Clear hash on initial load if preloader is showing
   useEffect(() => {
     if (isLoading && window.location.hash) {
-      const currentUrl = window.location.href.split('#')[0];
+      const currentUrl = window.location.href.split("#")[0];
+      window.history.replaceState(null, null, currentUrl);
+    }
+  }, [isLoading]);
+
+  useEffect(() => {
+    const handleScroll = () => setShowScrollToTop(window.scrollY > 300);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const handlePreloaderComplete = useCallback(() => {
+    setIsLoading(false);
+    if (window.location.hash) {
+      const currentUrl = window.location.href.split("#")[0];
       window.history.replaceState(null, null, currentUrl);
     }
   }, []);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > 0) {
-        setShowScrollToTop(true);
-      } else {
-        setShowScrollToTop(false);
-      }
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
-  useEffect(() => {
-    const LOADING_TIME = 4000; // Show preloader for exactly  3 seconds
-    
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-      // Clear any hash from URL after loading completes
-      if (window.location.hash) {
-        // Use history.replaceState to clear hash without affecting browser history
-        const currentUrl = window.location.href.split('#')[0];
-        window.history.replaceState(null, null, currentUrl);
-      }
-    }, LOADING_TIME);
-
-    return () => clearTimeout(timer);
-  }, []);
-
-
-  const scrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
-  };
+  const scrollToTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
 
   return (
     <Router>
-      {/* Preloader Component */}
-      {isLoading ? (
-        <Preloader />
-      ) : (
-      <div className="app-container font-sans bg-gray-800">
-        <Navbar />
-
-        <main className="relative">
-          {/* Landing Page Section */}
-          <section id="landingpage">
-            <LandingPage />
-          </section>
-
-          {/* About Section */}
-          <section id="about" className="bg-gray-800 pt-20 -mt-18">
-            <About />
-          </section>
-
-          {/* Projects Section */}
-          <section id="projects" className="bg-gray-800 pt-20 -mt-18">
-            <Projects />
-          </section>
-
-          {/* Hire Me Section */}
-          <section id="hire-me" className="bg-gray-800">
-            <HireMe />
-          </section>
-
-          {/* Contact Section */}
-          <section
-            id="contact"
-            className="min-h-screen flex items-center justify-center bg-gray-800 text-white py-16 pt-20 -mt-20"
+      <AnimatePresence mode="wait">
+        {isLoading ? (
+          <Preloader key="preloader" onComplete={handlePreloaderComplete} />
+        ) : (
+          <motion.div
+            key="app"
+            className="app-container noise-overlay"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5 }}
           >
-            <Contact />
-          </section>
-        </main>
+            <MouseFollower />
 
-        {/* Enhanced Developer-Style Go to Top Button */}
-        {showScrollToTop && (
-          <button
-            onClick={scrollToTop}
-            className="fixed bottom-6 right-6 group flex items-center justify-center w-12 h-12 bg-gray-800/90 hover:bg-purple-600 border border-gray-600 hover:border-purple-400 text-gray-300 hover:text-white rounded-lg backdrop-blur-sm shadow-lg hover:shadow-purple-500/50 transition-all duration-300 z-40 hover:scale-110 transform animate-bounce-subtle"
-            data-tooltip-id="go-to-top-tooltip"
-            data-tooltip-content="$ cd ~"
-          >
-            <ArrowUp className="w-5 h-5 group-hover:scale-110 group-hover:-translate-y-1 transition-all duration-300" />
-            <span className="absolute -top-1 -right-1 w-3 h-3 bg-purple-500 rounded-full animate-pulse"></span>
-          </button>
+            <div className="mesh-gradient">
+              <div className="orb orb-1" />
+              <div className="orb orb-2" />
+              <div className="orb orb-3" />
+            </div>
+
+            <Navbar />
+
+            <main className="relative z-10">
+              <section id="landingpage"><LandingPage /></section>
+              <div className="section-divider" />
+              <section id="about"><About /></section>
+              <div className="section-divider" />
+              <section id="projects"><Projects /></section>
+              <div className="section-divider" />
+              <section id="hire-me"><HireMe /></section>
+              <div className="section-divider" />
+              <section id="contact"><Contact /></section>
+            </main>
+
+            <AnimatePresence>
+              {showScrollToTop && (
+                <motion.button
+                  initial={{ opacity: 0, scale: 0.8, y: 20 }}
+                  animate={{ opacity: 1, scale: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.8, y: 20 }}
+                  onClick={scrollToTop}
+                  className="fixed bottom-6 right-6 group flex items-center justify-center w-11 h-11 bg-white/[0.05] hover:bg-violet-500/20 border border-white/[0.08] hover:border-violet-500/30 text-gray-400 hover:text-violet-400 rounded-xl backdrop-blur-xl shadow-2xl transition-colors duration-300 z-40"
+                  whileHover={{ scale: 1.1, y: -2 }}
+                  whileTap={{ scale: 0.9 }}
+                >
+                  <ArrowUp className="w-4 h-4" />
+                </motion.button>
+              )}
+            </AnimatePresence>
+
+            <WelcomeToast />
+            <Footer />
+          </motion.div>
         )}
-
-        {/* Enhanced Tooltip */}
-        <ReactTooltip
-          id="go-to-top-tooltip"
-          place="left"
-          effect="solid"
-          className="!bg-gray-900 !text-green-400 !border !border-gray-700 !rounded-md !px-3 !py-2 !font-mono !text-sm"
-        />
-
-        {/* Welcome toast (randomized per session) */}
-        <WelcomeToast />
-
-        <Footer />
-  </div>
-  )}
+      </AnimatePresence>
     </Router>
   );
 };

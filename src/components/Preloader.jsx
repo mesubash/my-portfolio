@@ -1,185 +1,171 @@
-// import React from "react";
+import { useState, useEffect, useRef } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import "./Preloader.css";
-import { useEffect, useRef } from "react";
 
-/*
-  Video-based preloader (WebM recommended):
-  - Place your WebM at `public/assets/loader/loader.webm` so it is served at
-    `/assets/loader/loader.webm`.
-  - Video will autoplay (muted) and loop. If the user prefers reduced motion,
-    the video will not autoplay and will be paused.
-*/
-
-const Preloader = ({ active = true, onHidden } ) => {
+const Preloader = ({ onComplete }) => {
+  const [progress, setProgress] = useState(0);
+  const [phase, setPhase] = useState("loading");
   const videoRef = useRef(null);
-  const rootRef = useRef(null);
-  const mountTimeRef = useRef(Date.now());
-  const hiddenRef = useRef(false);
 
-  // Minimum time (ms) the preloader should remain visible
-  const MIN_VISIBLE_MS = 3000;
+  const prefersReduced =
+    typeof window !== "undefined" && window.matchMedia
+      ? window.matchMedia("(prefers-reduced-motion: reduce)").matches
+      : false;
 
-  const prefersReduced = typeof window !== "undefined" && window.matchMedia
-    ? window.matchMedia("(prefers-reduced-motion: reduce)").matches
-    : false;
-
+  // Video setup
   useEffect(() => {
     const vid = videoRef.current;
     if (!vid) return;
 
-    // Feature-detect support for WebM; if not supported, switch to an MP4 fallback.
+    // Feature-detect WebM support, fallback to MP4
     try {
-      const canPlayWebm = typeof vid.canPlayType === 'function' && (
-        vid.canPlayType('video/webm; codecs="vp8, vorbis"') || vid.canPlayType('video/webm')
-      );
+      const canPlayWebm =
+        typeof vid.canPlayType === "function" &&
+        (vid.canPlayType('video/webm; codecs="vp8, vorbis"') || vid.canPlayType("video/webm"));
 
       if (!canPlayWebm) {
-        // Replace sources with MP4 fallback (user should place mp4 at this path)
-        // Clear existing children and add mp4 source
         while (vid.firstChild) vid.removeChild(vid.firstChild);
-        const srcMp4 = document.createElement('source');
-        srcMp4.src = '/assets/loader/12345.mp4';
-        srcMp4.type = 'video/mp4';
-        vid.appendChild(srcMp4);
-        // Ensure the video element picks up the new source
+        const src = document.createElement("source");
+        src.src = "/assets/loader/12345.mp4";
+        src.type = "video/mp4";
+        vid.appendChild(src);
         vid.load();
       }
-    } catch (e) {
-      // If detection fails, proceed — the browser will try the provided sources.
+    } catch {
+      // Proceed with default sources
     }
 
-    // Play/pause handling (respect reduced motion)
     if (prefersReduced) {
-      try { vid.pause(); } catch (e) {}
+      try { vid.pause(); } catch { /* ignore */ }
     } else {
       vid.muted = true;
-      const playPromise = vid.play();
-      if (playPromise && typeof playPromise.then === 'function') {
-        playPromise.catch(() => { /* ignore autoplay errors */ });
-      }
+      const p = vid.play();
+      if (p && typeof p.then === "function") p.catch(() => {});
     }
 
-    // If video errors (some mobile browsers refuse certain codecs), try MP4 as a final fallback
     const onError = () => {
-      // if MP4 already present, nothing to do
-      const hasMp4 = Array.from(vid.querySelectorAll('source')).some(s => s.type === 'video/mp4' || /\.mp4$/.test(s.src));
+      const hasMp4 = Array.from(vid.querySelectorAll("source")).some(
+        (s) => s.type === "video/mp4" || /\.mp4$/.test(s.src)
+      );
       if (!hasMp4) {
         while (vid.firstChild) vid.removeChild(vid.firstChild);
-        const srcMp4 = document.createElement('source');
-        srcMp4.src = '/assets/loader/12345.mp4';
-        srcMp4.type = 'video/mp4';
-        vid.appendChild(srcMp4);
+        const src = document.createElement("source");
+        src.src = "/assets/loader/12345.mp4";
+        src.type = "video/mp4";
+        vid.appendChild(src);
         vid.load();
-        const p = vid.play();
-        if (p && typeof p.then === 'function') p.catch(() => {});
+        const p2 = vid.play();
+        if (p2 && typeof p2.then === "function") p2.catch(() => {});
       }
     };
-
-    vid.addEventListener('error', onError);
-
-    return () => {
-      vid.removeEventListener('error', onError);
-    };
+    vid.addEventListener("error", onError);
+    return () => vid.removeEventListener("error", onError);
   }, [prefersReduced]);
 
-  // central hide function that respects minimum visible time and de-duplicates
-  const hide = () => {
-    if (hiddenRef.current) return;
-    const el = rootRef.current;
-    if (!el) return;
-    const elapsed = Date.now() - (mountTimeRef.current || Date.now());
-    const wait = Math.max(0, MIN_VISIBLE_MS - elapsed);
-
-    const doHide = () => {
-      if (hiddenRef.current) return;
-      hiddenRef.current = true;
-      el.classList.add('preloader--hidden');
-
-      const onTransitionEnd = (e) => {
-        if (e.target === el && e.propertyName === 'opacity') {
-          el.removeEventListener('transitionend', onTransitionEnd);
-          if (typeof onHidden === 'function') onHidden();
-        }
-      };
-
-      el.addEventListener('transitionend', onTransitionEnd);
-      // safety fallback
-      setTimeout(() => {
-        if (typeof onHidden === 'function') onHidden();
-      }, 1200);
-    };
-
-    if (wait > 0) {
-      setTimeout(doHide, wait);
-    } else {
-      doHide();
-    }
-  };
-
-  // fade out preloader when the page has fully loaded, but respect min visible
+  // Progress bar animation
   useEffect(() => {
-    mountTimeRef.current = Date.now();
-    const onLoad = () => {
-      hide();
-    };
+    const duration = 2400;
+    const interval = 20;
+    const steps = duration / interval;
+    let step = 0;
 
-    if (document.readyState === 'complete') {
-      // If document already loaded, request hide (hide() will respect min time)
-      onLoad();
-    } else {
-      window.addEventListener('load', onLoad, { once: true });
-      // safety: if load never fires, ensure hide after a longer grace period
-      const fallback = setTimeout(hide, MIN_VISIBLE_MS + 4000);
-      return () => {
-        window.removeEventListener('load', onLoad);
-        clearTimeout(fallback);
-      };
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    const timer = setInterval(() => {
+      step++;
+      const t = step / steps;
+      const eased = 1 - Math.pow(1 - t, 3);
+      setProgress(Math.min(eased * 100, 100));
 
-  // Parent may control visibility; when `active` turns false start hide
-  useEffect(() => {
-    if (active === false) {
-      hide();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [active]);
+      if (step >= steps) {
+        clearInterval(timer);
+        setPhase("complete");
+        setTimeout(() => {
+          setPhase("exit");
+          if (onComplete) onComplete();
+        }, 300);
+      }
+    }, interval);
+
+    return () => clearInterval(timer);
+  }, [onComplete]);
 
   return (
-  <div ref={rootRef} className="preloader" role="status" aria-busy="true" aria-label="Loading">
-      <div className="loader-container">
-        <div className="lottie-wrapper video-wrapper">
-          <video
-            ref={videoRef}
-            className="preloader-video"
-            playsInline
-            autoPlay={!prefersReduced}
-            muted
-            loop
-            preload="auto"
-            aria-hidden="true"
-          >
-            <source src="/assets/loader/12345.webm" type="video/webm" />
-            {/* optional mp4 fallback if you convert */}
-            <source src="/assets/loader/12345.mp4" type="video/mp4" />
-          </video>
-          {/* dots were moved back next to the loading text for visibility on white */}
-        </div>
+    <AnimatePresence>
+      {phase !== "exit" && (
+        <motion.div
+          className="fixed inset-0 z-[9999] flex flex-col items-center justify-center"
+          style={{ background: "#030712" }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
+        >
+          {/* Subtle background glow */}
+          <div className="absolute inset-0 pointer-events-none">
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-violet-600/[0.04] rounded-full blur-[120px]" />
+          </div>
 
-        <div className="loading-text-container">
-          <p className="loading-text">
-            Loading
-            <span className="loading-dots" aria-hidden="true">
-              <span className="dot dot-1" />
-              <span className="dot dot-2" />
-              <span className="dot dot-3" />
+          {/* Video loader in circle */}
+          <motion.div
+            className="relative z-10 mb-8"
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5, ease: "backOut" }}
+          >
+            <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-full overflow-hidden bg-white shadow-2xl shadow-violet-500/10 border border-white/10 p-0.5">
+              <video
+                ref={videoRef}
+                className="w-full h-full object-cover rounded-full"
+                playsInline
+                autoPlay={!prefersReduced}
+                muted
+                loop
+                preload="auto"
+                aria-hidden="true"
+              >
+                <source src="/assets/loader/12345.webm" type="video/webm" />
+                <source src="/assets/loader/12345.mp4" type="video/mp4" />
+              </video>
+            </div>
+
+            {/* Spinning ring around the video */}
+            <div className="absolute -inset-2 rounded-full border-2 border-transparent border-t-violet-500/40 animate-spin" style={{ animationDuration: "2s" }} />
+          </motion.div>
+
+          {/* Brand */}
+          <motion.div
+            className="relative z-10 mb-6"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2, duration: 0.5 }}
+          >
+            <span className="text-white font-mono text-lg font-medium tracking-wider">
+              subash<span className="text-violet-400">.dev</span>
             </span>
-          </p>
-          <span className="sr-only">Loading</span>
-        </div>
-      </div>
-    </div>
+          </motion.div>
+
+          {/* Progress Bar */}
+          <motion.div
+            className="relative z-10 w-48 sm:w-56"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.3 }}
+          >
+            <div className="h-[2px] bg-white/[0.06] rounded-full overflow-hidden">
+              <motion.div
+                className="h-full bg-gradient-to-r from-violet-500 via-purple-500 to-pink-500 rounded-full"
+                style={{ width: `${progress}%` }}
+              />
+            </div>
+            <div className="flex justify-between mt-2">
+              <span className="text-[10px] text-gray-600 font-mono">
+                {phase === "complete" ? "Ready" : "Loading"}
+              </span>
+              <span className="text-[10px] text-gray-500 font-mono">
+                {Math.round(progress)}%
+              </span>
+            </div>
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 };
 

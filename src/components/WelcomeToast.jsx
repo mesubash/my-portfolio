@@ -1,99 +1,88 @@
-import React, { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import greetings from '../data/greetings';
 
-const AUTO_HIDE_MS = 7000; // auto-dismiss after 7s
+const AUTO_HIDE_MS = 7000;
 
 const WelcomeToast = () => {
   const [visible, setVisible] = useState(false);
-  // message can be either a string or an object { text, author }
   const [message, setMessage] = useState(null);
   const hideTimer = useRef(null);
 
   useEffect(() => {
-    // Always show on each visit/refresh (no sessionStorage persistence)
-    if (typeof window === 'undefined') return;
+    if (typeof window === 'undefined' || !greetings) return;
 
-    if (!greetings) return;
-
-    // greetings can be either:
-    // - an array of entries (legacy), or
-    // - an object whose keys are categories and values are arrays of entries
     let chosen = null;
     if (Array.isArray(greetings)) {
       if (greetings.length === 0) return;
-      const idx = Math.floor(Math.random() * greetings.length);
-      chosen = greetings[idx];
+      chosen = greetings[Math.floor(Math.random() * greetings.length)];
     } else if (typeof greetings === 'object') {
       const categories = Object.keys(greetings).filter(k => Array.isArray(greetings[k]) && greetings[k].length > 0);
       if (categories.length === 0) return;
-      // pick a random category then a random entry from it
       const cat = categories[Math.floor(Math.random() * categories.length)];
-      const list = greetings[cat];
-      const idx = Math.floor(Math.random() * list.length);
-      chosen = list[idx];
+      chosen = greetings[cat][Math.floor(Math.random() * greetings[cat].length)];
     }
 
     if (!chosen) return;
     setMessage(chosen);
 
-    // Slight delay to make entrance feel smoother
-    const enter = setTimeout(() => setVisible(true), 250);
+    const enter = setTimeout(() => setVisible(true), 500);
+    hideTimer.current = setTimeout(() => handleClose(true), AUTO_HIDE_MS + 500);
 
-    // auto-hide after a bit
-    hideTimer.current = setTimeout(() => handleClose(true), AUTO_HIDE_MS + 250);
-
-    return () => {
-      clearTimeout(enter);
-      clearTimeout(hideTimer.current);
-    };
+    return () => { clearTimeout(enter); clearTimeout(hideTimer.current); };
   }, []);
 
   const handleClose = (fromAuto = false) => {
     setVisible(false);
-    // do not persist dismissal — show again on next refresh/visit
-    if (!fromAuto) {
-      clearTimeout(hideTimer.current);
-    }
+    if (!fromAuto) clearTimeout(hideTimer.current);
   };
 
   if (!message) return null;
 
   return (
-    <div
-      role="status"
-      aria-live="polite"
-      className={`fixed top-6 right-6 z-50 w-72 max-w-full transform transition-all duration-300 ease-out
-        ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-3 pointer-events-none'}`}
-    >
-      <div className="relative bg-gray-900/80 text-white rounded-lg shadow-md border border-gray-800 overflow-hidden border-l-4 border-l-purple-500">
-        <div className="p-3 px-4 flex items-start gap-3">
-          <div className="flex-1">
-            {typeof message === 'string' ? (
-              <>
-                <p className="text-sm font-semibold leading-tight text-white">{message}</p>
-              </>
-            ) : (
-              <>
-                <p className="text-sm font-semibold leading-tight text-white">{message.text}</p>
-                {message.author ? (
-                  <p className="text-xs text-white/75 mt-1">— {message.author}</p>
-                ) : null}
-              </>
-            )}
-          </div>
+    <AnimatePresence>
+      {visible && (
+        <motion.div
+          role="status"
+          aria-live="polite"
+          className="fixed top-20 right-4 sm:right-6 z-50 w-72 max-w-[calc(100vw-2rem)]"
+          initial={{ opacity: 0, x: 30, scale: 0.95 }}
+          animate={{ opacity: 1, x: 0, scale: 1 }}
+          exit={{ opacity: 0, x: 30, scale: 0.95 }}
+          transition={{ duration: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
+        >
+          <div className="relative bg-dark-950/90 backdrop-blur-xl text-white rounded-xl shadow-2xl shadow-black/30 border border-white/[0.06] overflow-hidden">
+            {/* Accent border */}
+            <div className="absolute left-0 top-0 bottom-0 w-[3px] bg-gradient-to-b from-violet-500 to-pink-500" />
 
-          <button
-            onClick={() => handleClose(false)}
-            aria-label="Dismiss welcome message"
-            className="absolute top-2 right-2 w-7 h-7 rounded-md flex items-center justify-center text-white/80 hover:bg-white/10 transition-colors"
-          >
-            <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          </button>
-        </div>
-      </div>
-    </div>
+            <div className="p-4 pl-5 flex items-start gap-3">
+              <div className="flex-1 min-w-0">
+                {typeof message === 'string' ? (
+                  <p className="text-sm font-medium leading-snug text-gray-200">{message}</p>
+                ) : (
+                  <>
+                    <p className="text-sm font-medium leading-snug text-gray-200">{message.text}</p>
+                    {message.author && (
+                      <p className="text-xs text-gray-500 mt-1">&mdash; {message.author}</p>
+                    )}
+                  </>
+                )}
+              </div>
+
+              <button
+                onClick={() => handleClose(false)}
+                aria-label="Dismiss"
+                className="shrink-0 w-6 h-6 rounded-md flex items-center justify-center text-gray-500 hover:bg-white/[0.06] hover:text-gray-300 transition-colors"
+              >
+                <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 };
 

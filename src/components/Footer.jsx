@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import { Mail, Twitter, Linkedin, Github, Instagram, Terminal, Code2 } from "lucide-react";
-import { Tooltip as ReactTooltip } from "react-tooltip";
+import { motion } from "framer-motion";
 import TerminalComponent from "./Terminal";
 
 const Footer = () => {
   const [copied, setCopied] = useState(false);
   const [isTerminalOpen, setIsTerminalOpen] = useState(false);
 
-  const copyEmail = async () => {
+  const copyEmail = async (e) => {
+    e.preventDefault();
     try {
       await navigator.clipboard.writeText("subashdhamee@gmail.com");
       setCopied(true);
@@ -18,79 +19,56 @@ const Footer = () => {
   };
 
   const socialLinks = [
-    { 
-      href: "mailto:subashdhamee@gmail.com", 
-      Icon: Mail, 
-      label: "email", 
-      tooltip: copied ? "copied!" : "subashdhamee@gmail.com",
-      onClick: copyEmail,
-      special: true
-    },
-    { 
-      href: "https://github.com/mesubash", 
-      Icon: Github, 
-      label: "github", 
-      tooltip: "/mesubash" 
-    },
-    { 
-      href: "https://www.linkedin.com/in/subashsdhami/", 
-      Icon: Linkedin, 
-      label: "linkedin", 
-      tooltip: "/in/subashsdhami" 
-    },
-    { 
-      href: "https://x.com/subashdhamee", 
-      Icon: Twitter, 
-      label: "twitter", 
-      tooltip: "@subashdhamee" 
-    },
-    { 
-      href: "https://www.instagram.com/da.subashh/", 
-      Icon: Instagram, 
-      label: "instagram", 
-      tooltip: "@da.subashh" 
-    },
+    { href: "mailto:subashdhamee@gmail.com", Icon: Mail, label: "Email", onClick: copyEmail },
+    { href: "https://github.com/mesubash", Icon: Github, label: "GitHub" },
+    { href: "https://www.linkedin.com/in/subashsdhami/", Icon: Linkedin, label: "LinkedIn" },
+    { href: "https://x.com/subashdhamee", Icon: Twitter, label: "X" },
+    { href: "https://www.instagram.com/da.subashh/", Icon: Instagram, label: "Instagram" },
   ];
 
   const quickLinks = [
-    { href: "#landingpage", text: "home" },
-    { href: "#about", text: "about" },
-    { href: "#projects", text: "projects" },
-    { href: "#hire-me", text: "hire" },
-    { href: "#contact", text: "contact" },
+    { href: "#landingpage", text: "Home" },
+    { href: "#about", text: "About" },
+    { href: "#projects", text: "Projects" },
+    { href: "#hire-me", text: "Hire Me" },
+    { href: "#contact", text: "Contact" },
   ];
 
   return (
-    <footer className="bg-gray-900 border-t border-gray-800">
-      <div className="max-w-6xl mx-auto px-6 py-12">
+    <footer className="bg-dark-950 border-t border-white/[0.04]">
+      <div className="max-w-6xl mx-auto px-6 py-16">
         {/* Main Footer Content */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
           {/* Brand Section */}
           <div className="space-y-4">
-            <div className="flex items-center space-x-2">
-              <Terminal className="w-5 h-5 text-purple-400" />
-              <span className="text-white font-mono text-lg font-medium">dev.portfolio</span>
+            <div className="flex items-center space-x-3">
+              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-violet-500/20 to-purple-500/20 flex items-center justify-center border border-violet-500/20">
+                <Terminal className="w-4 h-4 text-violet-400" />
+              </div>
+              <span className="text-white font-mono text-base font-medium">
+                subash<span className="text-violet-400">.dev</span>
+              </span>
             </div>
-            <p className="text-gray-400 text-sm font-mono leading-relaxed">
-              // Building digital experiences<br />
-              // One line of code at a time
+            <p className="text-gray-600 text-sm font-mono leading-relaxed">
+              {"// Building digital experiences"}<br />
+              {"// One line of code at a time"}
             </p>
           </div>
 
           {/* Quick Navigation */}
           <div className="space-y-4">
-            <h3 className="text-white font-mono text-sm font-medium flex items-center">
-              <Code2 className="w-4 h-4 mr-2 text-purple-400" />
-              navigation
+            <h3 className="text-gray-400 font-medium text-sm flex items-center gap-2">
+              <Code2 className="w-4 h-4 text-violet-400" />
+              Navigation
             </h3>
             <nav className="grid grid-cols-2 gap-2">
               {quickLinks.map(({ href, text }) => (
                 <a
                   key={text}
                   href={href}
-                  className="group text-gray-400 hover:text-purple-400 font-mono text-sm transition-all duration-300 hover:translate-x-2 transform inline-block"
+                  className="text-gray-600 hover:text-violet-400 text-sm transition-colors duration-300 font-mono"
                 >
-                  <span className="group-hover:font-semibold">./{text}</span>
+                  ./{text.toLowerCase()}
                 </a>
               ))}
             </nav>
@@ -98,69 +76,63 @@ const Footer = () => {
 
           {/* Social Links */}
           <div className="space-y-4">
-            <h3 className="text-white font-mono text-sm font-medium flex items-center">
-              <Terminal className="w-4 h-4 mr-2 text-purple-400" />
-              connect
+            <h3 className="text-gray-400 font-medium text-sm flex items-center gap-2">
+              <Terminal className="w-4 h-4 text-violet-400" />
+              Connect
             </h3>
-            <div className="flex flex-wrap gap-3">
-              {socialLinks.map(({ href, Icon, label, tooltip, onClick, special }) => (
-                <div key={label}>
-                  <a
-                    href={href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    onClick={special ? onClick : undefined}
-                    className="flex items-center justify-center w-10 h-10 bg-gray-800 hover:bg-purple-600 border border-gray-700 hover:border-purple-400 text-gray-400 hover:text-white rounded-lg transition-all duration-300 group hover:scale-110 hover:shadow-lg hover:shadow-purple-500/30 transform hover:-translate-y-1"
-                    data-tooltip-id={`${label}-tooltip`}
-                    data-tooltip-content={tooltip}
-                  >
-                    <Icon className="w-4 h-4 group-hover:scale-125 group-hover:rotate-12 transition-all duration-300" />
-                  </a>
-                </div>
+            <div className="flex flex-wrap gap-2">
+              {socialLinks.map(({ href, Icon, label, onClick }) => (
+                <motion.a
+                  key={label}
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={onClick}
+                  className="group flex items-center justify-center w-10 h-10 rounded-xl bg-white/[0.03] border border-white/[0.06] text-gray-500 hover:text-violet-400 hover:bg-violet-500/10 hover:border-violet-500/20 transition-all duration-300"
+                  whileHover={{ scale: 1.1, y: -2 }}
+                  whileTap={{ scale: 0.9 }}
+                  title={label === "Email" && copied ? "Copied!" : label}
+                >
+                  <Icon className="w-4 h-4" />
+                </motion.a>
               ))}
             </div>
+            {copied && (
+              <p className="text-emerald-400 text-xs font-mono animate-fade-in">
+                Email copied to clipboard!
+              </p>
+            )}
           </div>
         </div>
 
+        {/* Divider */}
+        <div className="section-divider mb-8" />
+
         {/* Bottom Section */}
-        <div className="pt-8 border-t border-gray-800">
-          <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-            <div className="flex items-center space-x-4">
-              <p className="text-gray-500 font-mono text-xs">
-                © {new Date().getFullYear()} • crafted with ❤️ and ☕
-              </p>
-              <button
-                onClick={() => setIsTerminalOpen(true)}
-                className="group flex items-center px-2 py-1 bg-gray-800 hover:bg-green-600 border border-gray-700 hover:border-green-500 text-gray-400 hover:text-white rounded transition-all duration-300 font-mono text-xs hover:scale-105 hover:shadow-md hover:shadow-green-500/30 transform"
-                title="Open Terminal"
-              >
-                <Terminal className="w-3 h-3 mr-1 group-hover:scale-110 transition-transform duration-300" />
-                cli
-              </button>
-            </div>
-            <p className="text-gray-500 font-mono text-xs">
-              // powered by react + vite
+        <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
+          <div className="flex items-center gap-4">
+            <p className="text-gray-600 font-mono text-xs">
+              &copy; {new Date().getFullYear()} Subash Singh Dhami
             </p>
+            <motion.button
+              onClick={() => setIsTerminalOpen(true)}
+              className="flex items-center gap-1.5 px-3 py-1.5 bg-white/[0.03] hover:bg-emerald-500/10 border border-white/[0.06] hover:border-emerald-500/20 text-gray-600 hover:text-emerald-400 rounded-lg transition-all duration-300 font-mono text-xs"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              title="Open Terminal"
+            >
+              <Terminal className="w-3 h-3" />
+              cli
+            </motion.button>
           </div>
+          <p className="text-gray-700 font-mono text-xs">
+            {"// react + vite + framer-motion"}
+          </p>
         </div>
       </div>
 
-      {/* Enhanced Tooltips */}
-      {socialLinks.map(({ label, tooltip }) => (
-        <ReactTooltip
-          key={label}
-          id={`${label}-tooltip`}
-          place="top"
-          effect="solid"
-          className="!bg-gray-800 !text-green-400 !border !border-gray-700 !rounded-md !px-3 !py-2 !font-mono !text-xs"
-        />
-      ))}
-
       {/* Interactive Terminal */}
-      <TerminalComponent 
-        isOpen={isTerminalOpen} 
-        onClose={() => setIsTerminalOpen(false)} 
-      />
+      <TerminalComponent isOpen={isTerminalOpen} onClose={() => setIsTerminalOpen(false)} />
     </footer>
   );
 };

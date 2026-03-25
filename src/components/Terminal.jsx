@@ -1,5 +1,6 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Terminal as TerminalIcon, X, Minus, Square } from 'lucide-react';
+import { useState, useEffect, useRef } from 'react';
+import { Terminal as TerminalIcon, X } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const Terminal = ({ isOpen, onClose }) => {
   const [input, setInput] = useState('');
@@ -10,11 +11,10 @@ const Terminal = ({ isOpen, onClose }) => {
   const inputRef = useRef(null);
   const terminalRef = useRef(null);
 
-  // Navigation helper function
   const navigateToSection = (section) => {
     const element = document.getElementById(section);
     if (element) {
-      onClose(); // Close terminal first
+      onClose();
       setTimeout(() => {
         element.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }, 300);
@@ -27,319 +27,203 @@ const Terminal = ({ isOpen, onClose }) => {
     help: {
       description: 'Show available commands',
       execute: () => [
-        '╭─────────────── AVAILABLE COMMANDS ────────────────╮',
-        '│                                                   │',
-        '│  📖 Information Commands:                         │',
-        '│    help         - Show this help message          │',
-        '│    about        - Learn about me                  │',
-        '│    skills       - View technical skills           │',
-        '│    projects     - List my projects                │',
-        '│    contact      - Get contact information         │',
-        '│    education    - View education background       │',
-        '│    experience   - View work experience            │',
-        '│                                                   │',
-        '│  🧭 Navigation Commands:                          │',
-        '│    cd <section> - Navigate to portfolio section   │',
-        '│                   (home, about, projects, hire,   │',
-        '│                    contact)                       │',
-        '│                                                   │',
-        '│  🗂️  System Commands:                             │',
-        '│    clear        - Clear terminal                  │',
-        '│                                                   │',
-        '│  💡 Tips:                                         │',
-        '│    • Use ↑↓ arrows for command history           │',
-        '│    • Try "cd about" to navigate to about section │',
-        '│                                                   │',
-        '╰───────────────────────────────────────────────────╯'
+        '',
+        '  AVAILABLE COMMANDS',
+        '  ──────────────────────────────────────',
+        '',
+        '  Information',
+        '    help         Show this help message',
+        '    about        Learn about me',
+        '    skills       View technical skills',
+        '    projects     List my projects',
+        '    contact      Get contact information',
+        '    education    View education background',
+        '    experience   View work experience',
+        '',
+        '  Navigation',
+        '    cd <section> Navigate to a section',
+        '                 (home, about, projects, hire, contact)',
+        '',
+        '  System',
+        '    whoami       Display current user',
+        '    pwd          Show current directory',
+        '    ls           List directory contents',
+        '    tree         Show directory structure',
+        '    cat <file>   Read file contents',
+        '    clear        Clear terminal',
+        '    exit         Close terminal',
+        '',
+        '  Tips: Use arrow keys for command history',
+        ''
       ]
     },
     cd: {
       description: 'Navigate to portfolio sections',
       execute: (args) => {
         if (!args || args.length === 0) {
-          return [
-            '💡 Usage: cd <section>',
-            '',
-            '📂 Available sections:',
-            '   • home      - Landing page',
-            '   • about     - About me section', 
-            '   • projects  - My projects showcase',
-            '   • hire      - Hire me section',
-            '   • contact   - Contact information',
-            '',
-            'Example: cd about'
-          ];
+          return ['', '  Usage: cd <section>', '', '  Sections: home, about, projects, hire, contact', ''];
         }
-
         const section = args[0].toLowerCase();
-        const sectionMap = {
-          'home': 'landingpage',
-          'about': 'about',
-          'projects': 'projects', 
-          'hire': 'hire-me',
-          'contact': 'contact'
-        };
-
+        const sectionMap = { home: 'landingpage', about: 'about', projects: 'projects', hire: 'hire-me', contact: 'contact' };
         if (sectionMap[section]) {
           const success = navigateToSection(sectionMap[section]);
           if (success) {
             setCurrentPath(`~/portfolio/${section}`);
-            return [
-              `🧭 Navigating to ${section} section...`,
-              `📍 Current location: ${section}`,
-              '✅ Navigation successful!'
-            ];
-          } else {
-            return [`❌ Failed to navigate to ${section} section`];
+            return [`  Navigating to ${section}...`];
           }
-        } else {
-          return [
-            `❌ Directory not found: ${section}`,
-            '',
-            '📂 Available sections: home, about, projects, hire, contact'
-          ];
+          return [`  Error: Failed to navigate to ${section}`];
         }
+        return [`  Not found: ${section}`, '', '  Available: home, about, projects, hire, contact'];
       }
     },
     about: {
-      description: 'Information about the developer',
+      description: 'About the developer',
       execute: () => [
-        '╭─────────────── ABOUT SUBASH SINGH DHAMI ──────────────╮',
-        '│                                                       │',
-        '│  👨‍💻 Full Stack Developer                              │',
-        '│  🎯 Problem Solver & Innovation Enthusiast            │',
-        '│  🌱 Continuous Learner                                │',
-        '│  ☕ Coffee-Driven Code Architect                      │',
-        '│                                                       │',
-        '│  💭 "Talk is cheap. Show me the code." - Linus        │',
-        '│                                                       │',
-        '│  🚀 Currently building scalable solutions with        │',
-        '│     modern technologies and best practices.           │',
-        '│                                                       │',
-        '│  📍 Status: Available for new opportunities ✅        │',
-        '│                                                       │',
-        '│  💡 Fun Fact: Once debugged code while hiking in      │',
-        '│     the mountains! 🏔️                                │',
-        '│                                                       │',
-        '╰───────────────────────────────────────────────────────╯',
         '',
-        '🔗 Quick navigation: cd about'
+        '  SUBASH SINGH DHAMI',
+        '  ──────────────────────────────────────',
+        '',
+        '  Role      Full Stack Developer',
+        '  Focus     Scalable Systems & Modern Tech',
+        '  Status    Available for opportunities',
+        '  Location  Kathmandu, Nepal',
+        '',
+        '  Currently building Yugo - a smart',
+        '  mobility platform for public transport.',
+        '',
+        '  "Talk is cheap. Show me the code."',
+        '                      - Linus Torvalds',
+        ''
       ]
     },
     skills: {
-      description: 'Technical skills and expertise',
+      description: 'Technical skills',
       execute: () => [
-        '╭─────────────── TECHNICAL EXPERTISE ───────────────╮',
-        '│                                                   │',
-        '│  ⚡ CORE STACK                                     │',
-        '│  ├─ Java Spring Boot                              │',
-        '│  ├─ Flutter                                       │',
-        '│  ├─ React                                         │',
-        '│  └─ PostgreSQL                                    │',
-        '│                                                   │',
-        '│  🚀 PRODUCTION READY                              │',
-        '│  ├─ Docker                                        │',
-        '│  ├─ AWS                                           │',
-        '│  ├─ CI/CD                                         │',
-        '│  └─ Nginx                                         │',
-        '│                                                   │',
-        '│  🤖 DATA & AI                                     │',
-        '│  ├─ Python                                        │',
-        '│  ├─ Scikit-learn                                  │',
-        '│  └─ ML Models                                     │',
-        '│                                                   │',
-        '╰───────────────────────────────────────────────────╯',
         '',
-        '🔗 Navigate to skills: cd about'
+        '  TECHNICAL SKILLS',
+        '  ──────────────────────────────────────',
+        '',
+        '  Backend     Java Spring Boot, Node.js',
+        '              PostgreSQL, Redis, Docker',
+        '',
+        '  Mobile      Flutter, Android (Java)',
+        '',
+        '  Frontend    React, Next.js, Tailwind',
+        '',
+        '  ML & Data   Python, Scikit-learn',
+        '',
+        '  DevOps      AWS, CI/CD, Nginx, Git',
+        ''
       ]
     },
     projects: {
-      description: 'List of projects',
+      description: 'List projects',
       execute: () => [
-        '╭─────────────── PROJECT SHOWCASE ──────────────╮',
-        '│                                               │',
-        '│  🚀 Yugo: Smart Mobility Platform             │',
-        '│  ├─ QR-based fare collection for transport    │',
-        '│  ├─ Digital wallet integration (Khalti)       │',
-        '│  └─ 🛠️  Tech: Flutter, Spring Boot, PostgreSQL│',
-        '│                                               │',
-        '│  🧠 QuizMaster                                │',
-        '│  ├─ Quiz application with authentication      │',
-        '│  ├─ Backend complete, frontend in progress    │',
-        '│  └─ 🛠️  Tech: Spring Boot, Next.js            │',
-        '│                                               │',
-        '│  📧 SMS Spam Detection                        │',
-        '│  ├─ ML-powered spam detection system          │',
-        '│  ├─ Docker containerized deployment           │',
-        '│  └─ 🛠️  Tech: Python, ML, Docker, FastAPI     │',
-        '│                                               │',
-        '│  📚 Library Management System                 │',
-        '│  ├─ Book and user management with CRUD ops    │',
-        '│  └─ 🛠️  Tech: Spring Boot, React              │',
-        '│                                               │',
-        '│  🎓 NepEducation                              │',
-        '│  ├─ Simple learning platform                  │',
-        '│  └─ 🛠️  Tech: PHP, HTML/CSS, JavaScript       │',
-        '│                                               │',
-        '│  ✅ Simple TODO App                           │',
-        '│  ├─ Desktop app with CRUD operations          │',
-        '│  └─ 🛠️  Tech: Java, JavaFX                    │',
-        '│                                               │',
-        '╰───────────────────────────────────────────────╯',
         '',
-        '🔗 Navigate to projects: cd projects',
-        '📄 Detailed info: cat project_<name>'
+        '  PROJECT SHOWCASE',
+        '  ──────────────────────────────────────',
+        '',
+        '  * Yugo: Smart Mobility Platform',
+        '    Flutter, Spring Boot, PostgreSQL',
+        '',
+        '  * QuizMaster',
+        '    Spring Boot, Next.js',
+        '',
+        '  * Khojdu: Rental Platform',
+        '    Spring Boot, Next.js, Redis',
+        '',
+        '  * SMS Spam Detection',
+        '    Python, ML, Docker, FastAPI',
+        '',
+        '  * Library Management System',
+        '    Spring Boot, React',
+        '',
+        '  Navigate: cd projects',
+        ''
       ]
     },
     contact: {
       description: 'Contact information',
       execute: () => [
-        '📧 Contact Information:',
         '',
-        '  Email: subashdhamee@gmail.com',
-        '  GitHub: github.com/mesubash',
-        '  LinkedIn: linkedin.com/in/subashsdhami',
-        '  Website: subashsdhami.com.np',
+        '  CONTACT',
+        '  ──────────────────────────────────────',
         '',
-        '💬 Let\'s connect and build something amazing!'
+        '  Email     subashdhamee@gmail.com',
+        '  GitHub    github.com/mesubash',
+        '  LinkedIn  linkedin.com/in/subashsdhami',
+        '  Website   subashsdhami.com.np',
+        ''
       ]
     },
     education: {
-      description: 'Educational background',
+      description: 'Education',
       execute: () => [
-        '🎓 Education:',
         '',
-        '📚 Computer Science & Engineering',
-        '   └─ Focus: Software Development, AI & Cloud',
-        '   └─ Relevant coursework: Data Structures,',
-        '      Algorithms, Machine Learning, Web Dev, OOP, Cloud',
+        '  EDUCATION',
+        '  ──────────────────────────────────────',
+        '',
+        '  Computer Science & Engineering',
+        '  Focus: Software Dev, AI & Cloud',
         ''
       ]
     },
     experience: {
       description: 'Work experience',
       execute: () => [
-        '💼 Professional Experience:',
         '',
-        '🚀 Project Development',
-        '   └─ Leading Yugo mobility platform development',
-        '   └─ Building full-stack applications with modern tech',
-        '   └─ Implementing ML solutions for real-world problems',
+        '  EXPERIENCE',
+        '  ──────────────────────────────────────',
         '',
-        '🎓 Academic & Learning',
-        '   └─ Computer Science & Engineering studies',
-        '   └─ Hands-on experience with multiple tech stacks',
-        '   └─ Contributing to open source projects',
+        '  Project Lead - Yugo Mobility Platform',
+        '    Building production-ready transport system',
+        '    Microservices, wallet integration, QR flow',
         '',
-        '📈 Continuous Growth:',
-        '   └─ Staying updated with latest technologies',
-        '   └─ Building personal and collaborative projects',
-        '   └─ Focus on scalable and production-ready solutions'
+        '  Full Stack Developer',
+        '    Multiple web & mobile applications',
+        '    Spring Boot, React, Flutter, PostgreSQL',
+        ''
       ]
     },
-    whoami: {
-      description: 'Display current user',
-      execute: () => ['subash@portfolio']
-    },
-    pwd: {
-      description: 'Show current directory',
-      execute: () => [currentPath]
-    },
+    whoami: { description: 'Current user', execute: () => ['  subash@portfolio'] },
+    pwd: { description: 'Current directory', execute: () => [`  ${currentPath}`] },
     ls: {
-      description: 'List directory contents',
+      description: 'List files',
       execute: () => [
-        'total 8',
-        'drwxr-xr-x  5 subash  staff   160 Aug  3 14:30 .',
-        'drwxr-xr-x  3 subash  staff    96 Aug  3 14:25 ..',
-        '-rw-r--r--  1 subash  staff  2048 Aug  3 14:30 about.txt',
-        '-rw-r--r--  1 subash  staff  1536 Aug  3 14:29 skills.json',
-        'drwxr-xr-x  4 subash  staff   128 Aug  3 14:30 projects/',
-        '-rw-r--r--  1 subash  staff   512 Aug  3 14:25 contact.md',
-        '-rw-r--r--  1 subash  staff  1024 Aug  3 14:28 resume.pdf'
+        '  about.txt    skills.json  contact.md',
+        '  resume.pdf   projects/',
       ]
     },
     tree: {
-      description: 'Show directory structure',
+      description: 'Directory tree',
       execute: () => [
-        '~/portfolio',
-        '├── about.txt',
-        '├── skills.json',
-        '├── contact.md',
-        '├── resume.pdf',
-        '└── projects/',
-        '    ├── yugo/',
-        '    │   ├── README.md',
-        '    │   └── src/',
-        '    ├── sms-spam-detection/',
-        '    │   ├── models/',
-        '    │   └── data/',
-        '    ├── quizmaster/',
-        '    │   ├── backend/',
-        '    │   └── frontend/',
-        '    ├── library-management/',
-        '    │   ├── backend/',
-        '    │   └── frontend/',
-        '    ├── nepeducation/',
-        '    │   └── web/',
-        '    ├── todo-app/',
-        '    │   └── javafx/',
-        '    └── portfolio-website/',
-        '        ├── src/',
-        '        └── public/',
-        '',
-        '11 directories, 18 files'
+        '  ~/portfolio',
+        '  ├── about.txt',
+        '  ├── skills.json',
+        '  ├── contact.md',
+        '  ├── resume.pdf',
+        '  └── projects/',
+        '      ├── yugo/',
+        '      ├── quizmaster/',
+        '      ├── khojdu/',
+        '      ├── spam-detection/',
+        '      └── library-mgmt/',
       ]
     },
-    clear: {
-      description: 'Clear terminal',
-      execute: () => {
-        setHistory([]);
-        return [];
-      }
-    }
+    clear: { description: 'Clear', execute: () => { setHistory([]); return []; } },
+    exit: { description: 'Close terminal', execute: () => { onClose(); return []; } },
+    quit: { description: 'Close terminal', execute: () => { onClose(); return []; } },
   };
 
   const fileContents = {
-    'about.txt': [
-      'Subash Singh Dhami - Full Stack Developer',
-      '=========================================',
-      '',
-      'Passionate about creating innovative solutions',
-      'that bridge the gap between complex problems',
-      'and elegant, user-friendly applications.',
-      '',
-      'Currently building: Yugo mobility platform',
-      'Fun fact: Debugged code while hiking in the mountains! 🏔️'
-    ],
-    'skills.json': [
-      '{',
-      '  "core_stack": ["Java Spring Boot", "Flutter", "React", "PostgreSQL"],',
-      '  "production": ["Docker", "AWS", "CI/CD", "Nginx"],',
-      '  "data_ai": ["Python", "Scikit-learn", "ML Models"],',
-      '  "languages": ["Java", "JavaScript", "Python", "Dart"],',
-      '  "frameworks": ["Spring Boot", "React", "Flutter", "FastAPI"],',
-      '  "databases": ["PostgreSQL", "MongoDB"],',
-      '  "tools": ["Git", "Docker", "Nginx", "Vite"]',
-      '}'
-    ],
-    'contact.md': [
-      '# Contact Information',
-      '',
-      '📧 **Email:** subashdhamee@gmail.com',
-      '🐙 **GitHub:** github.com/mesubash',
-      '💼 **LinkedIn:** linkedin.com/in/subashsdhami',
-      '🌐 **Website:** subashsdhami.com.np',
-      '',
-      '## Availability',
-      '- Open to full-time opportunities',
-      '- Available for internships & collaborations',
-      '- Happy to discuss exciting projects'
-    ]
+    'about.txt': ['', '  Subash Singh Dhami - Full Stack Developer', '  ==========================================', '', '  Passionate about creating innovative solutions.', '  Currently building: Yugo mobility platform', ''],
+    'skills.json': ['  {', '    "core": ["Spring Boot", "Flutter", "React", "PostgreSQL"],', '    "devops": ["Docker", "AWS", "CI/CD", "Nginx"],', '    "ml": ["Python", "Scikit-learn"]', '  }'],
+    'contact.md': ['', '  # Contact', '', '  Email: subashdhamee@gmail.com', '  GitHub: github.com/mesubash', '  LinkedIn: linkedin.com/in/subashsdhami', ''],
   };
 
   useEffect(() => {
     if (isOpen && inputRef.current) {
-      inputRef.current.focus();
+      setTimeout(() => inputRef.current?.focus(), 100);
     }
   }, [isOpen]);
 
@@ -349,18 +233,27 @@ const Terminal = ({ isOpen, onClose }) => {
     }
   }, [history]);
 
+  // Close on Escape
+  useEffect(() => {
+    const handleEsc = (e) => { if (e.key === 'Escape' && isOpen) onClose(); };
+    window.addEventListener('keydown', handleEsc);
+    return () => window.removeEventListener('keydown', handleEsc);
+  }, [isOpen, onClose]);
+
+  const getSuggestion = (cmd) => {
+    const names = Object.keys(commands);
+    const match = names.find(n => n.startsWith(cmd) || n.includes(cmd));
+    return match || 'help';
+  };
+
   const handleCommand = (cmd) => {
     const trimmedCmd = cmd.trim();
     if (!trimmedCmd) return;
 
-    // Add to command history
     setCommandHistory(prev => [...prev, trimmedCmd]);
     setHistoryIndex(-1);
-
-    // Add command to display history
     setHistory(prev => [...prev, { type: 'command', content: `${currentPath} $ ${trimmedCmd}` }]);
 
-    // Parse command
     const [command, ...args] = trimmedCmd.toLowerCase().split(' ');
 
     if (command === 'cat' && args.length > 0) {
@@ -368,7 +261,7 @@ const Terminal = ({ isOpen, onClose }) => {
       if (fileContents[filename]) {
         setHistory(prev => [...prev, { type: 'output', content: fileContents[filename] }]);
       } else {
-        setHistory(prev => [...prev, { type: 'error', content: [`❌ cat: ${filename}: No such file or directory`] }]);
+        setHistory(prev => [...prev, { type: 'error', content: [`  cat: ${filename}: No such file`] }]);
       }
     } else if (command === 'cd') {
       const output = commands.cd.execute(args);
@@ -379,26 +272,12 @@ const Terminal = ({ isOpen, onClose }) => {
         setHistory(prev => [...prev, { type: 'output', content: output }]);
       }
     } else {
-      setHistory(prev => [...prev, { 
-        type: 'error', 
-        content: [
-          `❌ Command not found: ${command}`, 
-          '💡 Type "help" for available commands.',
-          `🔍 Did you mean: ${getSuggestion(command)}?`
-        ] 
+      setHistory(prev => [...prev, {
+        type: 'error',
+        content: [`  Command not found: ${command}`, `  Did you mean: ${getSuggestion(command)}?`, '  Type "help" for commands.']
       }]);
     }
-
     setInput('');
-  };
-
-  // Simple command suggestion function
-  const getSuggestion = (cmd) => {
-    const commandNames = Object.keys(commands);
-    const suggestions = commandNames.filter(name => 
-      name.includes(cmd) || cmd.includes(name.slice(0, 2))
-    );
-    return suggestions.length > 0 ? suggestions[0] : 'help';
   };
 
   const handleKeyDown = (e) => {
@@ -407,119 +286,113 @@ const Terminal = ({ isOpen, onClose }) => {
     } else if (e.key === 'ArrowUp') {
       e.preventDefault();
       if (commandHistory.length > 0) {
-        const newIndex = historyIndex === -1 ? commandHistory.length - 1 : Math.max(0, historyIndex - 1);
-        setHistoryIndex(newIndex);
-        setInput(commandHistory[newIndex]);
+        const newIdx = historyIndex === -1 ? commandHistory.length - 1 : Math.max(0, historyIndex - 1);
+        setHistoryIndex(newIdx);
+        setInput(commandHistory[newIdx]);
       }
     } else if (e.key === 'ArrowDown') {
       e.preventDefault();
       if (historyIndex !== -1) {
-        const newIndex = Math.min(commandHistory.length - 1, historyIndex + 1);
-        if (newIndex === commandHistory.length - 1 && historyIndex === commandHistory.length - 1) {
-          setHistoryIndex(-1);
-          setInput('');
-        } else {
-          setHistoryIndex(newIndex);
-          setInput(commandHistory[newIndex]);
-        }
+        const newIdx = historyIndex + 1;
+        if (newIdx >= commandHistory.length) { setHistoryIndex(-1); setInput(''); }
+        else { setHistoryIndex(newIdx); setInput(commandHistory[newIdx]); }
+      }
+    } else if (e.key === 'Tab') {
+      e.preventDefault();
+      if (input) {
+        const match = Object.keys(commands).find(c => c.startsWith(input.toLowerCase()));
+        if (match) setInput(match);
       }
     }
   };
 
-  if (!isOpen) return null;
-
   return (
-    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-      <div className="bg-gray-900 rounded-lg shadow-2xl w-full max-w-4xl max-h-[80vh] flex flex-col">
-        {/* Terminal Header */}
-        <div className="flex items-center justify-between bg-gray-800 px-4 py-3 rounded-t-lg border-b border-gray-700">
-          <div className="flex items-center space-x-3">
-            <div className="flex space-x-2">
-              <div className="w-3 h-3 bg-red-500 rounded-full"></div>
-              <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
-              <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-            </div>
-            <div className="flex items-center space-x-2 text-gray-300">
-              <TerminalIcon className="w-4 h-4" />
-              <span className="text-sm font-medium">subash@portfolio: ~</span>
-            </div>
-          </div>
-          <button
-            onClick={onClose}
-            className="text-gray-400 hover:text-white transition-colors duration-200"
-          >
-            <X className="w-5 h-5" />
-          </button>
-        </div>
-
-        {/* Terminal Content */}
-        <div 
-          ref={terminalRef}
-          className="flex-1 p-4 bg-gray-900 text-green-400 font-mono text-sm overflow-y-auto rounded-b-lg"
+    <AnimatePresence>
+      {isOpen && (
+        <motion.div
+          className="fixed inset-0 bg-black/60 backdrop-blur-md flex items-center justify-center z-50 p-4"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.2 }}
+          onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
         >
-          {/* Welcome Message */}
-          <div className="mb-6">
-            <div className="text-cyan-400 text-lg font-bold mb-2">
-              🚀 Welcome to Subash's Interactive Portfolio Terminal!
-            </div>
-            <div className="text-gray-400 text-sm mb-2">
-              ╭─────────────────────────────────────────────────────╮
-            </div>
-            <div className="text-gray-400 text-sm mb-1">
-              │  💡 Type 'help' to see all available commands      │
-            </div>
-            <div className="text-gray-400 text-sm mb-1">
-              │  🧭 Try 'cd about' to navigate to sections         │
-            </div>
-            <div className="text-gray-400 text-sm mb-1">
-              │  📄 Use 'cat &lt;file&gt;' to read file contents         │
-            </div>
-            <div className="text-gray-400 text-sm mb-1">
-              │  ⌨️  Use ↑↓ arrows for command history             │
-            </div>
-            <div className="text-gray-400 text-sm mb-2">
-              ╰─────────────────────────────────────────────────────╯
-            </div>
-            <div className="border-b border-gray-700 my-3"></div>
-          </div>
-
-          {/* Command History */}
-          {history.map((entry, index) => (
-            <div key={index} className="mb-2">
-              {entry.type === 'command' && (
-                <div className="text-cyan-400">{entry.content}</div>
-              )}
-              {entry.type === 'output' && (
-                <div className="text-green-400 whitespace-pre-line">
-                  {Array.isArray(entry.content) ? entry.content.join('\n') : entry.content}
+          <motion.div
+            className="bg-dark-950 border border-white/[0.08] rounded-2xl shadow-2xl shadow-black/50 w-full max-w-3xl max-h-[80vh] flex flex-col overflow-hidden"
+            initial={{ scale: 0.95, y: 20, opacity: 0 }}
+            animate={{ scale: 1, y: 0, opacity: 1 }}
+            exit={{ scale: 0.95, y: 20, opacity: 0 }}
+            transition={{ duration: 0.25, ease: [0.25, 0.1, 0.25, 1] }}
+          >
+            {/* Header */}
+            <div className="flex items-center justify-between px-5 py-3.5 border-b border-white/[0.06] bg-white/[0.02]">
+              <div className="flex items-center gap-4">
+                <div className="flex gap-2">
+                  <button onClick={onClose} className="w-3 h-3 rounded-full bg-red-500/80 hover:bg-red-500 transition-colors" />
+                  <div className="w-3 h-3 rounded-full bg-yellow-500/80" />
+                  <div className="w-3 h-3 rounded-full bg-green-500/80" />
                 </div>
-              )}
-              {entry.type === 'error' && (
-                <div className="text-red-400 whitespace-pre-line">
-                  {Array.isArray(entry.content) ? entry.content.join('\n') : entry.content}
+                <div className="flex items-center gap-2 text-gray-400">
+                  <TerminalIcon className="w-3.5 h-3.5" />
+                  <span className="text-xs font-mono font-medium">subash@portfolio: ~</span>
                 </div>
-              )}
+              </div>
+              <button onClick={onClose} className="text-gray-500 hover:text-white transition-colors p-1 rounded-lg hover:bg-white/[0.06]">
+                <X className="w-4 h-4" />
+              </button>
             </div>
-          ))}
 
-          {/* Current Input Line */}
-          <div className="flex items-center">
-            <span className="text-cyan-400 mr-2">{currentPath} $ </span>
-            <input
-              ref={inputRef}
-              type="text"
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              onKeyDown={handleKeyDown}
-              className="flex-1 bg-transparent text-green-400 outline-none"
-              autoComplete="off"
-              spellCheck="false"
-            />
-            <span className="text-green-400 animate-pulse ml-1">▊</span>
-          </div>
-        </div>
-      </div>
-    </div>
+            {/* Terminal Body */}
+            <div
+              ref={terminalRef}
+              className="flex-1 p-5 font-mono text-[13px] leading-relaxed overflow-y-auto"
+              onClick={() => inputRef.current?.focus()}
+            >
+              {/* Welcome */}
+              <div className="mb-4 text-gray-500">
+                <div className="text-violet-400 font-semibold mb-1">Welcome to Subash&apos;s Portfolio Terminal</div>
+                <div>Type <span className="text-emerald-400">help</span> for commands, <span className="text-emerald-400">Tab</span> to autocomplete</div>
+                <div className="border-b border-white/[0.04] mt-3" />
+              </div>
+
+              {/* History */}
+              {history.map((entry, index) => (
+                <div key={index} className="mb-1.5">
+                  {entry.type === 'command' && (
+                    <div className="text-cyan-400">{entry.content}</div>
+                  )}
+                  {entry.type === 'output' && (
+                    <div className="text-gray-300 whitespace-pre">
+                      {Array.isArray(entry.content) ? entry.content.join('\n') : entry.content}
+                    </div>
+                  )}
+                  {entry.type === 'error' && (
+                    <div className="text-red-400/80 whitespace-pre">
+                      {Array.isArray(entry.content) ? entry.content.join('\n') : entry.content}
+                    </div>
+                  )}
+                </div>
+              ))}
+
+              {/* Input */}
+              <div className="flex items-center">
+                <span className="text-cyan-400 mr-2 shrink-0">{currentPath} $</span>
+                <input
+                  ref={inputRef}
+                  type="text"
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                  onKeyDown={handleKeyDown}
+                  className="flex-1 bg-transparent text-emerald-400 outline-none caret-emerald-400 min-w-0"
+                  autoComplete="off"
+                  spellCheck="false"
+                />
+              </div>
+            </div>
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 };
 
