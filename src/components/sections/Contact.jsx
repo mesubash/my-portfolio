@@ -29,7 +29,7 @@ const Contact = () => {
 
       <div className="max-w-6xl mx-auto relative z-10">
         <FadeIn>
-          <SectionHeading label="04 / Contact" description="Looking for a backend engineer or have a project that needs Spring Boot, Flutter, or React? Let's talk.">
+          <SectionHeading label="04 / Contact" description="Have a question or want to work together? Feel free to reach out.">
             Get in Touch
           </SectionHeading>
         </FadeIn>
@@ -94,7 +94,7 @@ const Contact = () => {
                 </div>
                 <div>
                   <label className="block text-[11px] text-slate-600 uppercase tracking-wider mb-1.5">Subject</label>
-                  <input type="text" name="subject" placeholder="Project discussion" className={input} />
+                  <input type="text" name="subject" placeholder="Hiring, Collaboration, Freelance..." className={input} />
                 </div>
                 <div>
                   <label className="block text-[11px] text-slate-600 uppercase tracking-wider mb-1.5">Message</label>

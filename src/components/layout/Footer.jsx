@@ -22,7 +22,7 @@ const Footer = () => {
             <p className="mt-2 text-xs text-slate-600 max-w-[220px]">Building scalable systems with modern technologies.</p>
           </div>
 
-          <div className="flex gap-6">
+          <div className="flex flex-wrap gap-x-6 gap-y-2">
             {["Home", "About", "Projects", "Experience", "Contact"].map((l) => (
               <a key={l} href={`#${l.toLowerCase()}`} className="text-xs text-slate-600 hover:text-slate-300 transition-colors">{l}</a>
             ))}

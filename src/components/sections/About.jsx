@@ -20,7 +20,7 @@ const About = () => {
 
       <div className="max-w-6xl mx-auto relative z-10">
         <FadeIn>
-          <SectionHeading label="01 / About">The Engineer</SectionHeading>
+          <SectionHeading label="01 / About">About</SectionHeading>
         </FadeIn>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-5">

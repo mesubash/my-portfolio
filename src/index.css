@@ -14,7 +14,7 @@
   --border: rgba(255, 255, 255, 0.06);
 }
 
-html { scroll-padding-top: 80px; }
+html { scroll-behavior: smooth; scroll-padding-top: 80px; }
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
 body {
