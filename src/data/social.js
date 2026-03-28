@@ -25,7 +25,7 @@ export const experience = [
     location: "Kathmandu, Nepal",
     period: "Jul – Oct 2025",
     description: "Worked on production projects using Next.js, Node/Express, and PostgreSQL. Designed and integrated APIs for complex business workflows with DevOps tooling.",
-    tech: ["Next.js", "Node.js", "PostgreSQL", "Docker"],
+    tech: ["Next.js", "Node/Express", "PostgreSQL", "Docker", "Nginx"],
   },
   {
     role: "Java Developer Intern",
