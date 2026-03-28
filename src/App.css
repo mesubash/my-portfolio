@@ -1,163 +1,123 @@
-body, html, #root {
-  height: 100%;
-  margin: 0;
-  padding: 0;
-}
+html, body, #root { height: 100%; }
 
-.app-container {
-  width: 100%;
+.app {
   min-height: 100vh;
-  box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  background: var(--color-bg-primary);
+  background: var(--bg);
   position: relative;
 }
 
-/* Gradient mesh background */
-.mesh-gradient {
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  overflow: hidden;
+/* Blueprint grid — the signature Architect pattern */
+.grid-bg {
+  background-image:
+    linear-gradient(rgba(99, 102, 241, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(99, 102, 241, 0.035) 1px, transparent 1px);
+  background-size: 60px 60px;
 }
 
-.mesh-gradient .orb {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(100px);
-  opacity: 0.15;
-}
-
-.mesh-gradient .orb-1 {
-  width: 600px;
-  height: 600px;
-  background: radial-gradient(circle, #8b5cf6 0%, transparent 70%);
-  top: -200px;
-  right: -200px;
-  animation: float 20s ease-in-out infinite;
-}
-
-.mesh-gradient .orb-2 {
-  width: 500px;
-  height: 500px;
-  background: radial-gradient(circle, #ec4899 0%, transparent 70%);
-  bottom: -150px;
-  left: -150px;
-  animation: float 25s ease-in-out infinite reverse;
-}
-
-.mesh-gradient .orb-3 {
-  width: 400px;
-  height: 400px;
-  background: radial-gradient(circle, #06b6d4 0%, transparent 70%);
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  animation: float 15s ease-in-out infinite;
-}
-
-@keyframes float {
-  0%, 100% { transform: translateY(0px) translateX(0px); }
-  25% { transform: translateY(-30px) translateX(15px); }
-  50% { transform: translateY(-15px) translateX(-20px); }
-  75% { transform: translateY(-25px) translateX(10px); }
-}
-
-/* Star trail canvas is handled by MouseFollower component */
-
-/* Smooth page transitions */
-.page-transition-enter {
-  opacity: 0;
-  transform: translateY(20px);
-}
-
-.page-transition-enter-active {
-  opacity: 1;
-  transform: translateY(0);
-  transition: opacity 300ms, transform 300ms;
-}
-
-/* Section divider gradient */
-.section-divider {
+/* Section divider with glow */
+.divider {
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(139, 92, 246, 0.2), rgba(236, 72, 153, 0.1), transparent);
+  background: linear-gradient(90deg, transparent 5%, rgba(99, 102, 241, 0.15) 30%, rgba(34, 211, 238, 0.1) 70%, transparent 95%);
 }
 
-/* Typed.js cursor styling */
-.typed-cursor {
-  color: #8b5cf6;
-  display: inline-block;
-  font-weight: 600;
-  animation: blink 1s step-end infinite;
+/* Gradient text utility */
+.text-gradient {
+  background: linear-gradient(135deg, #6366f1 0%, #818cf8 40%, #22d3ee 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
-@keyframes blink {
-  50% { opacity: 0; }
+/* Animated gradient border for highlighted cards */
+@keyframes border-rotate {
+  to { --angle: 360deg; }
 }
 
-/* Gradient text animation */
-.animate-gradient-x {
-  background-size: 200% 200%;
-  animation: gradient-shift 4s ease infinite;
-}
-
-@keyframes gradient-shift {
-  0%, 100% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-}
-
-/* Shimmer effect */
-.animate-shimmer {
-  background: linear-gradient(90deg, transparent, rgba(139, 92, 246, 0.08), transparent);
-  background-size: 200% 100%;
-  animation: shimmer 3s infinite;
-}
-
-@keyframes shimmer {
-  0% { background-position: -200% 0; }
-  100% { background-position: 200% 0; }
-}
-
-/* Bounce subtle */
-.animate-bounce-subtle {
-  animation: bounce-subtle 3s ease-in-out infinite;
-}
-
-@keyframes bounce-subtle {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-3px); }
-}
-
-/* Animated conic gradient border */
-@property --border-angle {
+@property --angle {
   syntax: "<angle>";
   initial-value: 0deg;
   inherits: false;
 }
 
-@keyframes rotate-border {
-  to { --border-angle: 360deg; }
+.glow-card {
+  position: relative;
+  overflow: hidden;
+}
+.glow-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: conic-gradient(from var(--angle, 0deg), transparent 40%, rgba(99,102,241,0.3) 50%, rgba(34,211,238,0.2) 55%, transparent 65%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: border-rotate 6s linear infinite;
+  pointer-events: none;
 }
 
-.animated-border {
-  animation: rotate-border 4s linear infinite;
-  background: conic-gradient(
-    from var(--border-angle),
-    rgba(139,92,246,0.4),
-    rgba(236,72,153,0.3),
-    rgba(6,182,212,0.3),
-    rgba(139,92,246,0.4)
-  );
+/* Card spotlight on hover */
+.spotlight-card {
+  position: relative;
+  overflow: hidden;
+}
+.spotlight-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.4s;
+  background: radial-gradient(circle at var(--mx, 50%) var(--my, 50%), rgba(99,102,241,0.08) 0%, transparent 50%);
+  pointer-events: none;
+}
+.spotlight-card:hover::after { opacity: 1; }
+
+/* Blueprint corner markers for section headings */
+.blueprint-corner {
+  position: relative;
+}
+.blueprint-corner::before,
+.blueprint-corner::after {
+  content: '';
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border-color: rgba(99, 102, 241, 0.15);
+  border-style: solid;
+}
+.blueprint-corner::before {
+  top: -8px;
+  left: -8px;
+  border-width: 1px 0 0 1px;
+}
+.blueprint-corner::after {
+  bottom: -8px;
+  right: -8px;
+  border-width: 0 1px 1px 0;
 }
 
-/* Reduced motion support */
+/* Smooth entrance keyframes */
+@keyframes slide-up {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.2); }
+  50% { box-shadow: 0 0 20px 4px rgba(99, 102, 241, 0.1); }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
-
 }

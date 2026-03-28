@@ -2,7 +2,13 @@
   "permissions": {
     "allow": [
       "Bash(npm run:*)",
-      "Bash(gtimeout 8 npm run dev)"
+      "Bash(gtimeout 8 npm run dev)",
+      "Bash(ls src/components/*.jsx)",
+      "Bash(npm install:*)",
+      "Bash(npm uninstall:*)",
+      "Bash(curl -s \"https://api.github.com/users/mesubash/events?per_page=100\")",
+      "Bash(curl -s \"https://api.github.com/users/mesubash/repos?per_page=100&sort=updated\")",
+      "Bash(rsvg-convert /Users/isubash/Developer/my-portfolio/public/assets/og-image.svg -o /Users/isubash/Developer/my-portfolio/public/assets/og-image.png -w 1200 -h 630)"
     ]
   }
 }
