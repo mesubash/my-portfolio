@@ -36,9 +36,10 @@ const MorphSphere = () => {
     // Vertex displacement — organic morphing
     for (let i = 0; i < pos.count; i++) {
       const ox = orig[i * 3], oy = orig[i * 3 + 1], oz = orig[i * 3 + 2];
-      const d = 1 + Math.sin(ox * 1.5 + t * 0.6) * 0.08
-                  + Math.sin(oy * 2.0 + t * 0.4) * 0.06
-                  + Math.cos(oz * 1.8 + t * 0.5) * 0.07;
+      const d = 1 + Math.sin(ox * 1.2 + t * 0.5) * 0.15
+                  + Math.sin(oy * 1.6 + t * 0.35) * 0.12
+                  + Math.cos(oz * 1.4 + t * 0.4) * 0.1
+                  + Math.sin((ox + oz) * 0.8 + t * 0.25) * 0.06;
       pos.array[i * 3] = ox * d;
       pos.array[i * 3 + 1] = oy * d;
       pos.array[i * 3 + 2] = oz * d;
@@ -58,25 +59,31 @@ const MorphSphere = () => {
     <group>
       {/* Main wireframe */}
       <mesh ref={meshRef} geometry={geometry}>
-        <meshBasicMaterial color="#6366f1" wireframe transparent opacity={0.12} />
+        <meshBasicMaterial color="#4f46e5" wireframe transparent opacity={0.22} />
       </mesh>
 
-      {/* Inner glow */}
+      {/* Inner glow — darker, more visible */}
       <mesh>
-        <sphereGeometry args={[1.8, 32, 32]} />
-        <meshBasicMaterial color="#6366f1" transparent opacity={0.015} />
+        <sphereGeometry args={[2, 32, 32]} />
+        <meshBasicMaterial color="#4338ca" transparent opacity={0.04} />
+      </mesh>
+
+      {/* Outer atmosphere haze */}
+      <mesh>
+        <sphereGeometry args={[2.6, 32, 32]} />
+        <meshBasicMaterial color="#312e81" transparent opacity={0.025} />
       </mesh>
 
       {/* Orbital ring 1 */}
       <mesh ref={ring1Ref} rotation={[Math.PI / 2.2, 0.3, 0]}>
         <torusGeometry args={[3, 0.004, 16, 120]} />
-        <meshBasicMaterial color="#22d3ee" transparent opacity={0.18} />
+        <meshBasicMaterial color="#1e40af" transparent opacity={0.12} />
       </mesh>
 
       {/* Orbital ring 2 */}
       <mesh ref={ring2Ref} rotation={[1.3, 0.8, 0.4]}>
         <torusGeometry args={[2.7, 0.003, 16, 100]} />
-        <meshBasicMaterial color="#6366f1" transparent opacity={0.1} />
+        <meshBasicMaterial color="#3730a3" transparent opacity={0.07} />
       </mesh>
 
       {/* Orbiting particles */}
@@ -115,7 +122,7 @@ const OrbitingParticles = () => {
       <bufferGeometry>
         <bufferAttribute attach="attributes-position" array={positions} count={count} itemSize={3} />
       </bufferGeometry>
-      <pointsMaterial color="#818cf8" size={0.015} transparent opacity={0.4} sizeAttenuation />
+      <pointsMaterial color="#6366f1" size={0.015} transparent opacity={0.25} sizeAttenuation />
     </points>
   );
 };

@@ -19,7 +19,7 @@ const Hero = () => {
   const textY = useTransform(scrollYProgress, [0, 1], [0, -100]);
   const textOpacity = useTransform(scrollYProgress, [0, 0.45], [1, 0]);
   const graphScale = useTransform(scrollYProgress, [0, 1], [1, 1.2]);
-  const graphOpacity = useTransform(scrollYProgress, [0, 0.55], [1, 0]);
+  const graphOpacity = useTransform(scrollYProgress, [0, 0.85], [1, 0]);
 
   return (
     <div ref={ref} className="relative min-h-screen flex items-center justify-center px-5 sm:px-6 overflow-hidden">

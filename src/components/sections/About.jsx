@@ -101,18 +101,6 @@ const About = () => {
             <GitActivity />
           </FadeIn>
 
-          {/* Currently */}
-          <FadeIn delay={0.4} className="lg:col-span-12">
-            <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-8 py-5 px-7 border-l-2 border-indigo/20">
-              <div className="flex items-center gap-2">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-                <span className="text-xs text-slate-500 uppercase tracking-wider font-medium">Now</span>
-              </div>
-              <p className="text-slate-400 text-sm leading-relaxed">
-                Backend engineer at Himalayan Guardian Nepal. Building with Spring Boot, PostgreSQL, and Docker. Learning system design patterns and exploring message queues with RabbitMQ.
-              </p>
-            </div>
-          </FadeIn>
         </div>
       </div>
     </div>
