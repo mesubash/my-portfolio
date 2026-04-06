@@ -1,4 +1,5 @@
 import { useState, useMemo, useEffect } from "react";
+import { Helmet } from "react-helmet-async";
 import { motion, AnimatePresence } from "framer-motion";
 import { Search, SlidersHorizontal, PenLine } from "lucide-react";
 import { getAllWritings, CATEGORIES } from "../../lib/writings";
@@ -30,6 +31,15 @@ const WritingsPage = () => {
 
   return (
     <div className="min-h-screen pt-28 pb-20 px-5 sm:px-6 relative">
+      <Helmet>
+        <title>Writings — Subash Singh Dhami</title>
+        <meta name="description" content="Essays, lessons, reflections, and systems thinking by Subash Singh Dhami." />
+        <meta property="og:title" content="Writings — Subash Singh Dhami" />
+        <meta property="og:description" content="Essays, lessons, reflections, and systems thinking by Subash Singh Dhami." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://www.subashsdhami.com.np/writings" />
+        <link rel="canonical" href="https://www.subashsdhami.com.np/writings" />
+      </Helmet>
       <NodeBackground />
 
       <div className="max-w-4xl mx-auto relative z-10">
@@ -124,7 +134,7 @@ const WritingsPage = () => {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.2 }}
-              className="grid grid-cols-1 sm:grid-cols-2 gap-4"
+              className={`grid gap-4 ${filtered.length > 2 ? "grid-cols-1 sm:grid-cols-2" : "grid-cols-1 max-w-xl"}`}
             >
               {filtered.map((writing, i) => (
                 <WritingCard key={writing.slug} writing={writing} index={i} />

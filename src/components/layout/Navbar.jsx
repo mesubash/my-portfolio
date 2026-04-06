@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { FileDown, Menu, X, PenLine } from "lucide-react";
+import { FileDown, Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const navItems = [
@@ -8,6 +8,7 @@ const navItems = [
   { id: "about", label: "About" },
   { id: "projects", label: "Projects" },
   { id: "experience", label: "Experience" },
+  { id: "writings", label: "Writings", isSection: true },
   { id: "contact", label: "Contact" },
 ];
 
@@ -39,7 +40,7 @@ const Navbar = () => {
   }, [isHomePage]);
 
   useEffect(() => {
-    if (isWritingsPage) setActive("");
+    if (isWritingsPage) setActive("writings-page");
   }, [isWritingsPage]);
 
   useEffect(() => {
@@ -47,13 +48,6 @@ const Navbar = () => {
     window.addEventListener("keydown", onEsc);
     return () => window.removeEventListener("keydown", onEsc);
   }, []);
-
-  const handleNavClick = (id) => {
-    if (!isHomePage) {
-      // Navigate to home first, then scroll
-      window.location.href = `/#${id}`;
-    }
-  };
 
   return (
     <header className={`fixed w-full z-50 transition-all duration-500 ${scrolled ? "bg-[#07080c]/80 backdrop-blur-xl border-b border-white/[0.04] shadow-2xl shadow-black/20" : ""}`}>
@@ -69,37 +63,35 @@ const Navbar = () => {
 
         {/* Desktop nav with animated pill */}
         <ul className="hidden md:flex items-center gap-0.5 bg-bg-card/70 rounded-full px-1.5 py-1 border border-white/[0.04] backdrop-blur-sm">
-          {navItems.map(({ id, label }) => (
-            <li key={id}>
-              {isHomePage ? (
-                <a href={`#${id}`} className={`relative px-4 py-1.5 text-[13px] font-medium rounded-full transition-colors duration-200 block ${active === id ? "text-white" : "text-slate-500 hover:text-slate-300"}`}>
-                  {active === id && (
-                    <motion.span layoutId="nav-active" className="absolute inset-0 bg-white/[0.07] border border-white/[0.06] rounded-full" transition={{ type: "spring", bounce: 0.15, duration: 0.5 }} />
-                  )}
-                  <span className="relative z-10">{label}</span>
-                </a>
-              ) : (
-                <a href={`/#${id}`} className="relative px-4 py-1.5 text-[13px] font-medium rounded-full transition-colors duration-200 block text-slate-500 hover:text-slate-300">
-                  <span className="relative z-10">{label}</span>
-                </a>
-              )}
-            </li>
-          ))}
+          {navItems.map(({ id, label, isSection }) => {
+            const isActive = isSection ? (isWritingsPage || active === id) : active === id;
+            return (
+              <li key={id}>
+                {isHomePage && !isSection ? (
+                  <a href={`#${id}`} className={`relative px-4 py-1.5 text-[13px] font-medium rounded-full transition-colors duration-200 block ${isActive ? "text-white" : "text-slate-500 hover:text-slate-300"}`}>
+                    {isActive && (
+                      <motion.span layoutId="nav-active" className="absolute inset-0 bg-white/[0.07] border border-white/[0.06] rounded-full" transition={{ type: "spring", bounce: 0.15, duration: 0.5 }} />
+                    )}
+                    <span className="relative z-10">{label}</span>
+                  </a>
+                ) : isSection ? (
+                  <Link to="/writings" className={`relative px-4 py-1.5 text-[13px] font-medium rounded-full transition-all duration-200 block ${isActive ? "text-white" : "text-indigo-light/80 hover:text-white"}`}>
+                    {isActive ? (
+                      <motion.span layoutId="nav-active" className="absolute inset-0 bg-white/[0.07] border border-white/[0.06] rounded-full" transition={{ type: "spring", bounce: 0.15, duration: 0.5 }} />
+                    ) : (
+                      <span className="absolute inset-0 border border-indigo/25 rounded-full" />
+                    )}
+                    <span className="relative z-10">{label}</span>
+                  </Link>
+                ) : (
+                  <a href={`/#${id}`} className="relative px-4 py-1.5 text-[13px] font-medium rounded-full transition-colors duration-200 block text-slate-500 hover:text-slate-300">
+                    <span className="relative z-10">{label}</span>
+                  </a>
+                )}
+              </li>
+            );
+          })}
         </ul>
-
-        {/* Writings — highlighted standalone link */}
-        <motion.div whileHover={{ y: -1 }} className="hidden md:block">
-          <Link
-            to="/writings"
-            className={`flex items-center gap-1.5 px-4 py-1.5 text-[13px] font-medium rounded-full transition-all duration-300 ${
-              isWritingsPage
-                ? "text-white bg-indigo/15 border border-indigo/40"
-                : "text-indigo-light/80 border border-indigo/20 hover:border-indigo/40 hover:text-white hover:bg-indigo/10"
-            }`}
-          >
-            <PenLine className="w-3 h-3" /> Writings
-          </Link>
-        </motion.div>
 
         <motion.a href="assets/Subash_Singh_Dhami_Resume.pdf" download className="hidden md:flex items-center gap-2 px-4 py-1.5 text-[13px] font-medium text-slate-400 hover:text-white border border-white/[0.06] hover:border-indigo/30 rounded-full transition-all duration-300" whileHover={{ y: -1 }}>
           <FileDown className="w-3.5 h-3.5" /> Resume
@@ -124,21 +116,21 @@ const Navbar = () => {
         {mobileOpen && (
           <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.25 }} className="md:hidden overflow-hidden bg-[#07080c]/95 backdrop-blur-xl border-t border-white/[0.04]">
             <div className="px-5 py-5 space-y-1">
-              {navItems.map(({ id, label }, i) => (
-                <motion.a key={id} href={isHomePage ? `#${id}` : `/#${id}`} onClick={() => setMobileOpen(false)} initial={{ x: -20, opacity: 0 }} animate={{ x: 0, opacity: 1 }} transition={{ delay: i * 0.04 }} className={`block px-4 py-2.5 text-sm font-medium rounded-lg transition-colors ${active === id && isHomePage ? "text-white bg-white/[0.04]" : "text-slate-500 hover:text-slate-300"}`}>
-                  {label}
-                </motion.a>
-              ))}
-              {/* Writings mobile link */}
-              <motion.div initial={{ x: -20, opacity: 0 }} animate={{ x: 0, opacity: 1 }} transition={{ delay: navItems.length * 0.04 }}>
-                <Link
-                  to="/writings"
-                  onClick={() => setMobileOpen(false)}
-                  className={`flex items-center gap-2 px-4 py-2.5 text-sm font-medium rounded-lg transition-colors ${isWritingsPage ? "text-white bg-white/[0.04]" : "text-slate-500 hover:text-slate-300"}`}
-                >
-                  <PenLine className="w-3.5 h-3.5" /> Writings
-                </Link>
-              </motion.div>
+              {navItems.map(({ id, label, isSection }, i) => {
+                const mobileActive = isSection ? isWritingsPage : (active === id && isHomePage);
+                const href = isHomePage ? `#${id}` : `/#${id}`;
+                return isSection ? (
+                  <motion.div key={id} initial={{ x: -20, opacity: 0 }} animate={{ x: 0, opacity: 1 }} transition={{ delay: i * 0.04 }}>
+                    <Link to="/writings" onClick={() => setMobileOpen(false)} className={`block px-4 py-2.5 text-sm font-medium rounded-lg transition-colors ${mobileActive ? "text-white bg-white/[0.04]" : "text-slate-500 hover:text-slate-300"}`}>
+                      {label}
+                    </Link>
+                  </motion.div>
+                ) : (
+                  <motion.a key={id} href={href} onClick={() => setMobileOpen(false)} initial={{ x: -20, opacity: 0 }} animate={{ x: 0, opacity: 1 }} transition={{ delay: i * 0.04 }} className={`block px-4 py-2.5 text-sm font-medium rounded-lg transition-colors ${mobileActive ? "text-white bg-white/[0.04]" : "text-slate-500 hover:text-slate-300"}`}>
+                    {label}
+                  </motion.a>
+                );
+              })}
               <div className="pt-3 border-t border-white/[0.04]">
                 <a href="assets/Subash_Singh_Dhami_Resume.pdf" download onClick={() => setMobileOpen(false)} className="flex items-center gap-2 px-4 py-2.5 text-sm font-medium text-slate-400">
                   <FileDown className="w-4 h-4" /> Resume

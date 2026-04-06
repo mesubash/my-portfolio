@@ -12,6 +12,7 @@ import Contact from "./components/sections/Contact";
 import Writings from "./components/sections/Writings";
 import WritingsPage from "./components/writings/WritingsPage";
 import WritingDetail from "./components/writings/WritingDetail";
+import NotFound from "./components/NotFound";
 import "./App.css";
 
 const HomePage = () => (
@@ -57,6 +58,7 @@ const App = () => {
           <Route path="/" element={<HomePage />} />
           <Route path="/writings" element={<WritingsPage />} />
           <Route path="/writings/:slug" element={<WritingDetail />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
 
         <Footer />

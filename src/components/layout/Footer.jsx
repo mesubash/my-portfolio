@@ -26,7 +26,7 @@ const Footer = () => {
             {["Home", "About", "Projects", "Experience", "Contact"].map((l) => (
               <a key={l} href={`/#${l.toLowerCase()}`} className="text-xs text-slate-600 hover:text-slate-300 transition-colors">{l}</a>
             ))}
-            <a href="/writings" className="text-xs text-slate-600 hover:text-slate-300 transition-colors">Writings</a>
+            <a href="/writings" className="text-xs text-indigo/60 hover:text-indigo-light transition-colors">Writings</a>
           </div>
 
           <div className="flex gap-2">

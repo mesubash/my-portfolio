@@ -1,4 +1,5 @@
 import { useEffect, useState, useRef, useMemo } from "react";
+import { Helmet } from "react-helmet-async";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { motion, useScroll, useSpring } from "framer-motion";
 import {
@@ -52,15 +53,7 @@ const WritingDetail = () => {
     window.scrollTo(0, 0);
   }, [slug]);
 
-  // Update document title
-  useEffect(() => {
-    if (writing) {
-      document.title = `${writing.title} — Subash Singh Dhami`;
-    }
-    return () => {
-      document.title = "Subash Singh Dhami — Software Engineer";
-    };
-  }, [writing]);
+  const siteUrl = "https://www.subashsdhami.com.np";
 
   const handleShare = async () => {
     const url = window.location.href;
@@ -96,6 +89,22 @@ const WritingDetail = () => {
 
   return (
     <div ref={articleRef} className="min-h-screen">
+      <Helmet>
+        <title>{writing.title} — Subash Singh Dhami</title>
+        <meta name="description" content={writing.excerpt} />
+        <meta property="og:title" content={writing.title} />
+        <meta property="og:description" content={writing.excerpt} />
+        <meta property="og:type" content="article" />
+        <meta property="og:url" content={`${siteUrl}/writings/${writing.slug}`} />
+        {writing.coverImage && <meta property="og:image" content={writing.coverImage} />}
+        <meta property="article:published_time" content={writing.date} />
+        <meta property="article:tag" content={writing.tags.join(", ")} />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={writing.title} />
+        <meta name="twitter:description" content={writing.excerpt} />
+        <link rel="canonical" href={`${siteUrl}/writings/${writing.slug}`} />
+      </Helmet>
+
       {/* Reading progress bar */}
       <motion.div
         className="fixed top-0 left-0 right-0 h-[2px] bg-indigo z-50 origin-left"
