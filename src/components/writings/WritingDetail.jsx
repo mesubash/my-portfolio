@@ -1,12 +1,12 @@
 import { useEffect, useState, useRef, useMemo } from "react";
 import { Helmet } from "react-helmet-async";
-import { useParams, Link, useNavigate } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { motion, useScroll, useSpring } from "framer-motion";
 import {
   ArrowLeft,
   Calendar,
   Clock,
-  Share2,
+
   ChevronLeft,
   ChevronRight,
   Check,
@@ -33,7 +33,6 @@ const categoryColors = {
 
 const WritingDetail = () => {
   const { slug } = useParams();
-  const navigate = useNavigate();
   const articleRef = useRef(null);
   const [copied, setCopied] = useState(false);
 
@@ -59,7 +58,7 @@ const WritingDetail = () => {
     const url = window.location.href;
     if (navigator.share) {
       try {
-        await navigator.share({ title: writing.title, text: writing.excerpt, url });
+        await navigator.share({ title: writing.title, url });
       } catch {}
     } else {
       await navigator.clipboard.writeText(url);
