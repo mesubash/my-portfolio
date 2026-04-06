@@ -9,6 +9,7 @@ import About from "./components/sections/About";
 import Projects from "./components/sections/Projects";
 import Experience from "./components/sections/Experience";
 import Contact from "./components/sections/Contact";
+import Writings from "./components/sections/Writings";
 import WritingsPage from "./components/writings/WritingsPage";
 import WritingDetail from "./components/writings/WritingDetail";
 import "./App.css";
@@ -22,6 +23,8 @@ const HomePage = () => (
     <section id="projects"><Projects /></section>
     <div className="divider" />
     <section id="experience"><Experience /></section>
+    <div className="divider" />
+    <section id="writings"><Writings /></section>
     <div className="divider" />
     <section id="contact"><Contact /></section>
   </main>
