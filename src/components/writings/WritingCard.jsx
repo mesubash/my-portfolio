@@ -75,7 +75,7 @@ const WritingCard = ({ writing, index = 0 }) => {
           </div>
 
           {/* Hover line accent */}
-          <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-indigo to-cyan scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left rounded-b-xl" />
+          <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-indigo scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left rounded-b-xl" />
         </motion.article>
       </Link>
     </motion.div>

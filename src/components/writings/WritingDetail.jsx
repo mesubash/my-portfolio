@@ -98,7 +98,7 @@ const WritingDetail = () => {
     <div ref={articleRef} className="min-h-screen">
       {/* Reading progress bar */}
       <motion.div
-        className="fixed top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-indigo to-cyan z-50 origin-left"
+        className="fixed top-0 left-0 right-0 h-[2px] bg-indigo z-50 origin-left"
         style={{ scaleX }}
       />
 
