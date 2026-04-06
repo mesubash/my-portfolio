@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { BrowserRouter as Router } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 import { ArrowUp } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import Navbar from "./components/layout/Navbar";
@@ -9,7 +9,31 @@ import About from "./components/sections/About";
 import Projects from "./components/sections/Projects";
 import Experience from "./components/sections/Experience";
 import Contact from "./components/sections/Contact";
+import WritingsPage from "./components/writings/WritingsPage";
+import WritingDetail from "./components/writings/WritingDetail";
 import "./App.css";
+
+const HomePage = () => (
+  <main>
+    <section id="home"><Hero /></section>
+    <div className="divider" />
+    <section id="about"><About /></section>
+    <div className="divider" />
+    <section id="projects"><Projects /></section>
+    <div className="divider" />
+    <section id="experience"><Experience /></section>
+    <div className="divider" />
+    <section id="contact"><Contact /></section>
+  </main>
+);
+
+const ScrollToTop = () => {
+  const { pathname } = useLocation();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+  return null;
+};
 
 const App = () => {
   const [showTop, setShowTop] = useState(false);
@@ -22,20 +46,15 @@ const App = () => {
 
   return (
     <Router>
+      <ScrollToTop />
       <div className="app grid-bg">
         <Navbar />
 
-        <main>
-          <section id="home"><Hero /></section>
-          <div className="divider" />
-          <section id="about"><About /></section>
-          <div className="divider" />
-          <section id="projects"><Projects /></section>
-          <div className="divider" />
-          <section id="experience"><Experience /></section>
-          <div className="divider" />
-          <section id="contact"><Contact /></section>
-        </main>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/writings" element={<WritingsPage />} />
+          <Route path="/writings/:slug" element={<WritingDetail />} />
+        </Routes>
 
         <Footer />
 

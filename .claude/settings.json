@@ -11,7 +11,15 @@
       "Bash(rsvg-convert /Users/isubash/Developer/my-portfolio/public/assets/og-image.svg -o /Users/isubash/Developer/my-portfolio/public/assets/og-image.png -w 1200 -h 630)",
       "Bash(curl -s \"https://api.github.com/users/mesubash/repos?per_page=5&sort=updated\")",
       "Bash(curl -s \"https://github.com/users/mesubash/contributions\")",
-      "Bash(curl -s \"https://github-contributions-api.jogruber.de/v4/mesubash?y=last\")"
+      "Bash(curl -s \"https://github-contributions-api.jogruber.de/v4/mesubash?y=last\")",
+      "Bash(ls /Users/isubash/Developer/my-portfolio/.env*)",
+      "Read(//Users/isubash/Developer/my-portfolio/**)",
+      "Bash(timeout 10 npx vite --host)",
+      "Bash(npx vite:*)",
+      "Bash(curl -s http://localhost:5173/writings)"
+    ],
+    "additionalDirectories": [
+      "/Users/isubash/Developer/my-portfolio/content"
     ]
   }
 }
